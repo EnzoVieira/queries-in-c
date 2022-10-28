@@ -1,0 +1,17 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
+# Unignore Makefile
+!Makefile
+
+# MacOS
+.DS_Store
+
+# VS Code
+.vscode
