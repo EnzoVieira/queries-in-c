@@ -75,17 +75,17 @@ int main()
 
     // arraySort(driversTable, sortDriverById);
 
-    // for (int i = 0; i < 3; i++)
-    // {
-    //   User data = arrayIndex(usersTable, i, User);
-    //   printf("%s \n", data.user_name);
-    // }
+    for (int i = 0; i < 3; i++)
+    {
+      User data = arrayIndex(usersTable, i, User);
+      printf("%s \n", data.user_name);
+    }
 
-    // for (int i = 0; i < 2; i++)
-    // {
-    //   Driver data = arrayIndex(driversTable, i, Driver);
-    //   printf("%s \n", data.name);
-    // }
+    for (int i = 0; i < 2; i++)
+    {
+      Driver data = arrayIndex(driversTable, i, Driver);
+      printf("%s \n", data.name);
+    }
 
     return 0;
 }

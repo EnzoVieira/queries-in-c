@@ -3,9 +3,10 @@
 CC = gcc
 CFLAGS = -Wall `pkg-config --cflags --libs glib-2.0`
 OBJ = test
+FILES = files/useCases/*.c files/api/*.c files/modules/**/*.c
 
 all:
-	$(CC) users.c $(CFLAGS) -o $(OBJ)
+	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
 
 exec:
 	./test
