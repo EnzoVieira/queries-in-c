@@ -1,12 +1,12 @@
 #include <stdio.h>
 
-#include "api/api.h"
+#include "includes/api.h"
 
-#include "modules/users/entity.h"
-#include "modules/drivers/entity.h"
+#include "includes/userEntity.h"
+#include "includes/driverEntity.h"
 
-#include "useCases/findDriverByIdUseCase/findDriverByIdUseCase.h"
-#include "useCases/findUserByUsernameUseCase/findUserByUsernameUseCase.h"
+#include "includes/findDriverByIdUseCase.h"
+// #include "includes/findUserByUsernameUseCase.h"
 
 int main()
 {
@@ -69,7 +69,7 @@ int main()
 
     // QUERIES 1
     findDriverByIdUseCase("0002");
-    findUserByUsernameUseCase("enzovieira");
+    // findUserByUsernameUseCase("enzovieira");
 
     // ============== Código de testes ==============
 

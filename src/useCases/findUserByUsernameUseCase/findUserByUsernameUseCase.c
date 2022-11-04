@@ -1,4 +1,4 @@
-#include "findUserByUsernameUseCase.h"
+#include "../../includes/findUserByUsernameUseCase.h"
 
 void findUserByUsernameUseCase(const char *username)
 {

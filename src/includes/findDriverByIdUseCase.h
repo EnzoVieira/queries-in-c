@@ -1,8 +1,8 @@
 #ifndef FIND_DRIVER_BY_ID_USE_CASE_H
 #define FIND_DRIVER_BY_ID_USE_CASE_H
 
-#include "../../modules/drivers/entity.h"
-#include "../../modules/drivers/driverRepository.h"
+#include "driverEntity.h"
+#include "driverRepository.h"
 
 typedef struct
 {

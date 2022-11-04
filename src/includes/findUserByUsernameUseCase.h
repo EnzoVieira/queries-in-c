@@ -1,8 +1,8 @@
 #ifndef FIND_USER_BY_USERNAME_USE_CASE_H
 #define FIND_USER_BY_USERNAME_USE_CASE_H
 
-#include "../../modules/users/entity.h"
-#include "../../modules/users/userRepository.h"
+#include "userEntity.h"
+#include "userRepository.h"
 
 typedef struct
 {
