@@ -6,7 +6,7 @@ void *createRidesHashData()
   void *hashTable = createTable();
 
   FILE *fp;
-  fp = fopen("../../../db/rides.csv", "r");
+  fp = fopen("files/data/rides.csv", "r");
   char *line = NULL;
   size_t len;
 

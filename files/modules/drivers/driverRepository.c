@@ -6,7 +6,7 @@ void *createDriversHashData()
   void *hashTable = createTable();
 
   FILE *fp;
-  fp = fopen("../../../db/drivers.csv", "r");
+  fp = fopen("files/data/drivers.csv", "r");
   char *line = NULL;
   size_t len;
 
@@ -41,7 +41,7 @@ Driver* cloneDriver(Driver *d) {
   Driver* copy = malloc(sizeof(Driver));
   copy->id = strdup(d->id);
   copy->name = strdup(d->name);
-  copy->birth_day = strdup(d->birth_day);
+  copy->birth_date = strdup(d->birth_date);
   copy->gender = d->gender;
   copy->car_class = strdup(d->car_class);
   copy->license_plate = strdup(d->license_plate);
