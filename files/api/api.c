@@ -1,15 +1,13 @@
 #include "../../includes/api.h"
 
-#define ARRAY_SIZE 10000
-
-void *createTable(int item_size)
+void *createTable()
 {
-  GArray *newTable = g_array_sized_new(0, 1, item_size, 10000);
+  GHashTable *hashTable = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
 
-  return newTable;
+  return hashTable;
 }
 
-void arraySort(void *array, CompareFunction compare_func)
+void addToTable(void *table, void *key, void *value)
 {
-  g_array_sort((GArray *)array, compare_func);
+  g_hash_table_insert(table, key, value);
 }

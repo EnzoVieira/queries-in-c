@@ -7,7 +7,7 @@ typedef struct
 {
   char *id;
   char *name;
-  char *birth_day;
+  char *birth_date;
   char gender;
   char *car_class;
   char *license_plate;
