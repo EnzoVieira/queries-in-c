@@ -36,3 +36,19 @@ void *createDriversHashData()
 
   return hashTable;
 }
+
+Driver* cloneDriver(Driver *d) {
+  Driver* copy = malloc(sizeof(Driver));
+  copy->id = strdup(d->id);
+  copy->name = strdup(d->name);
+  copy->birth_day = strdup(d->birth_day);
+  copy->gender = d->gender;
+  copy->car_class = strdup(d->car_class);
+  copy->license_plate = strdup(d->license_plate);
+  copy->city = strdup(d->city);
+  copy->account_creation = strdup(d->account_creation);
+  copy->account_status = d->account_status;
+
+  return copy;
+}
+

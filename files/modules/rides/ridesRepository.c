@@ -36,3 +36,19 @@ void *createRidesHashData()
 
   return hashTable;
 }
+
+Ride* cloneRide(Ride *r) {
+    Ride* copy = malloc(sizeof(Ride));
+    copy->id = strdup(r->id);
+    copy->date = strdup(r->date);
+    copy->driver = strdup(r->driver);
+    copy->user = strdup(r->user);
+    copy->city = strdup(r->city);
+    copy->distance = r->distance;
+    copy->score_user = r->score_user;
+    copy->score_driver = r->score_driver;
+    copy->tip = r->tip;
+    copy->comment = strdup(r->comment);
+
+    return copy;
+}

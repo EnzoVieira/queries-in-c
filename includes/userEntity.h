@@ -12,4 +12,5 @@ typedef struct
   char *account_status;
 } User;
 
+
 #endif

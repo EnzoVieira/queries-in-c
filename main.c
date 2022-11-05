@@ -14,6 +14,6 @@ int main()
     void *usersHash = createUsersHashData();
     void *driversHash = createDriversHashData();
     void *ridesHash = createRidesHashData();
-
+    
     return 0;
 }
