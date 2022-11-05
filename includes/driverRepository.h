@@ -1,11 +1,12 @@
 #ifndef DRIVER_REPOSITORY_H
 #define DRIVER_REPOSITORY_H
 
-#include <glib.h>
+#include <stdio.h>
 #include <string.h>
 
+#include "api.h"
 #include "driverEntity.h"
 
-int sortDriverById(const void *a, const void *b);
+void *createDriversHashData();
 
 #endif

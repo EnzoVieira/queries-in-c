@@ -1,11 +1,14 @@
 #ifndef USER_REPOSITORY_H
 #define USER_REPOSITORY_H
 
-#include <glib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
+#include "api.h"
 #include "userEntity.h"
 
-int userUsernameCmp(const void *a, const void *b);
+void *createUsersHashData();
 
 #endif
