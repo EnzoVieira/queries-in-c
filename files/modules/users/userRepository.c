@@ -40,3 +40,16 @@ void *createUsersHashData()
 
   return hashTable;
 }
+
+User* cloneUser(User *u) {
+  User* copy = malloc(sizeof(User));
+  copy->user_name = strdup(u->user_name);
+  copy->name = strdup(u->name);
+  copy->gender = u->gender;
+  copy->birth_date = strdup(u->birth_date);
+  copy->account_creation = strdup(u->pay_method);
+  copy->pay_method = strdup(u->pay_method);
+  copy->account_status = strdup(u->account_status);
+
+  return copy;
+}

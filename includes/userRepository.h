@@ -10,5 +10,6 @@
 #include "userEntity.h"
 
 void *createUsersHashData();
+User* cloneUser(User *u);
 
 #endif

@@ -8,5 +8,6 @@
 #include "driverEntity.h"
 
 void *createDriversHashData();
+Driver* cloneDriver(Driver *d);
 
 #endif
