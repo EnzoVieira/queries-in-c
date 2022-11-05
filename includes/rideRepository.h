@@ -5,7 +5,7 @@
 #include <string.h>
 
 #include "api.h"
-#include "ridesEntity.h"
+#include "rideEntity.h"
 
 void *createRidesHashData();
 

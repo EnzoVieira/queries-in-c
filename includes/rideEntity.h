@@ -1,5 +1,5 @@
-#ifndef RIDES_ENTITY
-#define RIDES_ENTITY
+#ifndef RIDE_ENTITY
+#define RIDE_ENTITY
 
 typedef struct
 {

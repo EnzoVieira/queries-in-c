@@ -52,3 +52,8 @@ Driver* cloneDriver(Driver *d) {
   return copy;
 }
 
+Driver* findDriverByID(GHashTable *drivers, char* id) {
+  if (g_hash_table_lookup(drivers, id))
+    printf("O condutor com o ID %s existe.\n", id);
+  return g_hash_table_lookup(drivers, id);
+}

@@ -53,3 +53,9 @@ User* cloneUser(User *u) {
 
   return copy;
 }
+
+User* findUserByUsername(GHashTable *users, char* username) {
+  if (g_hash_table_lookup(users, username))
+    printf("O utilizador com o username %s existe.\n", username);
+  return(g_hash_table_lookup(users, username));
+}
