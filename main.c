@@ -9,6 +9,8 @@
 #include "includes/findDriverByIdUseCase.h"
 #include "includes/findUserByUsernameUseCase.h"
 
+#include "userEntity.h"
+
 int main()
 {
     void *usersHash = createUsersHashData();
@@ -17,6 +19,6 @@ int main()
 
     findDriverByID(driversHash, "NULL");
     findUserByUsername(usersHash, "WNogueira");
-    
+
     return 0;
 }

@@ -8,5 +8,7 @@
 #include "rideEntity.h"
 
 void *createRidesHashData();
+Ride* cloneRide(Ride *r);
+//Ride* findRideByID(GHashTable* rides, char* id);
 
 #endif

@@ -14,6 +14,6 @@ typedef struct
   double total_auferido;
 } DriverDTO_Q1;
 
-Driver* findDriverByID(GHashTable *drivers, char* id);
+Driver* findDriverByID(GHashTable* drivers, char* id);
 
 #endif

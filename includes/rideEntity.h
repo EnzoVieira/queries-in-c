@@ -1,18 +1,16 @@
 #ifndef RIDE_ENTITY
 #define RIDE_ENTITY
 
-typedef struct
-{
-  char *id;
-  char *date;
-  char *driver;
-  char *user;
-  char *city;
-  double distance;
-  double score_user;
-  double score_driver;
-  double tip;
-  char *comment;
-} Ride;
+typedef struct ride Ride;
+char* getRID(Ride *r);
+char* getRDate(Ride *r);
+char* getRDriver(Ride *r);
+char* getRUser(Ride *r);
+char* getRCity(Ride *r);
+double getRDistance(Ride *r);
+double getRScoreUser(Ride *r);
+double getRScoreDriver(Ride *r);
+double getRTip(Ride *r);
+char* getRComment(Ride *r);
 
 #endif
