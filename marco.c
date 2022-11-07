@@ -25,7 +25,8 @@ int main(){
     catalogo.drivers = createDriversHashData();
     catalogo.rides = createRidesHashData();
 
-    q2(catalogo,50);
+    q2(&catalogo,50);
+    q4(&catalogo,"Faro");
 
     return 0;
 }

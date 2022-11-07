@@ -25,7 +25,13 @@ double totalCost(Catalogo* c, char* id);
 //Querry 2
 int compareMedia (gconstpointer a,gconstpointer b);
 void interactMedia(gpointer key,gpointer value, gpointer data);
-int q2(Catalogo catalog,int N);
+int q2(Catalogo* catalog,int N);
+
+//Querry 3
+
+void interactPriceMedia(gpointer key,gpointer value, gpointer data);
+void totalPriceCalculator(gpointer key,gpointer value, gpointer data);
+int q4 (Catalogo *catalog, char* city);
 
 
 
