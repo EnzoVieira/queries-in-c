@@ -14,6 +14,6 @@ typedef struct
   double total_gasto;
 } UserDTO;
 
-void findUserByUsernameUseCase(const char *username);
+User* findUserByUsername(GHashTable *users, char* username);
 
 #endif

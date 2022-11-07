@@ -3,17 +3,15 @@
 
 #include <stdbool.h>
 
-typedef struct
-{
-  char *id;
-  char *name;
-  char *birth_date;
-  char gender;
-  char *car_class;
-  char *license_plate;
-  char *city;
-  char *account_creation;
-  bool account_status;
-} Driver;
+typedef struct driver Driver;
+char* getDID(Driver *d);
+char* getDName(Driver *d);
+char* getDBirthDate(Driver *d);
+char getDGender(Driver *d);
+char* getDCarClass(Driver *d);
+char* getDLicensePlate(Driver *d);
+char* getDCity(Driver *d);
+char* getDAccountCreation(Driver *d);
+char* getDAccountStatus(Driver *d);
 
 #endif

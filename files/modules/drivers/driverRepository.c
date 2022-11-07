@@ -1,12 +1,61 @@
 #include "../../../includes/driverRepository.h"
 
+struct driver
+{
+  char *id;
+  char *name;
+  char *birth_date;
+  char gender;
+  char *car_class;
+  char *license_plate;
+  char *city;
+  char *account_creation;
+  char *account_status;
+};
+
+char* getDID(Driver *d) {
+  return strdup(d->id);
+}
+
+char* getDName(Driver *d) {
+  return strdup(d->name);
+}
+
+char* getDBirthDate(Driver *d) {
+  return strdup(d->birth_date);
+}
+
+char getDGender(Driver *d) {
+  return d->gender;
+}
+
+char* getDCarClass(Driver *d) {
+  return strdup(d->car_class);
+}
+
+char* getDLicensePlate(Driver *d) {
+  return strdup(d->license_plate);
+}
+
+char* getDCity(Driver *d) {
+  return strdup(d->city);
+}
+
+char* getDAccountCreation(Driver *d) {
+  return strdup(d->account_creation);
+}
+
+char* getDAccountStatus(Driver *d) {
+  return strdup(d->account_status);
+}
+
 void *createDriversHashData()
 {
   // Cria a HashTable
   void *hashTable = createTable();
 
   FILE *fp;
-  fp = fopen("../../../db/drivers.csv", "r");
+  fp = fopen("files/data/drivers.csv", "r");
   char *line = NULL;
   size_t len;
 
@@ -37,18 +86,25 @@ void *createDriversHashData()
   return hashTable;
 }
 
+/*
 Driver* cloneDriver(Driver *d) {
   Driver* copy = malloc(sizeof(Driver));
   copy->id = strdup(d->id);
   copy->name = strdup(d->name);
-  copy->birth_day = strdup(d->birth_day);
+  copy->birth_date = strdup(d->birth_date);
   copy->gender = d->gender;
   copy->car_class = strdup(d->car_class);
   copy->license_plate = strdup(d->license_plate);
   copy->city = strdup(d->city);
   copy->account_creation = strdup(d->account_creation);
-  copy->account_status = d->account_status;
+  copy->account_status = strdup(d->account_status);
 
   return copy;
 }
+*/
+
+Driver* findDriverByID(GHashTable* drivers, char* id) {
+  return g_hash_table_lookup(drivers, id);
+}
+
 

@@ -1,12 +1,66 @@
 #include "../../../includes/rideRepository.h"
 
+struct ride
+{
+  char *id;
+  char *date;
+  char *driver;
+  char *user;
+  char *city;
+  double distance;
+  double score_user;
+  double score_driver;
+  double tip;
+  char *comment;
+};
+
+char* getRID(Ride *r) {
+  return strdup(r->id);
+}
+
+char* getRDate(Ride *r) {
+  return strdup(r->date);
+}
+
+char* getRDriver(Ride *r) {
+  return strdup(r->driver);
+}
+
+char* getRUser(Ride *r) {
+  return strdup(r->user);
+}
+
+char* getRCity(Ride *r) {
+  return strdup(r->city);
+}
+
+double getRDistance(Ride *r) {
+  return r->distance;
+}
+
+double getRScoreUser(Ride *r) {
+  return r->score_user;
+}
+
+double getRScoreDriver(Ride *r) {
+  return r->score_driver;
+}
+
+double getRTip(Ride *r) {
+  return r->tip;
+}
+
+char* getRComment(Ride *r) {
+  return strdup(r->comment);
+}
+
 void *createRidesHashData()
 {
   // Cria a HashTable
   void *hashTable = createTable();
 
   FILE *fp;
-  fp = fopen("../../../db/rides.csv", "r");
+  fp = fopen("files/data/rides.csv", "r");
   char *line = NULL;
   size_t len;
 
@@ -37,6 +91,7 @@ void *createRidesHashData()
   return hashTable;
 }
 
+/*
 Ride* cloneRide(Ride *r) {
     Ride* copy = malloc(sizeof(Ride));
     copy->id = strdup(r->id);
@@ -52,3 +107,12 @@ Ride* cloneRide(Ride *r) {
 
     return copy;
 }
+*/
+
+/*
+Ride* findRideByID(GHashTable* rides, char* id) {
+  if (g_hash_table_lookup(rides, id))
+    printf("A viagem com o ID %s existe.\n", id);
+  return g_hash_table_lookup(rides, id);
+}
+*/
