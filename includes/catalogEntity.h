@@ -12,6 +12,7 @@ void destroyKey(void *u);
 
 //Querry 1
 typedef struct catalogo Catalogo;
+typedef struct date Date;
 void ridesCounter(gpointer key, gpointer value, gpointer userData);
 int numberOfTrips(Catalogo* c, char* id);
 void rating(gpointer key, gpointer value, gpointer userData);
@@ -21,6 +22,10 @@ double totalCost(Catalogo* c, char* id);
 Ride* findRideByID(Catalogo* c, char* id);
 void travelCost(gpointer key, gpointer value, gpointer userData);
 double totalCost(Catalogo* c, char* id);
+Date* dateConvert(char* birthdate);
+int dateDifference(Date* d);
+void findAge(gpointer key, gpointer value, gpointer userData);
+int getAge(Catalogo* c, char* id);
 
 //Querry 2
 int compareMedia (gconstpointer a,gconstpointer b);
