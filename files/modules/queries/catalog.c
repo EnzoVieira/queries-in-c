@@ -341,14 +341,17 @@ void totalPriceCalculator(gpointer key,gpointer value, gpointer data){
     //Variavel que vai permitir o acesso aos Drivers
     Driver *driver = (Driver*)value;
 
-    //variavel que guarda as estruturas com o id dos driver e os km feitos na cidade
+    //hash que guarda as estruturas com o id dos driver e os km feitos na cidade
     GHashTable* driversInf = (GHashTable*)data;
     
     char* driverId = getDID(driver);
     char* carClass = getDCarClass(driver);
 
+    //Variavel que guarda a struct da cidade para prencher com os preços totais de cada condutor
     q2Aux* city = g_hash_table_lookup(driversInf,"city");
+    //Variavel que que verifica se certo condutor fez viagens nessa cidade
     q2Aux* driverInf = g_hash_table_lookup(driversInf,driverId);
+
 
     if (driverInf && !strcmp(carClass,"basic")){
         city->media = city->media + driverInf->media*0.62 + driverInf->valueQty *3.25; 
@@ -384,18 +387,17 @@ int q4 (Catalogo *catalog, char* city){
     cityToken->valueQty=0;
 
     //Inserir a cidade na hash para passar a informação para dentro do foreach
-
     g_hash_table_insert(driversTotalKm,"city",cityToken);
-    //Função que vai prencher a hash anterior
+    //Função que vai prencher a hash com structs dos condutores e os KM que fizeram viagens na cidade
     g_hash_table_foreach(catalog->rides,interactPriceMedia,driversTotalKm);
-
+    //Função que vai retirar a classe do Driver e os preços por viagem e Km
     g_hash_table_foreach(catalog->drivers,totalPriceCalculator,driversTotalKm);
 
-
+    //Retira da hash apenas a cidade ja com o sumatório de todos os preços
     g_hash_table_steal(driversTotalKm,"city");
-    
+    //Destroi todos os driver depois de já não serem necessarias as informações
     g_hash_table_destroy(driversTotalKm);
-
+    //calcula a média
     cityToken->media = cityToken->media/cityToken->valueQty;
 
     printf("%s %f %f\n",cityToken->data_identification,cityToken->media,cityToken->valueQty);
