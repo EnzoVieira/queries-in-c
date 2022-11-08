@@ -7,11 +7,19 @@
 #include "../../../includes/findUserByUsernameUseCase.h"
 #include "../../../includes/findDriverByIdUseCase.h"
 
+#define DATE "09/10/2022"
+
 
 struct catalogo {
     void* users;
     void* drivers;
     void* rides;
+};
+
+struct date {
+    int day;
+    int month;
+    int year;
 };
 
 typedef struct querie1Aux {
@@ -20,6 +28,7 @@ typedef struct querie1Aux {
     double averageRating;
     double tripValue;
     Catalogo* catalogo;
+    int age;
 } q1Aux;
 
 typedef struct querie2Aux{
@@ -118,6 +127,76 @@ double totalCost(Catalogo* c, char* id) {
     q1Aux q1 = {id, 0, 0, 0, c};
     g_hash_table_foreach(c->rides, travelCost, &q1);
     return q1.tripValue;
+}
+
+Date* dateConvert(char* birthDate) {
+    char* date = strdup(birthDate);
+    Date* d = (Date*)malloc(sizeof(Date));
+    while (date) {
+        d->day = atoi(strdup(strsep(&date, "/")));
+        d->month = atoi(strdup(strsep(&date, "/")));
+        d->year = atoi(strdup(strsep(&date, "\0")));
+    }
+    return d;
+}
+
+int dateDifference(Date* d) {
+    Date* consideredDate = dateConvert(DATE);
+    int age = 0;
+    if ((consideredDate->year >= d->year && consideredDate->month > d->month) || 
+        (consideredDate->year >= d->year && consideredDate->month == d->month && consideredDate->day >= d->day))
+        age = consideredDate->year - d->year;
+    else  
+        age = (consideredDate->year - d->year) - 1;
+    return age;
+}
+
+void findAge(gpointer key, gpointer value, gpointer userData) {
+    Ride* r = value;
+    q1Aux* q1 = userData;
+    char* u = getRUser(r);
+    char* d = getRDriver(r);
+    GHashTable* us = q1->catalogo->users;
+    GHashTable* dr = q1->catalogo->drivers;
+    if (strcmp(getUUsername(findUserByUsername(us, u)), q1->id) == 0)
+        q1->age = dateDifference(dateConvert(getUBirthDate(findUserByUsername(us, u))));
+    else if (strcmp(getDID(findDriverByID(dr, d)), q1->id) == 0)
+        q1->age = dateDifference(dateConvert(getDBirthDate(findDriverByID(dr, d))));
+}
+
+int getAge(Catalogo* c, char* id) {
+    q1Aux q1 = {id, 0, 0, 0, c, 0};
+    g_hash_table_foreach(c->rides, findAge, &q1);
+    return q1.age;
+}
+
+void q1(Catalogo* c, char* id) {
+    User* u = findUserByUsername(c->users, id);
+    Driver* d = findDriverByID(c->drivers, id);
+    char* name = NULL;
+    char gender = '0';
+    int age = 0;
+    double rating = 0.0;
+    int total_rides = 0;
+    double total_cost = 0.0;
+
+    if (u) {
+        name = getUUsername(u);
+        gender = getUGender(u);
+        age = getAge(c, id);
+        rating = totalRating(c, id);
+        total_rides = numberOfTrips(c, id);
+        total_cost = totalCost(c, id);
+    }
+    else if (d) {
+        name = getDID(d);
+        gender = getDGender(d);
+        age = getAge(c, id);
+        rating = totalRating(c, id);
+        total_rides = numberOfTrips(c, id);
+        total_cost = totalCost(c, id);
+    }
+    printf("%s; %c; %d; %.3f; %d; %.3f\n", name, gender, age, rating, total_rides, total_cost);
 }
 
 //QUERRY 2
