@@ -26,6 +26,7 @@ Date* dateConvert(char* birthdate);
 int dateDifference(Date* d);
 void findAge(gpointer key, gpointer value, gpointer userData);
 int getAge(Catalogo* c, char* id);
+void q1(Catalogo* c, char *id);
 
 //Querry 2
 int compareMedia (gconstpointer a,gconstpointer b);

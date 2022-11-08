@@ -170,6 +170,35 @@ int getAge(Catalogo* c, char* id) {
     return q1.age;
 }
 
+void q1(Catalogo* c, char* id) {
+    User* u = findUserByUsername(c->users, id);
+    Driver* d = findDriverByID(c->drivers, id);
+    char* name = NULL;
+    char gender = '0';
+    int age = 0;
+    double rating = 0.0;
+    int total_rides = 0;
+    double total_cost = 0.0;
+
+    if (u) {
+        name = getUUsername(u);
+        gender = getUGender(u);
+        age = getAge(c, id);
+        rating = totalRating(c, id);
+        total_rides = numberOfTrips(c, id);
+        total_cost = totalCost(c, id);
+    }
+    else if (d) {
+        name = getDID(d);
+        gender = getDGender(d);
+        age = getAge(c, id);
+        rating = totalRating(c, id);
+        total_rides = numberOfTrips(c, id);
+        total_cost = totalCost(c, id);
+    }
+    printf("%s; %c; %d; %.3f; %d; %.3f\n", name, gender, age, rating, total_rides, total_cost);
+}
+
 //QUERRY 2
 
 //Função comparação para ordenar array de q2Aux (Ordem decrescente)
