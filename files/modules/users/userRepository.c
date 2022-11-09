@@ -11,34 +11,40 @@ struct user
   char *account_status;
 };
 
-char* getUUsername(User *u) {
-    return strdup(u->user_name);
+char *getUUsername(User *u)
+{
+  return strdup(u->user_name);
 }
 
-char* getUName(User *u) {
+char *getUName(User *u)
+{
   return strdup(u->name);
 }
 
-char getUGender(User *u) {
+char getUGender(User *u)
+{
   return u->gender;
 }
 
-char* getUBirthDate(User *u) {
+char *getUBirthDate(User *u)
+{
   return strdup(u->birth_date);
 }
 
-char* getUAccountCreation(User *u) {
+char *getUAccountCreation(User *u)
+{
   return strdup(u->account_creation);
 }
 
-char* getUPayMethod(User *u) {
+char *getUPayMethod(User *u)
+{
   return strdup(u->pay_method);
 }
 
-char* getUAccountStatus(User *u) {
+char *getUAccountStatus(User *u)
+{
   return strdup(u->account_status);
 }
-
 
 void *createUsersHashData()
 {
@@ -81,21 +87,7 @@ void *createUsersHashData()
   return hashTable;
 }
 
-/*
-User* cloneUser(User *u) {
-  User* copy = malloc(sizeof(User));
-  copy->user_name = strdup(u->user_name);
-  copy->name = strdup(u->name);
-  copy->gender = u->gender;
-  copy->birth_date = strdup(u->birth_date);
-  copy->account_creation = strdup(u->pay_method);
-  copy->pay_method = strdup(u->pay_method);
-  copy->account_status = strdup(u->account_status);
-
-  return copy;
-}
-*/
-
-User* findUserByUsername(GHashTable *users, char* username) {
-  return(g_hash_table_lookup(users, username));
+User *findUserByUsername(GHashTable *users, char *username)
+{
+  return g_hash_table_lookup(users, username);
 }

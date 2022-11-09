@@ -5,20 +5,24 @@
 #include "includes/userRepository.h"
 #include "includes/driverRepository.h"
 #include "includes/rideRepository.h"
+#include "includes/catalogEntity.h"
 
-#include "includes/findDriverByIdUseCase.h"
-#include "includes/findUserByUsernameUseCase.h"
-
-#include "userEntity.h"
+struct catalog
+{
+    void *users;
+    void *drivers;
+    void *rides;
+};
 
 int main()
 {
-    void *usersHash = createUsersHashData();
-    void *driversHash = createDriversHashData();
-    void *ridesHash = createRidesHashData();
+    Catalog c;
+    c.users = createUsersHashData();
+    c.drivers = createDriversHashData();
+    c.rides = createRidesHashData();
 
-    findDriverByID(driversHash, "NULL");
-    findUserByUsername(usersHash, "WNogueira");
+    q1(&c, "");
+    q1(&c, "000000000013");
 
     return 0;
 }

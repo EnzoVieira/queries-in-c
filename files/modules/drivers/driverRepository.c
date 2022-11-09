@@ -13,39 +13,48 @@ struct driver
   char *account_status;
 };
 
-char* getDID(Driver *d) {
+char *getDID(Driver *d)
+{
   return strdup(d->id);
 }
 
-char* getDName(Driver *d) {
+char *getDName(Driver *d)
+{
   return strdup(d->name);
 }
 
-char* getDBirthDate(Driver *d) {
+char *getDBirthDate(Driver *d)
+{
   return strdup(d->birth_date);
 }
 
-char getDGender(Driver *d) {
+char getDGender(Driver *d)
+{
   return d->gender;
 }
 
-char* getDCarClass(Driver *d) {
+char *getDCarClass(Driver *d)
+{
   return strdup(d->car_class);
 }
 
-char* getDLicensePlate(Driver *d) {
+char *getDLicensePlate(Driver *d)
+{
   return strdup(d->license_plate);
 }
 
-char* getDCity(Driver *d) {
+char *getDCity(Driver *d)
+{
   return strdup(d->city);
 }
 
-char* getDAccountCreation(Driver *d) {
+char *getDAccountCreation(Driver *d)
+{
   return strdup(d->account_creation);
 }
 
-char* getDAccountStatus(Driver *d) {
+char *getDAccountStatus(Driver *d)
+{
   return strdup(d->account_status);
 }
 
@@ -103,8 +112,7 @@ Driver* cloneDriver(Driver *d) {
 }
 */
 
-Driver* findDriverByID(GHashTable* drivers, char* id) {
+Driver *findDriverByID(GHashTable *drivers, char *id)
+{
   return g_hash_table_lookup(drivers, id);
 }
-
-

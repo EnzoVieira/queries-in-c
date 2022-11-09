@@ -3,11 +3,14 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <glib.h>
 
 #include "api.h"
 #include "driverEntity.h"
 
 void *createDriversHashData();
-Driver* cloneDriver(Driver *d);
+Driver *cloneDriver(Driver *d);
+
+Driver *findDriverByID(GHashTable *drivers, char *id);
 
 #endif

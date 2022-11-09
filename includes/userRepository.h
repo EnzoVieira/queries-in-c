@@ -10,6 +10,6 @@
 #include "userEntity.h"
 
 void *createUsersHashData();
-User* cloneUser(User *u);
+User *findUserByUsername(GHashTable *users, char *username);
 
 #endif

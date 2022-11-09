@@ -1,44 +1,47 @@
-#ifndef CATALOG_ENTITY
-#define CATALOG_ENTITY
+#ifndef CATALOG_ENTITY_H
+#define CATALOG_ENTITY_H
 
-#include <stdio.h>
+// #include <stdio.h>
 #include <glib.h>
 
+#include "driverRepository.h"
+#include "userRepository.h"
 #include "rideEntity.h"
 
-//Funções Destroy
-void destroySumData(void *u);
-void destroyKey(void *u);
+// // Funções Destroy
+// void destroySumData(void *u);
+// void destroyKey(void *u);
 
-//Querry 1
-typedef struct catalogo Catalogo;
+// // Querry 1
+typedef struct catalog Catalog;
 typedef struct date Date;
+
+typedef struct querie1Aux q1Aux;
+
 void ridesCounter(gpointer key, gpointer value, gpointer userData);
-int numberOfTrips(Catalogo* c, char* id);
+int numberOfTrips(Catalog *c, char *id);
 void rating(gpointer key, gpointer value, gpointer userData);
-double totalRating(Catalogo* c, char* id);
+double totalRating(Catalog *c, char *id);
 void travelCost(gpointer key, gpointer value, gpointer userData);
-double totalCost(Catalogo* c, char* id);
-Ride* findRideByID(Catalogo* c, char* id);
+double totalCost(Catalog *c, char *id);
+Ride *findRideByID(Catalog *c, char *id);
 void travelCost(gpointer key, gpointer value, gpointer userData);
-double totalCost(Catalogo* c, char* id);
-Date* dateConvert(char* birthdate);
-int dateDifference(Date* d);
+double totalCost(Catalog *c, char *id);
+Date *dateConvert(char *birthdate);
+int dateDifference(Date *d);
 void findAge(gpointer key, gpointer value, gpointer userData);
-int getAge(Catalogo* c, char* id);
-void q1(Catalogo* c, char *id);
+int getAge(Catalog *c, char *id);
+void q1(Catalog *c, char *id);
 
-//Querry 2
-int compareMedia (gconstpointer a,gconstpointer b);
-void interactMedia(gpointer key,gpointer value, gpointer data);
-int q2(Catalogo* catalog,int N);
+// // Querry 2
+// int compareMedia(gconstpointer a, gconstpointer b);
+// void interactMedia(gpointer key, gpointer value, gpointer data);
+// int q2(Catalogo *catalog, int N);
 
-//Querry 3
+// // Querry 3
 
-void interactPriceMedia(gpointer key,gpointer value, gpointer data);
-void totalPriceCalculator(gpointer key,gpointer value, gpointer data);
-int q4 (Catalogo *catalog, char* city);
-
-
+// void interactPriceMedia(gpointer key, gpointer value, gpointer data);
+// void totalPriceCalculator(gpointer key, gpointer value, gpointer data);
+// int q4(Catalogo *catalog, char *city);
 
 #endif
