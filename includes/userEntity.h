@@ -9,6 +9,6 @@ char getUGender(User *u);
 char *getUBirthDate(User *u);
 char *getUAccountCreation(User *u);
 char *getUPayMethod(User *u);
-char *getUAccountStatus(User *u);
+int getUAccountStatus(User *u);
 
 #endif
