@@ -70,16 +70,16 @@ void *createRidesHashData()
   {
     Ride *ride = (Ride *)malloc(sizeof(Ride));
 
-    ride->id = strsep(&line, ";");
-    ride->date = strsep(&line, ";");
-    ride->driver = strsep(&line, ";");
-    ride->user = strsep(&line, ";");
-    ride->city = strsep(&line, ";");
+    ride->id = strdup (strsep(&line, ";"));
+    ride->date = strdup(strsep(&line, ";"));
+    ride->driver = strdup(strsep(&line, ";"));
+    ride->user = strdup(strsep(&line, ";"));
+    ride->city = strdup(strsep(&line, ";"));
     ride->distance = atof(strsep(&line, ";"));
     ride->score_user = atof(strsep(&line, ";"));
     ride->score_driver = atof(strsep(&line, ";"));
     ride->tip = atof(strsep(&line, ";"));
-    ride->comment = strsep(&line, ";");
+    ride->comment = strdup(strsep(&line, ";"));
 
     // insere a key user->user_name e a data user na hash
     addToTable(hashTable, ride->id, ride);
