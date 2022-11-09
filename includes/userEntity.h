@@ -4,7 +4,7 @@
 typedef struct user User;
 
 char *getUUsername(User *u);
-char *geUtName(User *u);
+char *getUName(User *u);
 char getUGender(User *u);
 char *getUBirthDate(User *u);
 char *getUAccountCreation(User *u);

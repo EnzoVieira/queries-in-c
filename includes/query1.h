@@ -16,7 +16,6 @@ void travelCost(gpointer key, gpointer value, gpointer userData);
 double totalCost(Catalog *c, char *id);
 Date *dateConvert(char *birthDate);
 int dateDifference(Date *d);
-void findAge(gpointer key, gpointer value, gpointer userData);
 int getAge(Catalog *c, char *id);
 void q1(Catalog *c, char *id);
 
