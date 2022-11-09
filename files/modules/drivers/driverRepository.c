@@ -75,14 +75,14 @@ void *createDriversHashData()
 
     Driver *driver = (Driver *)malloc(sizeof(Driver));
 
-    driver->id = strsep(&line, ";");
-    driver->name = strsep(&line, ";");
-    driver->birth_date = strsep(&line, ";");
+    driver->id = strdup(strsep(&line, ";"));
+    driver->name = strdup(strsep(&line, ";"));
+    driver->birth_date = strdup(strsep(&line, ";"));
     driver->gender = *strsep(&line, ";");
-    driver->car_class = strsep(&line, ";");
-    driver->license_plate = strsep(&line, ";");
-    driver->city = strsep(&line, ";");
-    driver->account_creation = strsep(&line, ";");
+    driver->car_class = strdup(strsep(&line, ";"));
+    driver->license_plate = strdup(strsep(&line, ";"));
+    driver->city = strdup(strsep(&line, ";"));
+    driver->account_creation = strdup(strsep(&line, ";"));
 
     if (*(strsep(&line, ";")) == 'a')
       driver->account_status = 1;
