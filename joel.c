@@ -10,18 +10,6 @@
 #include "includes/findDriverByIdUseCase.h"
 #include "includes/findUserByUsernameUseCase.h"
 
-/*
-int dateToInt (char* date) {
-    int d = 0, m = 0, a = 0;
-    char* dt = strdup(date);
-    d = atoi(strsep(&dt, "/"));
-    m = atoi(strsep(&dt, "/"));
-    a = atoi(strsep(&dt, "/"));
-    printf("%d - %d - %d\n", d, m, a);
-    return d;
-}
-*/
-
 struct catalogo {
     void* users;
     void* drivers;

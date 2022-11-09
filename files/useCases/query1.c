@@ -16,7 +16,6 @@ typedef struct querie1Aux
   double averageRating;
   double tripValue;
   Catalog *catalogo;
-  int age;
 } q1Aux;
 
 struct date
@@ -33,9 +32,9 @@ void ridesCounter(gpointer key, gpointer value, gpointer userData)
   char *u = getRUser(r);
   char *d = getRDriver(r);
   if (strcmp(u, q1->id) == 0 || strcmp(d, q1->id) == 0)
-  {
     q1->totalTrips++;
-  }
+  free(u);
+  free(d);
 }
 
 int numberOfTrips(Catalog *c, char *id)
@@ -61,6 +60,8 @@ void rating(gpointer key, gpointer value, gpointer userData)
     q1->averageRating = q1->averageRating + getRScoreDriver(r);
     q1->totalTrips++;
   }
+  free(u);
+  free(d);
 }
 
 double totalRating(Catalog *c, char *id)
@@ -70,32 +71,25 @@ double totalRating(Catalog *c, char *id)
   return (q1.averageRating / q1.totalTrips);
 }
 
-Ride *findRideByID(Catalog *c, char *id)
-{
-  if (g_hash_table_lookup(c->rides, id))
-    printf("A viagem com o ID %s existe.\n", id);
-  return (g_hash_table_lookup(c->rides, id));
-}
-
-void travelCost(gpointer key, gpointer value, gpointer userData)
+void travelCost(gpointer key, gpointer value, gpointer userData) 
 {
   Ride *r = value;
   q1Aux *q1 = userData;
-  // Catalogo* c = (Catalogo*) q1->catalogo;
-  GHashTable *drivers = q1->catalogo->drivers;
-  char *u = getRUser(r);
-  char *d = getRDriver(r);
-  // a viagem existe na hashtable
+  char* u = getRUser(r);
+  char* d = getRDriver(r);
   if (strcmp(u, q1->id) == 0 || strcmp(d, q1->id) == 0)
   {
-    char *carClass = getDCarClass(findDriverByID(drivers, d));
+    Driver* driver = findDriverByID(q1->catalogo->drivers, d);
+    char *carClass = getDCarClass(driver);
     if (strcmp(carClass, "basic") == 0)
-      q1->tripValue = q1->tripValue + (3.25 + 0.62 * getRDistance(r));
+      q1->tripValue = q1->tripValue + (3.25 + 0.62 * getRDistance(r) + getRTip(r));
     else if (strcmp(carClass, "green") == 0)
-      q1->tripValue = q1->tripValue + (4.00 + 0.79 * getRDistance(r));
+      q1->tripValue = q1->tripValue + (4.00 + 0.79 * getRDistance(r) + getRTip(r));
     else if (strcmp(carClass, "premium") == 0)
-      q1->tripValue = q1->tripValue + (5.20 + 0.94 * getRDistance(r));
+      q1->tripValue = q1->tripValue + (5.20 + 0.94 * getRDistance(r) + getRTip(r));
   }
+  free(u);
+  free(d);
 }
 
 double totalCost(Catalog *c, char *id)
@@ -118,8 +112,7 @@ Date *dateConvert(char *birthDate)
   return d;
 }
 
-int dateDifference(Date *d)
-{
+int dateDifference(Date *d) {
   Date *consideredDate = dateConvert(DATE);
   int age = 0;
   if ((consideredDate->year >= d->year && consideredDate->month > d->month) ||
@@ -127,28 +120,20 @@ int dateDifference(Date *d)
     age = consideredDate->year - d->year;
   else
     age = (consideredDate->year - d->year) - 1;
+  free(consideredDate);
   return age;
 }
 
-void findAge(gpointer key, gpointer value, gpointer userData)
-{
-  Ride *r = value;
-  q1Aux *q1 = userData;
-  char *u = getRUser(r);
-  char *d = getRDriver(r);
-  GHashTable *us = q1->catalogo->users;
-  GHashTable *dr = q1->catalogo->drivers;
-  if (strcmp(getUUsername(findUserByUsername(us, u)), q1->id) == 0)
-    q1->age = dateDifference(dateConvert(getUBirthDate(findUserByUsername(us, u))));
-  else if (strcmp(getDID(findDriverByID(dr, d)), q1->id) == 0)
-    q1->age = dateDifference(dateConvert(getDBirthDate(findDriverByID(dr, d))));
-}
-
-int getAge(Catalog *c, char *id)
-{
-  q1Aux q1 = {id, 0, 0, 0, c, 0};
-  g_hash_table_foreach(c->rides, findAge, &q1);
-  return q1.age;
+int getAge(Catalog *c, char *id) {
+  User* u = findUserByUsername(c->users, id);
+  if (u) {
+    return dateDifference(dateConvert(getUBirthDate(u)));
+  }
+  Driver* d = findDriverByID(c->drivers, id);
+  if (d) {
+    return dateDifference(dateConvert(getDBirthDate(d)));
+  } 
+  return 0;
 }
 
 void q1(Catalog *c, char *id)
@@ -164,7 +149,7 @@ void q1(Catalog *c, char *id)
 
   if (u)
   {
-    name = getUUsername(u);
+    name = getUName(u);
     gender = getUGender(u);
     age = getAge(c, id);
     rating = totalRating(c, id);
@@ -173,7 +158,7 @@ void q1(Catalog *c, char *id)
   }
   else if (d)
   {
-    name = getDID(d);
+    name = getDName(d);
     gender = getDGender(d);
     age = getAge(c, id);
     rating = totalRating(c, id);
