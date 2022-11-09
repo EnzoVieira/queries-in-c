@@ -12,6 +12,6 @@ char* getDCarClass(Driver *d);
 char* getDLicensePlate(Driver *d);
 char* getDCity(Driver *d);
 char* getDAccountCreation(Driver *d);
-char* getDAccountStatus(Driver *d);
+int getDAccountStatus(Driver *d);
 
 #endif

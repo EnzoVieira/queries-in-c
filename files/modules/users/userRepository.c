@@ -8,7 +8,7 @@ struct user
   char *birth_date;
   char *account_creation;
   char *pay_method;
-  char *account_status;
+  int  account_status;
 };
 
 char *getUUsername(User *u)
@@ -41,9 +41,9 @@ char *getUPayMethod(User *u)
   return strdup(u->pay_method);
 }
 
-char *getUAccountStatus(User *u)
+int getUAccountStatus(User *u)
 {
-  return strdup(u->account_status);
+  return u->account_status;
 }
 
 void *createUsersHashData()
@@ -69,13 +69,17 @@ void *createUsersHashData()
 
     User *user = (User *)malloc(sizeof(User));
 
-    user->user_name = strsep(&line, ";");
-    user->name = strsep(&line, ";");
+    user->user_name = strdup(strsep(&line, ";"));
+    user->name = strdup(strsep(&line, ";"));
     user->gender = *strsep(&line, ";");
-    user->birth_date = strsep(&line, ";");
-    user->account_creation = strsep(&line, ";");
-    user->pay_method = strsep(&line, ";");
-    user->account_status = strsep(&line, ";");
+    user->birth_date = strdup(strsep(&line, ";"));
+    user->account_creation = strdup(strsep(&line, ";"));
+    user->pay_method = strdup(strsep(&line, ";"));
+
+    if (*(strsep(&line, ";")) == 'a')
+      user->account_status = 1;
+    else 
+      user->account_status = 0;
 
     // insere a key user->user_name e a data user na hash
     addToTable(hashTable, user->user_name, user);

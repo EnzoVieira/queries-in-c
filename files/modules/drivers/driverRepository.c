@@ -10,7 +10,7 @@ struct driver
   char *license_plate;
   char *city;
   char *account_creation;
-  char *account_status;
+  int  account_status;
 };
 
 char *getDID(Driver *d)
@@ -53,9 +53,9 @@ char *getDAccountCreation(Driver *d)
   return strdup(d->account_creation);
 }
 
-char *getDAccountStatus(Driver *d)
+int getDAccountStatus(Driver *d)
 {
-  return strdup(d->account_status);
+  return d->account_status;
 }
 
 void *createDriversHashData()
@@ -83,7 +83,11 @@ void *createDriversHashData()
     driver->license_plate = strsep(&line, ";");
     driver->city = strsep(&line, ";");
     driver->account_creation = strsep(&line, ";");
-    driver->account_status = strsep(&line, ";");
+
+    if (*(strsep(&line, ";")) == 'a')
+      driver->account_status = 1;
+    else
+      driver->account_status = 0;
 
     // insere a key user->user_name e a data user na hash
     addToTable(hashTable, driver->id, driver);
