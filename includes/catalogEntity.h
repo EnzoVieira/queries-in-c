@@ -33,15 +33,15 @@ void findAge(gpointer key, gpointer value, gpointer userData);
 int getAge(Catalog *c, char *id);
 void q1(Catalog *c, char *id);
 
-// // Querry 2
-// int compareMedia(gconstpointer a, gconstpointer b);
-// void interactMedia(gpointer key, gpointer value, gpointer data);
-// int q2(Catalogo *catalog, int N);
+ // Querry 2
+ int compareMedia(gconstpointer a, gconstpointer b,gpointer user_data);
+ void interactMedia(gpointer key, gpointer value, gpointer data);
+ int q2(Catalog *catalog, int N);
 
 // // Querry 3
 
-// void interactPriceMedia(gpointer key, gpointer value, gpointer data);
-// void totalPriceCalculator(gpointer key, gpointer value, gpointer data);
-// int q4(Catalogo *catalog, char *city);
+ void interactPriceMedia(gpointer key, gpointer value, gpointer data);
+ void totalPriceCalculator(gpointer key, gpointer value, gpointer data);
+ double q4(Catalog *catalog, char *city);
 
 #endif

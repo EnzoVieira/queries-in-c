@@ -5,13 +5,10 @@
 #include "includes/userRepository.h"
 #include "includes/driverRepository.h"
 #include "includes/rideRepository.h"
-#include "includes/catalogRepository.h"
-
-#include "includes/findDriverByIdUseCase.h"
-#include "includes/findUserByUsernameUseCase.h"
+#include "includes/catalogEntity.h"
 
 
-struct catalogo {
+struct catalog {
     void* users;
     void* drivers;
     void* rides;
@@ -20,7 +17,7 @@ struct catalogo {
 
 int main(){
 
-    Catalogo catalogo;
+    Catalog catalogo;
     catalogo.users = createUsersHashData();
     catalogo.drivers = createDriversHashData();
     catalogo.rides = createRidesHashData();
