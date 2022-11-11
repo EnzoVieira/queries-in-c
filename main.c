@@ -5,11 +5,15 @@
 #include "includes/userRepository.h"
 #include "includes/driverRepository.h"
 #include "includes/rideRepository.h"
-#include "includes/catalogEntity.h"
+// #include "includes/catalogEntity.h"
+
+#include "includes/query1.h"
+#include "includes/query3.h"
 
 #include "includes/token.h"
 #include "includes/lexer.h"
 #include "includes/reader.h"
+#include "includes/writer.h"
 
 struct catalog
 {

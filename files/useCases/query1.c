@@ -1,4 +1,5 @@
 #include "../../includes/query1.h"
+#include "../../includes/writer.h"
 
 #define DATE "09/10/2022"
 
@@ -136,8 +137,7 @@ int getAge(Catalog *c, char *id) {
   return 0;
 }
 
-void q1(Catalog *c, char *id)
-{
+void q1(Catalog *c, char *id) {
   User *u = findUserByUsername(c->users, id);
   Driver *d = findDriverByID(c->drivers, id);
   char *name = NULL;
@@ -147,8 +147,7 @@ void q1(Catalog *c, char *id)
   int total_rides = 0;
   double total_cost = 0.0;
 
-  if (u)
-  {
+  if (u) {
     name = getUName(u);
     gender = getUGender(u);
     age = getAge(c, id);
@@ -156,8 +155,7 @@ void q1(Catalog *c, char *id)
     total_rides = numberOfTrips(c, id);
     total_cost = totalCost(c, id);
   }
-  else if (d)
-  {
+  else if (d) {
     name = getDName(d);
     gender = getDGender(d);
     age = getAge(c, id);
@@ -165,5 +163,14 @@ void q1(Catalog *c, char *id)
     total_rides = numberOfTrips(c, id);
     total_cost = totalCost(c, id);
   }
-  printf("%s; %c; %d; %.3f; %d; %.3f\n", name, gender, age, rating, total_rides, total_cost);
+
+  // numero de caracteres em name, gender, age, rating, total_rides e total_cost, respectivamente, vezes 5
+  // para ter certeza que haverá espaço suficiente
+  size_t outputLength = (strlen(name) + 1 + 3 + 4 + 6 + 7) * 5;
+  char *output = calloc(outputLength, sizeof(char));
+  sprintf(output, "%s;%c;%d;%.3f;%d;%.3f\n", name, gender, age, rating, total_rides, total_cost);
+
+  writeFile(output, "Resultados/command1_output.txt");
+
+  free(output);
 }

@@ -6,7 +6,7 @@ OBJ = test
 FILES = files/useCases/*.c files/api/*.c files/modules/**/*.c files/lexer/*.c
 
 all:
-	$(CC) marco.c $(FILES) -o $(OBJ) $(CFLAGS)
+	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
 
 exec:
 	./test
@@ -15,3 +15,4 @@ clean:
 	rm -rf test
 	rm -rf *.ex
 	rm -rf *.o
+	rm -rf Resultados/*
