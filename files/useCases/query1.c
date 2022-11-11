@@ -176,6 +176,7 @@ void q1(Catalog *c, char *id) {
 
     // printf("output: %s\n", output);
 
+    free(name);
     free(output);
   }
 }
