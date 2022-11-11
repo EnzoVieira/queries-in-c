@@ -6,7 +6,7 @@ OBJ = test
 FILES = files/useCases/*.c files/api/*.c files/modules/**/*.c 
 
 all:
-	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
+	$(CC) marco.c $(FILES) -o $(OBJ) $(CFLAGS)
 
 exec:
 	./test

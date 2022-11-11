@@ -18,7 +18,7 @@ struct catalogo {
 
 int main()
 {   
-    Catalogo catalogo;
+    Catalog catalogo;
     catalogo.users = createUsersHashData();
     catalogo.drivers = createDriversHashData();
     catalogo.rides = createRidesHashData();
