@@ -15,28 +15,24 @@
 #include "includes/reader.h"
 #include "includes/writer.h"
 
-struct catalog
-{
+struct catalog {
     void *users;
     void *drivers;
     void *rides;
 };
 
-int main()
-{
+int main() {
     Catalog c;
     c.users = createUsersHashData();
     c.drivers = createDriversHashData();
     c.rides = createRidesHashData();
 
-    char *args = readFile("queries/queries.txt");
+    char *args = readFile("exemplos_de_queries2/tests_2/input.txt");
 
     Lexer *lexer = createLexer(args);
     Token *token = NULL;
 
     while ((token = getNextToken(lexer))->type != TOKEN_EOF) {
-        
-
         if(token->type == TOKEN_QUERY) {
             switch(token->value[0]) {
                 case '1': {

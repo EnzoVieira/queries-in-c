@@ -1,3 +1,4 @@
-Santiago Carvalho;M;27;3.000;8;108.690
-João Teixeira;M;55;3.143;14;174.700
-Amélia Gonçalves;F;45;2.931;101;1212.890
+Santiago Cruz;M;31;3.200;5;50.340
+Clara Pacheco;F;33;3.312;16;193.540
+Adriana Oliveira;F;33;2.836;110;1335.470
+Paulo Soares;M;44;2.768;99;982.910
