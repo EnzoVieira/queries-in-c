@@ -5,8 +5,9 @@
 #include "includes/userRepository.h"
 #include "includes/driverRepository.h"
 #include "includes/rideRepository.h"
-#include "includes/catalogEntity.h"
-
+//#include "includes/catalogEntity.h"
+#include "includes/query2.h"
+#include "includes/query4.h"
 
 struct catalog {
     void* users;
