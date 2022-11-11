@@ -1,21 +1,20 @@
 #include "../../includes/query4.h"
+#include "../../includes/writer.h"
 
-struct catalog
-{
+struct catalog {
   void *users;
   void *drivers;
   void *rides;
 };
 
-typedef struct querie4Aux{
+typedef struct querie4Aux {
 
   char *data_identification;
   double media;
   double valueQty;
 } q4Aux;
 
-void destroyQ4Aux(void *u)
-{
+void destroyQ4Aux(void *u) {
   q4Aux *destroyME = (q4Aux *)u;
   if (destroyME)
   {
@@ -32,8 +31,7 @@ void destroyQ4Aux(void *u)
 //    free(destroyME);
 //}
 
-void interactPriceMedia(gpointer key, gpointer value, gpointer data)
-{
+void interactPriceMedia(gpointer key, gpointer value, gpointer data) {
 
   // hash a ser preenchida com q2Aux(Driver;soma total km;total de elementos na soma)
   GHashTable *media = (GHashTable *)data;
@@ -50,19 +48,16 @@ void interactPriceMedia(gpointer key, gpointer value, gpointer data)
   q4Aux *driverToken = g_hash_table_lookup(media, rideDriver);
 
   // caso exista
-  if (!strcmp(city, cityFilter))
-  {
-    if (driverToken != NULL)
-    {
+  if (!strcmp(city, cityFilter)) {
+    if (driverToken != NULL) {
       // incrementa o valueQty e acrescenta ao somatório o valor da Ride atual
       driverToken->valueQty++;
       driverToken->media = driverToken->media + rideTotalKm;
     }
     // caso não exista
-    else
-    {
+    else {
       // cria espaço para um novo driver do tipo q2Aux
-      driverToken = (q4Aux *)malloc(sizeof(q4Aux *));
+      driverToken = (q4Aux *)malloc(sizeof(q4Aux));
       // atribui os valores necessários (de modo a poder ser libertado mais tarde)
       driverToken->data_identification = rideDriver;
       driverToken->valueQty = 1;
@@ -73,8 +68,7 @@ void interactPriceMedia(gpointer key, gpointer value, gpointer data)
   }
 }
 
-void totalPriceCalculator(gpointer key, gpointer value, gpointer data)
-{
+void totalPriceCalculator(gpointer key, gpointer value, gpointer data) {
 
   // Variavel que vai permitir o acesso aos Drivers
   Driver *driver = (Driver *)value;
@@ -112,11 +106,9 @@ void totalPriceCalculator(gpointer key, gpointer value, gpointer data)
   free(carClass);
 }
 
-double q4(Catalog *catalog, char *city)
-{
+char *q4(Catalog *catalog, char *city) {
   // Hash que vai conter todas as structs temporárias da soma dos KM (nao precisa de keyDestroy)
   GHashTable *driversTotalKm = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, destroyQ4Aux);
-
   // Allocação e inicialização da struct com as informações da cidade(nome/soma dos preços medios/total de somas)
   q4Aux *cityToken = (q4Aux *)malloc(sizeof(q4Aux));
   cityToken->data_identification = strdup(city);
@@ -129,21 +121,27 @@ double q4(Catalog *catalog, char *city)
   g_hash_table_foreach(catalog->rides, interactPriceMedia, driversTotalKm);
   
   //Se a hash não contem nenhum driver então a cidade não existe(retorna -1)
-  if (g_hash_table_size(driversTotalKm)==1){
-    g_hash_table_destroy(driversTotalKm);
-    return -1;
-  }
-  // Função que vai retirar a classe do Driver e os preços por viagem e Km
-  g_hash_table_foreach(catalog->drivers, totalPriceCalculator, driversTotalKm);
+  if (g_hash_table_size(driversTotalKm) > 1) {
+    // Função que vai retirar a classe do Driver e os preços por viagem e Km
+    g_hash_table_foreach(catalog->drivers, totalPriceCalculator, driversTotalKm);
 
-  // Retira da hash apenas a cidade ja com o sumatório de todos os preços
-  g_hash_table_steal(driversTotalKm, "city");
+    // Retira da hash apenas a cidade ja com o sumatório de todos os preços
+    g_hash_table_steal(driversTotalKm, "city");
+
+    // calcula a média
+    cityToken->media = cityToken->media / cityToken->valueQty;
+
+    // numero de caracteres em cityToken->media, vezes 5
+    // para ter certeza que haverá espaço suficiente
+    size_t outputLength = 7 * 5;
+    char *output = calloc(outputLength, sizeof(char));
+    sprintf(output, "%.3f", cityToken->media);
+
+    return output;
+  }
+
   // Destroi todos os driver depois de já não serem necessarias as informações
   g_hash_table_destroy(driversTotalKm);
-  // calcula a média
-  cityToken->media = cityToken->media / cityToken->valueQty;
 
-  printf("%s %f %f\n", cityToken->data_identification, cityToken->media, cityToken->valueQty);
-
-  return cityToken->media;
+  return NULL;
 }

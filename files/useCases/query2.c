@@ -127,8 +127,7 @@ void interactMedia(gpointer key, gpointer value, gpointer data)
   }
 }
 
-int q2(Catalog *catalog, int N)
-{
+char *q2(Catalog *catalog, int N) {
 
   // Hash que vai conter todas as structs temporárias da soma dos scores (nao precisa de keyDestroy)
   GHashTable *driversTotalScoreHash = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, destroyQ2Aux);
@@ -140,53 +139,40 @@ int q2(Catalog *catalog, int N)
   // Ordenação da Lista por Médias
   hashContent = g_list_sort_with_data(hashContent, (GCompareDataFunc)compareMedia, catalog->drivers);
 
-  // Array que vai conter os N condutores com melhor média por cordem decrescente
-  GArray *fianlArrayQ2 = g_array_sized_new(0, 1, sizeof(q2Aux), 1);
+  size_t lineLength = 12 + 10 + 50;
+  char *stringGrande = calloc(lineLength * N, sizeof(char));
 
-  // Variavel utilizada para preencher o GArray de estruturas com os id e as médias dos condutores
-  q2Aux listItem;
-  //= *(q2Aux*)(g_list_nth(hashContent,i))->data
-  // Preenchimento do array com os N maiores elementos
-  int i = 0,j=N;
-
-  while (i < j)
-  {
+  int i = 0, j = N;
+  while (i < j) {
     // Guardar o id do elemento da lista em uma variavel para facil leitura
     char *id = (*(q2Aux *)(g_list_nth(hashContent, i)->data)).data_identification;
-    if  (getDAccountStatus(g_hash_table_lookup(catalog->drivers,id))){
-      // Guardar a media ja calculada do elemento da lista em uma variavel para facil leitura
-      float mediaTotal = (*(q2Aux *)(g_list_nth(hashContent, i)->data)).media /
-                         (*(q2Aux *)(g_list_nth(hashContent, i)->data)).valueQty;
 
-      // Atribuição do id à copia da estrutura que vai passar para o array final
-      listItem.data_identification = strdup(id);
-      // Atribuição da media à copia da estrutura que vai passar para o array final
-      listItem.media = mediaTotal;
-      listItem.last_ride = strdup((*(q2Aux *)(g_list_nth(hashContent, i)->data)).last_ride);
-      // inserção da cópia no array final
-      g_array_append_vals(fianlArrayQ2, &listItem, 1);
+    Driver *driver = g_hash_table_lookup(catalog->drivers,id);
+    if (getDAccountStatus(driver)) {
+      // Guardar a media ja calculada do elemento da lista em uma variavel para facil leitura
+      double mediaTotal = (*(q2Aux *)(g_list_nth(hashContent, i)->data)).media /
+                         (*(q2Aux *)(g_list_nth(hashContent, i)->data)).valueQty;
+  
+      char *stringAux = calloc(lineLength, sizeof(char));
+      sprintf(stringAux, "%s;%s;%.3f\n", id, getDName(driver), mediaTotal);
+
+      strcat(stringGrande, stringAux);
+
+      free(stringAux);
+
+
       i++;
     }
-    else{
+    else {
       i++;
       j++;
     }
   }
-  
+
   // free da lista
   g_list_free(hashContent);
   // free da hash
   g_hash_table_destroy(driversTotalScoreHash);
 
-  // TESTE DE PRINT --  APAGAR DEPOIS (IMPORTANTE)
-  i = 0;
-  q2Aux teste3;
-  while (i < fianlArrayQ2->len)
-  {
-    teste3 = (g_array_index(fianlArrayQ2, q2Aux, i));
-    printf("DRIVER: %d %s ; DATA %s ; MEDIA: %f\n", i + 1, teste3.data_identification,teste3.last_ride, teste3.media);
-    i++;
-  }
-
-  return 0;
+  return stringGrande;
 }

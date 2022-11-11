@@ -137,7 +137,7 @@ int getAge(Catalog *c, char *id) {
   return 0;
 }
 
-void q1(Catalog *c, char *id) {
+char *q1(Catalog *c, char *id) {
   User *u = findUserByUsername(c->users, id);
   Driver *d = findDriverByID(c->drivers, id);
 
@@ -170,13 +170,12 @@ void q1(Catalog *c, char *id) {
     // para ter certeza que haverá espaço suficiente
     size_t outputLength = (strlen(name) + 1 + 3 + 4 + 6 + 7) * 5;
     char *output = calloc(outputLength, sizeof(char));
-    sprintf(output, "%s;%c;%d;%.3f;%d;%.3f\n", name, gender, age, rating, total_rides, total_cost);
-
-    writeFile(output, "Resultados/command1_output.txt");
-
-    // printf("output: %s\n", output);
+    sprintf(output, "%s;%c;%d;%.3f;%d;%.3f", name, gender, age, rating, total_rides, total_cost);
 
     free(name);
-    free(output);
+
+    return output;
   }
+
+  return NULL;
 }

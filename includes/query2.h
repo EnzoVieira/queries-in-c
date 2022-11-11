@@ -1,7 +1,7 @@
 #ifndef QUERY_2_H
 #define QUERY_2_H
 
-#include "catalogEntity.h"
+#include "rideRepository.h"
 #include "userRepository.h"
 #include "driverRepository.h"
 
@@ -13,7 +13,7 @@ void destroyKey(void *u);
 int mostRecenteRide (char* a, char* b);
 int compareMedia(gconstpointer a, gconstpointer b, gpointer user_data);
 void interactMedia(gpointer key, gpointer value, gpointer data);
-int q2(Catalog *catalog, int N);
+char *q2(Catalog *catalog, int N);
 
 
 #endif

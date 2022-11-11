@@ -1,4 +1,1 @@
-Santiago Cruz;M;31;3.200;5;50.340
-Clara Pacheco;F;33;3.312;16;193.540
-Adriana Oliveira;F;33;2.836;110;1335.470
-Paulo Soares;M;44;2.768;99;982.910
+Petra Pacheco;F;51;2.667;6;78.230
