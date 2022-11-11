@@ -9,7 +9,8 @@ typedef struct
 
   enum {
     TOKEN_QUERY,
-    TOKEN_ARGUMENT
+    TOKEN_ARGUMENT,
+    TOKEN_EOF
   } type;
 } Token;
 
