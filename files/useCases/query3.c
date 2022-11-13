@@ -77,7 +77,7 @@ void copyToHash(gpointer key, gpointer value, gpointer userData) {
     char* u = getRUser(r);
     // verifica se o user já existe na hash
     q3Aux* user = g_hash_table_lookup(copy, u);
-    if (user != NULL) {
+    if (user) {
         user->distance = user->distance + getRDistance(r);
         user->moreRecentTrip = compareDates(user->moreRecentTrip, getRDate(r));
     } else {
@@ -89,25 +89,44 @@ void copyToHash(gpointer key, gpointer value, gpointer userData) {
     }
 }
 
+int compareRecentTrip(char* a, char* b) {
+    if (strcmp(a+6, b+6) == 0) //se o ano igual
+        if (strcmp(a+3, b+3) == 0) //se o mês for igual
+            return -strcmp(a, b); //compara o dia
+        else 
+            return -strcmp(a+3, b+3);  //senão, compara o mês
+    else 
+        return -strcmp(a+6, b+6); //senão, compara o ano
+}
+
 int compareFunc(gconstpointer a, gconstpointer b) {
     q3Aux* u1 = (q3Aux*)a;
     q3Aux* u2 = (q3Aux*)b;
-    return (u1->distance < u2->distance);
+    if (u1->distance == u2->distance) { //se a distância for igual
+        if (compareRecentTrip(u1->moreRecentTrip, u2->moreRecentTrip) == 0) //se a viagem mais recente for igual
+            return (strcmp(u1->id, u2->id)); //compara o ID
+        else
+            return compareRecentTrip(u1->moreRecentTrip, u2->moreRecentTrip); //compara a viagem mais recente
+    } else return u1->distance < u2->distance; //compara a distância
 }
 
-void fillHash(Catalog* c, char* id) {
+void q3(Catalog* c, int N) {
     GHashTable* usersTotalDistance = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
     g_hash_table_foreach(c->rides, copyToHash, usersTotalDistance);
-    //q3Aux* u = g_hash_table_lookup(usersTotalDistance, id);
     GList* copyFromHash = g_hash_table_get_values(usersTotalDistance);
-    copyFromHash = g_list_sort_with_data(copyFromHash, (GCompareDataFunc)compareFunc, NULL);
-    q3Aux* q3 = copyFromHash->data;
+    copyFromHash = g_list_sort(copyFromHash, (GCompareFunc)compareFunc);
+    
     int i = 0;
     while (copyFromHash->next && i < 50) {
+        q3Aux* q3 = copyFromHash->data;
         User* u = findUserByUsername(c->users, q3->id);
-        copyFromHash = copyFromHash->next;
-        printf("%s, %s, %d\n", q3->id, getUName(u), q3->distance);
-        q3 = copyFromHash->data;
-        i++;
+        if (getUAccountStatus(u)) {
+            printf("%s, %s, %d, %s\n", q3->id, getUName(u), q3->distance, q3->moreRecentTrip);
+            copyFromHash = copyFromHash->next;
+            i++;
+        } else {
+            copyFromHash = copyFromHash->next;
+            q3 = copyFromHash->data;
+        }
     }
 }
