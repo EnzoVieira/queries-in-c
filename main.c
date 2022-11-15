@@ -23,13 +23,18 @@ struct catalog {
     void *rides;
 };
 
-int main() {
-    Catalog c;
-    c.users = createUsersHashData();
-    c.drivers = createDriversHashData();
-    c.rides = createRidesHashData();
+int main(int argc, char *argv[]) {
+    if(argc < 3) {
+        printf("Argumentos insuficientes\n");
+        exit(1);
+    }
 
-    char *args = readFile("exemplos_de_queries2/tests_2/input.txt");
+    Catalog c;
+    c.users = createUsersHashData(argv[1]);
+    c.drivers = createDriversHashData(argv[1]);
+    c.rides = createRidesHashData(argv[1]);
+
+    char *args = readFile(argv[2]);
 
     Lexer *lexer = createLexer(args);
 

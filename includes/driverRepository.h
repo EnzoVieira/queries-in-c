@@ -8,7 +8,7 @@
 #include "api.h"
 #include "driverEntity.h"
 
-void *createDriversHashData();
+void *createDriversHashData(const char *path);
 Driver *cloneDriver(Driver *d);
 
 Driver *findDriverByID(GHashTable *drivers, char *id);

@@ -1,7 +1,6 @@
 #include "../../../includes/userRepository.h"
 
-struct user
-{
+struct user {
   char *user_name;
   char *name;
   char gender;
@@ -11,48 +10,43 @@ struct user
   int  account_status;
 };
 
-char *getUUsername(User *u)
-{
+char *getUUsername(User *u) {
   return strdup(u->user_name);
 }
 
-char *getUName(User *u)
-{
+char *getUName(User *u) {
   return strdup(u->name);
 }
 
-char getUGender(User *u)
-{
+char getUGender(User *u) {
   return u->gender;
 }
 
-char *getUBirthDate(User *u)
-{
+char *getUBirthDate(User *u) {
   return strdup(u->birth_date);
 }
 
-char *getUAccountCreation(User *u)
-{
+char *getUAccountCreation(User *u) {
   return strdup(u->account_creation);
 }
 
-char *getUPayMethod(User *u)
-{
+char *getUPayMethod(User *u) {
   return strdup(u->pay_method);
 }
 
-int getUAccountStatus(User *u)
-{
+int getUAccountStatus(User *u) {
   return u->account_status;
 }
 
-void *createUsersHashData()
-{
+void *createUsersHashData(const char *path) {
   // Cria a HashTable
   void *hashTable = createTable();
 
+  char *userCSVPath = calloc(strlen(path) + strlen("/users.csv") + 2, sizeof(char));
+  sprintf(userCSVPath, "%s/users.csv", path);
+
   FILE *fp;
-  fp = fopen("files/data/users.csv", "r");
+  fp = fopen(userCSVPath, "r");
 
   if (fp == NULL)
   {
@@ -64,9 +58,7 @@ void *createUsersHashData()
 
   getline(&line, &len, fp);
 
-  while (((getline(&line, &len, fp)) != -1))
-  {
-
+  while (((getline(&line, &len, fp)) != -1)) {
     User *user = (User *)malloc(sizeof(User));
 
     user->user_name = strdup(strsep(&line, ";"));
@@ -91,7 +83,6 @@ void *createUsersHashData()
   return hashTable;
 }
 
-User *findUserByUsername(GHashTable *users, char *username)
-{
+User *findUserByUsername(GHashTable *users, char *username) {
   return g_hash_table_lookup(users, username);
 }

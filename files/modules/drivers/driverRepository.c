@@ -53,25 +53,25 @@ char *getDAccountCreation(Driver *d)
   return strdup(d->account_creation);
 }
 
-int getDAccountStatus(Driver *d)
-{
+int getDAccountStatus(Driver *d) {
   return d->account_status;
 }
 
-void *createDriversHashData()
-{
+void *createDriversHashData(const char *path) {
   // Cria a HashTable
   void *hashTable = createTable();
 
+  char *driversCSVPath = calloc(strlen(path) + strlen("/drivers.csv") + 2, sizeof(char));
+  sprintf(driversCSVPath, "%s/drivers.csv", path);
+
   FILE *fp;
-  fp = fopen("files/data/drivers.csv", "r");
+  fp = fopen(driversCSVPath, "r");
   char *line = NULL;
   size_t len;
 
   getline(&line, &len, fp);
 
-  while (((getline(&line, &len, fp)) != -1))
-  {
+  while (((getline(&line, &len, fp)) != -1)) {
 
     Driver *driver = (Driver *)malloc(sizeof(Driver));
 
@@ -99,24 +99,6 @@ void *createDriversHashData()
   return hashTable;
 }
 
-/*
-Driver* cloneDriver(Driver *d) {
-  Driver* copy = malloc(sizeof(Driver));
-  copy->id = strdup(d->id);
-  copy->name = strdup(d->name);
-  copy->birth_date = strdup(d->birth_date);
-  copy->gender = d->gender;
-  copy->car_class = strdup(d->car_class);
-  copy->license_plate = strdup(d->license_plate);
-  copy->city = strdup(d->city);
-  copy->account_creation = strdup(d->account_creation);
-  copy->account_status = strdup(d->account_status);
-
-  return copy;
-}
-*/
-
-Driver *findDriverByID(GHashTable *drivers, char *id)
-{
+Driver *findDriverByID(GHashTable *drivers, char *id) {
   return g_hash_table_lookup(drivers, id);
 }

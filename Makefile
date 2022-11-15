@@ -9,7 +9,7 @@ all:
 	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
 
 exec:
-	./test
+	./test "files/data" "exemplos_de_queries2/tests_2/input.txt"
 
 clean:
 	rm -rf test
