@@ -7,10 +7,15 @@ double calcQueryTime(clock_t *start) {
   return queryTime;
 }
 
-char *assertResult(char *result, const char *filename) {
+char *assertResult(char *result, const char *filename, int isMultiline) {
   char *expectedResult = readFile(filename);
   char *resultAux = calloc(strlen(result) + 1, sizeof(char));
-  resultAux = strcat(result, "\n");
+	
+	if (!isMultiline) 
+  	resultAux = strcat(result, "\n");
+	else {
+		resultAux = result;
+	}
 
   if (strcmp(resultAux, expectedResult) == 0) {
     return NULL;
@@ -43,7 +48,7 @@ void parserTest(Lexer *lexer, Catalog *c) {
 				if (result != NULL) {
 					char *expectedResult;
 
-					if ((expectedResult = assertResult(result, filename)) == 0) {
+					if ((expectedResult = assertResult(result, filename, 0)) == 0) {
 						printf("\033[32m%.3fs - query1('%s') = %s\033[0m", queryTime, token->value, result);
 					} else {
 						printf("\033[31m%.3fs - query1('%s')\n", queryTime, token->value);
@@ -60,11 +65,25 @@ void parserTest(Lexer *lexer, Catalog *c) {
 			}
 			case '2': {
 				token = getNextToken(lexer);
-				char *output = q2(c, atoi(token->value));
 
-				if (output != NULL) {
-					// writeFile(output, filename);
-					free(output);
+				clock_t time = clock();
+				char *result = q2(c, atoi(token->value));
+				double queryTime = calcQueryTime(&time);
+
+				if (result != NULL) {
+					char *expectedResult;
+
+					if ((expectedResult = assertResult(result, filename, 1)) == 0) {
+						printf("\033[32m%.3fs - query2('%s')\n\033[0m", queryTime, token->value);
+					} else {
+						printf("\033[31m%.3fs - query2('%s')\n", queryTime, token->value);
+						printf("\tEsperado:\n%s", expectedResult);
+						printf("\tObteve:\n%s\033[0m", result);
+
+						free(expectedResult);
+					}
+
+					free(result);
 				}
 
 				break;
