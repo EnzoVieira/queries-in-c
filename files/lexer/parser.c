@@ -19,7 +19,6 @@ void parser(Lexer *lexer, Catalog *c) {
 		sprintf(filename, "%s%d%s", filenameAux1, command, filenameAux2);
 
 		if (token->type == TOKEN_QUERY) {
-			printf("token: %s\n", token->value);
 			switch (token->value[0]) {
 			case '1': {
 				token = getNextToken(lexer);
