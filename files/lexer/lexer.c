@@ -42,11 +42,11 @@ Token *getNextToken(Lexer *lexer) {
   lexerAdvance(lexer);
 
   if (isdigit(instruction[0]) && strlen(instruction) == 1) {
-    return createToken(instruction, 0);
+    return createToken(instruction, TOKEN_QUERY);
   }
-  else if (lexer->currentChar != EOF) {
-    return createToken(instruction, 2);
+  else if (lexer->currentChar == 0) {
+    return createToken(instruction, TOKEN_EOF);
   }
   
-  return createToken(instruction, 2);
+  return createToken(instruction, TOKEN_ARGUMENT);
 }

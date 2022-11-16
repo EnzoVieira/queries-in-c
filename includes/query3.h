@@ -4,7 +4,6 @@
 #include "userRepository.h"
 #include "driverRepository.h"
 #include "rideRepository.h"
-#include "catalogEntity.h"
 #include "query1.h"
 
 
