@@ -9,7 +9,7 @@
 #include "api.h"
 #include "userEntity.h"
 
-void *createUsersHashData();
+void *createUsersHashData(const char *path);
 User *findUserByUsername(GHashTable *users, char *username);
 
 #endif

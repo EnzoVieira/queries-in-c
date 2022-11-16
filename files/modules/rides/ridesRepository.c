@@ -1,7 +1,6 @@
 #include "../../../includes/rideRepository.h"
 
-struct ride
-{
+struct ride {
   char *id;
   char *date;
   char *driver;
@@ -54,13 +53,15 @@ char* getRComment(Ride *r) {
   return strdup(r->comment);
 }
 
-void *createRidesHashData()
-{
+void *createRidesHashData(const char *path) {
   // Cria a HashTable
   void *hashTable = createTable();
 
+  char *ridesCSVPath = calloc(strlen(path) + strlen("/rides.csv") + 2, sizeof(char));
+  sprintf(ridesCSVPath, "%s/rides.csv", path);
+
   FILE *fp;
-  fp = fopen("files/data/rides.csv", "r");
+  fp = fopen(ridesCSVPath, "r");
   char *line = NULL;
   size_t len;
 
