@@ -3,10 +3,10 @@
 CC = gcc
 CFLAGS = -Wall `pkg-config --cflags --libs glib-2.0`
 OBJ = programa-principal
-FILES = files/useCases/*.c files/api/*.c files/modules/**/*.c files/lexer/*.c
+FILES = files/useCases/*.c files/api/*.c files/modules/**/*.c files/lexer/*.c files/utils/*.c
 
 OBJTEST = programa-testes
-TESTFILES = files/useCases/*.c files/api/*.c files/modules/**/*.c files/lexer/*.c tests/utils/*.c
+TESTFILES = files/useCases/*.c files/api/*.c files/modules/**/*.c files/lexer/*.c files/utils/*.c tests/utils/*.c
 
 all:
 	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
