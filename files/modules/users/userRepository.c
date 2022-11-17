@@ -48,8 +48,7 @@ void *createUsersHashData(const char *path) {
   FILE *fp;
   fp = fopen(userCSVPath, "r");
 
-  if (fp == NULL)
-  {
+  if (fp == NULL) {
     printf("Falha ao ler o file\n");
   }
 
@@ -83,6 +82,12 @@ void *createUsersHashData(const char *path) {
   return hashTable;
 }
 
-User *findUserByUsername(GHashTable *users, char *username) {
-  return g_hash_table_lookup(users, username);
+User *findUserByUsername(User *users, char *username) {
+  return findBy(users, username);
+}
+
+int getUserAge(User *user) {
+  char *userBirthDate = getUBirthDate(user);
+
+  return dateDifference(dateConvert(userBirthDate));
 }

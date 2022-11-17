@@ -1,7 +1,6 @@
 #include "../../../includes/driverRepository.h"
 
-struct driver
-{
+struct driver {
   char *id;
   char *name;
   char *birth_date;
@@ -13,43 +12,35 @@ struct driver
   int  account_status;
 };
 
-char *getDID(Driver *d)
-{
+char *getDID(Driver *d) {
   return strdup(d->id);
 }
 
-char *getDName(Driver *d)
-{
+char *getDName(Driver *d) {
   return strdup(d->name);
 }
 
-char *getDBirthDate(Driver *d)
-{
+char *getDBirthDate(Driver *d) {
   return strdup(d->birth_date);
 }
 
-char getDGender(Driver *d)
-{
+char getDGender(Driver *d) {
   return d->gender;
 }
 
-char *getDCarClass(Driver *d)
-{
+char *getDCarClass(Driver *d) {
   return strdup(d->car_class);
 }
 
-char *getDLicensePlate(Driver *d)
-{
+char *getDLicensePlate(Driver *d) {
   return strdup(d->license_plate);
 }
 
-char *getDCity(Driver *d)
-{
+char *getDCity(Driver *d) {
   return strdup(d->city);
 }
 
-char *getDAccountCreation(Driver *d)
-{
+char *getDAccountCreation(Driver *d) {
   return strdup(d->account_creation);
 }
 
@@ -99,6 +90,12 @@ void *createDriversHashData(const char *path) {
   return hashTable;
 }
 
-Driver *findDriverByID(GHashTable *drivers, char *id) {
-  return g_hash_table_lookup(drivers, id);
+Driver *findDriverByID(Driver *drivers, char *id) {
+  return findBy(drivers, id);
+}
+
+int getDriverAge(Driver *driver) {
+  char *driverBirthDate = getDBirthDate(driver);
+
+  return dateDifference(dateConvert(driverBirthDate));
 }

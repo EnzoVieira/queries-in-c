@@ -7,9 +7,14 @@
 #include <assert.h>
 
 #include "api.h"
+#include "date.h"
+
 #include "userEntity.h"
 
+typedef struct user User;
+
 void *createUsersHashData(const char *path);
-User *findUserByUsername(GHashTable *users, char *username);
+User *findUserByUsername(User *users, char *username);
+int getUserAge(User *user);
 
 #endif

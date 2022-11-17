@@ -13,6 +13,16 @@ struct ride {
   char *comment;
 };
 
+struct driver {
+  char *car_class;
+};
+
+struct catalog {
+  User *users;
+  Driver *drivers;
+  Ride *rides;
+};
+
 char* getRID(Ride *r) {
   return strdup(r->id);
 }
@@ -67,8 +77,7 @@ void *createRidesHashData(const char *path) {
 
   getline(&line, &len, fp);
 
-  while (((getline(&line, &len, fp)) != -1))
-  {
+  while (((getline(&line, &len, fp)) != -1)) {
     Ride *ride = (Ride *)malloc(sizeof(Ride));
 
     ride->id = strdup (strsep(&line, ";"));
@@ -92,28 +101,84 @@ void *createRidesHashData(const char *path) {
   return hashTable;
 }
 
-/*
-Ride* cloneRide(Ride *r) {
-    Ride* copy = malloc(sizeof(Ride));
-    copy->id = strdup(r->id);
-    copy->date = strdup(r->date);
-    copy->driver = strdup(r->driver);
-    copy->user = strdup(r->user);
-    copy->city = strdup(r->city);
-    copy->distance = r->distance;
-    copy->score_user = r->score_user;
-    copy->score_driver = r->score_driver;
-    copy->tip = r->tip;
-    copy->comment = strdup(r->comment);
+void driverAccumulator(void *_, void *currentValue, void *acc) {
+  Ride *ride = currentValue;
+  TotalDriverAcc *accumulator = acc;
 
-    return copy;
-}
-*/
+  char* currentRDriverId = getRDriver(ride);
 
-/*
-Ride* findRideByID(GHashTable* rides, char* id) {
-  if (g_hash_table_lookup(rides, id))
-    printf("A viagem com o ID %s existe.\n", id);
-  return g_hash_table_lookup(rides, id);
+  if (strcmp(accumulator->driverId, currentRDriverId) == 0) {
+    char *carClass = accumulator->driverCarClass;
+
+    if (strcmp(carClass, "basic") == 0)
+      accumulator->totalCost += (3.25 + 0.62 * getRDistance(ride) + getRTip(ride));
+    else if (strcmp(carClass, "green") == 0)
+      accumulator->totalCost += (4.00 + 0.79 * getRDistance(ride) + getRTip(ride));
+    else if (strcmp(carClass, "premium") == 0)
+      accumulator->totalCost += (5.20 + 0.94 * getRDistance(ride) + getRTip(ride));
+
+    accumulator->accRating += getRScoreDriver(ride);
+    accumulator->totalTrips++;
+  }
+
+  free(currentRDriverId);
 }
-*/
+
+TotalDriverAcc *totalDriver(Catalog *catalog, Driver *driverCopy) {
+  TotalDriverAcc *accumulator = calloc(1, sizeof(TotalDriverAcc));
+
+  accumulator->driverId = getDID(driverCopy);
+  accumulator->driverCarClass = getDCarClass(driverCopy);
+  accumulator->driversTable = catalog->drivers;
+  accumulator->totalTrips = 0;
+  accumulator->accRating = 0;
+
+  foreach(catalog->rides, driverAccumulator, accumulator);
+
+  accumulator->rating = accumulator->accRating / accumulator->totalTrips;
+
+  return accumulator;
+}
+
+void userAccumulator(void *_, void *currentValue, void *acc) {
+  Ride *ride = currentValue;
+  TotalUserAcc *accumulator = acc;
+
+  char *currentRUsername = getRUser(ride);
+
+  if (strcmp(accumulator->username, currentRUsername) == 0) {
+    char *currentRDriverId = getRDriver(ride);
+    Driver *driver = findDriverByID(accumulator->tables->drivers, currentRDriverId);
+    char *carClass = getDCarClass(driver);
+
+    if (strcmp(carClass, "basic") == 0)
+      accumulator->totalCost += (3.25 + 0.62 * getRDistance(ride) + getRTip(ride));
+    else if (strcmp(carClass, "green") == 0)
+      accumulator->totalCost += (4.00 + 0.79 * getRDistance(ride) + getRTip(ride));
+    else if (strcmp(carClass, "premium") == 0)
+      accumulator->totalCost += (5.20 + 0.94 * getRDistance(ride) + getRTip(ride));
+
+    accumulator->accRating += getRScoreUser(ride);
+    accumulator->totalTrips++;
+
+    free(currentRDriverId);
+    free(carClass);
+  }
+
+  free(currentRUsername);
+}
+
+TotalUserAcc *totalUser(Catalog *catalog, User *userCopy) {
+  TotalUserAcc *accumulator = calloc(1, sizeof(TotalUserAcc));
+
+  accumulator->username = getUUsername(userCopy);
+  accumulator->tables = catalog;
+  accumulator->totalTrips = 0;
+  accumulator->accRating = 0;
+
+  foreach(catalog->rides, userAccumulator, accumulator);
+
+  accumulator->rating = accumulator->accRating / accumulator->totalTrips;
+
+  return accumulator;
+}

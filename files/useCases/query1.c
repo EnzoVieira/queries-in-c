@@ -1,145 +1,35 @@
 #include "../../includes/query1.h"
-#include "../../includes/writer.h"
 
-#define DATE "09/10/2022"
-
-struct catalog
-{
+struct catalog {
   void *users;
   void *drivers;
   void *rides;
 };
 
-typedef struct querie1Aux
-{
-  char *id;
-  int totalTrips;
-  double averageRating;
-  double tripValue;
-  Catalog *catalogo;
-} q1Aux;
-
-struct date
-{
-  int day;
-  int month;
-  int year;
+struct user {
+  char *name;
+  char gender;
+  char *birth_date;
+  char *account_creation;
+  char *pay_method;
+  int  account_status;
 };
 
-void ridesCounter(gpointer key, gpointer value, gpointer userData)
-{
-  Ride *r = value;
-  q1Aux *q1 = userData;
-  char *u = getRUser(r);
-  char *d = getRDriver(r);
-  if (strcmp(u, q1->id) == 0 || strcmp(d, q1->id) == 0)
-    q1->totalTrips++;
-  free(u);
-  free(d);
-}
-
-int numberOfTrips(Catalog *c, char *id)
-{
-  q1Aux q1 = {id, 0};
-  g_hash_table_foreach(c->rides, ridesCounter, &q1);
-  return q1.totalTrips;
-}
-
-void rating(gpointer key, gpointer value, gpointer userData)
-{
-  Ride *r = value;
-  q1Aux *q1 = userData;
-  char *u = getRUser(r);
-  char *d = getRDriver(r);
-  if (strcmp(u, q1->id) == 0)
-  {
-    q1->averageRating = q1->averageRating + getRScoreUser(r);
-    q1->totalTrips++;
-  }
-  else if (strcmp(d, q1->id) == 0)
-  {
-    q1->averageRating = q1->averageRating + getRScoreDriver(r);
-    q1->totalTrips++;
-  }
-  free(u);
-  free(d);
-}
-
-double totalRating(Catalog *c, char *id)
-{
-  q1Aux q1 = {id, 0, 0};
-  g_hash_table_foreach(c->rides, rating, &q1);
-  return (q1.averageRating / q1.totalTrips);
-}
-
-void travelCost(gpointer key, gpointer value, gpointer userData) 
-{
-  Ride *r = value;
-  q1Aux *q1 = userData;
-  char* u = getRUser(r);
-  char* d = getRDriver(r);
-  if (strcmp(u, q1->id) == 0 || strcmp(d, q1->id) == 0)
-  {
-    Driver* driver = findDriverByID(q1->catalogo->drivers, d);
-    char *carClass = getDCarClass(driver);
-    if (strcmp(carClass, "basic") == 0)
-      q1->tripValue = q1->tripValue + (3.25 + 0.62 * getRDistance(r) + getRTip(r));
-    else if (strcmp(carClass, "green") == 0)
-      q1->tripValue = q1->tripValue + (4.00 + 0.79 * getRDistance(r) + getRTip(r));
-    else if (strcmp(carClass, "premium") == 0)
-      q1->tripValue = q1->tripValue + (5.20 + 0.94 * getRDistance(r) + getRTip(r));
-  }
-  free(u);
-  free(d);
-}
-
-double totalCost(Catalog *c, char *id)
-{
-  q1Aux q1 = {id, 0, 0, 0, c};
-  g_hash_table_foreach(c->rides, travelCost, &q1);
-  return q1.tripValue;
-}
-
-Date *dateConvert(char *birthDate)
-{
-  char *date = strdup(birthDate);
-  Date *d = (Date *)malloc(sizeof(Date));
-  while (date)
-  {
-    d->day = atoi(strdup(strsep(&date, "/")));
-    d->month = atoi(strdup(strsep(&date, "/")));
-    d->year = atoi(strdup(strsep(&date, "\0")));
-  }
-  return d;
-}
-
-int dateDifference(Date *d) {
-  Date *consideredDate = dateConvert(DATE);
-  int age = 0;
-  if ((consideredDate->year >= d->year && consideredDate->month > d->month) ||
-      (consideredDate->year >= d->year && consideredDate->month == d->month && consideredDate->day >= d->day))
-    age = consideredDate->year - d->year;
-  else
-    age = (consideredDate->year - d->year) - 1;
-  free(consideredDate);
-  return age;
-}
-
-int getAge(Catalog *c, char *id) {
-  User* u = findUserByUsername(c->users, id);
-  if (u) {
-    return dateDifference(dateConvert(getUBirthDate(u)));
-  }
-  Driver* d = findDriverByID(c->drivers, id);
-  if (d) {
-    return dateDifference(dateConvert(getDBirthDate(d)));
-  } 
-  return 0;
-}
+struct driver {
+  char *id;
+  char *name;
+  char *birth_date;
+  char gender;
+  char *car_class;
+  char *license_plate;
+  char *city;
+  char *account_creation;
+  int  account_status;
+};
 
 char *q1(Catalog *c, char *id) {
-  User *u = findUserByUsername(c->users, id);
-  Driver *d = findDriverByID(c->drivers, id);
+  User *userExists = findUserByUsername(c->users, id);
+  Driver *driverExists = findDriverByID(c->drivers, id);
 
   char *name = NULL;
   char gender = '0';
@@ -148,21 +38,27 @@ char *q1(Catalog *c, char *id) {
   int total_rides = 0;
   double total_cost = 0.0;
 
-  if (u && getUAccountStatus(u)) {
-    name = getUName(u);
-    gender = getUGender(u);
-    age = getAge(c, id);
-    rating = totalRating(c, id);
-    total_rides = numberOfTrips(c, id);
-    total_cost = totalCost(c, id);
+  if (userExists && getUAccountStatus(userExists)) {
+    User userCopy = *userExists;
+    TotalUserAcc *acc = totalUser(c, &userCopy);
+
+    name = getUName(userExists);
+    gender = getUGender(userExists);
+    age = getUserAge(userExists);
+    rating = acc->rating;
+    total_rides = acc->totalTrips;
+    total_cost = acc->totalCost;
   }
-  else if (d && getDAccountStatus(d)) {
-    name = getDName(d);
-    gender = getDGender(d);
-    age = getAge(c, id);
-    rating = totalRating(c, id);
-    total_rides = numberOfTrips(c, id);
-    total_cost = totalCost(c, id);
+  else if (driverExists && getDAccountStatus(driverExists)) {
+    Driver driverCopy = *driverExists;
+    TotalDriverAcc *acc = totalDriver(c, &driverCopy);
+
+    name = getDName(driverExists);
+    gender = getDGender(driverExists);
+    age = getDriverAge(driverExists);
+    rating = acc->rating;
+    total_rides = acc->totalTrips;
+    total_cost = acc->totalCost;
   }
 
   if (name) {
