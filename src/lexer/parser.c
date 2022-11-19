@@ -24,8 +24,8 @@ void parser(Lexer *lexer, Catalog *c) {
 				token = getNextToken(lexer);
 				char *output = q1(c, token->value);
 
-				if (output != NULL) {
-					writeFile(output, filename);
+				writeFile(output, filename);
+				if (strcmp(output, "") != 0) {
 					free(output);
 				}
 
@@ -57,8 +57,8 @@ void parser(Lexer *lexer, Catalog *c) {
 				token = getNextToken(lexer);
 				char *output = q4(c, token->value);
 
-				if (output != NULL) {
-					writeFile(output, filename);
+				writeFile(output, filename);
+				if (strcmp(output, "") != 0) {
 					free(output);
 				}
 

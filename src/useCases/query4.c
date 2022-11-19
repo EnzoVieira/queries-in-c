@@ -143,5 +143,5 @@ char *q4(Catalog *catalog, char *city) {
   // Destroi todos os driver depois de já não serem necessarias as informações
   g_hash_table_destroy(driversTotalKm);
 
-  return NULL;
+  return "";
 }
