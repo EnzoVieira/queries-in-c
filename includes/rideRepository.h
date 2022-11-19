@@ -33,10 +33,22 @@ typedef struct {
   double rating;
 } TotalUserAcc;
 
+typedef struct {
+  char *city;
+  char *dateA;
+  char *dateB;
+
+  double distanceAcc;
+  double averageDistance;
+  int totalTrips;
+} TotalRideAcc;
+
 void *createRidesHashData();
 void driverAccumulator(void *_, void *currentValue, void *acc);
 TotalDriverAcc *totalDriver(Catalog *catalog, Driver *driver);
 void userAccumulator(void *_, void *currentValue, void *acc);
 TotalUserAcc *totalUser(Catalog *catalog, User *userCopy);
+void rideAccumulator(void *_, void *currentValue, void *acc);
+TotalRideAcc *totalRide(Catalog *catalog, char *city, char *dateA, char *dateB);
 
 #endif

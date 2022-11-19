@@ -12,5 +12,7 @@ typedef struct {
 
 Date *dateConvert(char *birthDate);
 int dateDifference(Date *d);
+int isSmallerDate(char *a, char *b);
+int isDateBetween(char* dateA, char* dateB, char *dateC);
 
 #endif

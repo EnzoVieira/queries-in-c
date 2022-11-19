@@ -182,3 +182,35 @@ TotalUserAcc *totalUser(Catalog *catalog, User *userCopy) {
 
   return accumulator;
 }
+
+void rideAccumulator(void *_, void *currentValue, void *acc) {
+  Ride *currentRide = currentValue;
+  TotalRideAcc *accumulator = acc;
+
+  char *currentRideCity = getRCity(currentRide);
+  char *currentRideDate = getRDate(currentRide);
+
+  if ((strcmp(accumulator->city, currentRideCity) == 0) && (isDateBetween(accumulator->dateA, currentRideDate, accumulator->dateB))) {
+    accumulator->distanceAcc += getRDistance(currentRide);
+    accumulator->totalTrips++;
+  }
+
+  free(currentRideCity);
+  free(currentRideDate);
+}
+
+TotalRideAcc *totalRide(Catalog *catalog, char *city, char *dateA, char *dateB) {
+  TotalRideAcc *accumulator = calloc(1, sizeof(TotalRideAcc));
+
+  accumulator->city = city;
+  accumulator->dateA = dateA;
+  accumulator->dateB = dateB;
+  accumulator->distanceAcc = 0.0;
+  accumulator->totalTrips = 0;
+
+  foreach(catalog->rides, rideAccumulator, accumulator);
+
+  accumulator->averageDistance = accumulator->distanceAcc / accumulator->totalTrips;
+
+  return accumulator;
+}
