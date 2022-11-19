@@ -184,9 +184,32 @@ void parserTest(Lexer *lexer, Catalog *c) {
 				break;
 			}
 			case '6': {
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
+				Token *token1 = getNextToken(lexer);
+				Token *token2 = getNextToken(lexer);
+				Token *token3 = getNextToken(lexer);
+
+				time = clock();
+				result = q6(c, token1->value, token2->value, token3->value);
+				queryTime = calcQueryTime(&time);
+
+				if (result != NULL) {
+					TestLog results = {
+						.filename = filename,
+						.result = result,
+						.isMultiline = 0,
+
+						.query = 6,
+						.queryTime = queryTime,
+
+						.firstArgument = token1->value,
+						.secondArgument = token2->value,
+						.thirdArgument = token3->value,
+					};
+
+					logTest(&results);
+				}
+
+
 				break;
 			}
 			case '7': {
