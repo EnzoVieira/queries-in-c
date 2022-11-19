@@ -26,7 +26,8 @@ void writeFile(const char *args, const char *filename) {
     exit(1);
   }
 
-  fprintf(fp, "%s", args);
+  if (args != NULL) 
+    fprintf(fp, "%s", args);
 
   fclose(fp);
 }

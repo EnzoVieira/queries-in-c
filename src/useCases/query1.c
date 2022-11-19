@@ -73,5 +73,5 @@ char *q1(Catalog *c, char *id) {
     return output;
   }
 
-  return "";
+  return NULL;
 }
