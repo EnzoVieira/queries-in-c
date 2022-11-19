@@ -17,6 +17,6 @@ char* getMostRecentTrip(Catalog* c, char* id);
 void copyToHash(gpointer key, gpointer value, gpointer userData);
 int compareRecentTrip(char* a, char* b);
 int compareFunc(gconstpointer a, gconstpointer b);
-void q3(Catalog* c, int N);
+char *q3(Catalog* c, int N);
 
 #endif

@@ -3,6 +3,7 @@
 
 #include "../../includes/query1.h"
 #include "../../includes/query2.h"
+#include "../../includes/query3.h"
 #include "../../includes/query4.h"
 
 #include "../../includes/token.h"

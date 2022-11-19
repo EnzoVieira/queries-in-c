@@ -44,6 +44,13 @@ void parser(Lexer *lexer, Catalog *c) {
 			}
 			case '3': {
 				token = getNextToken(lexer);
+				char *output = q3(c, atoi(token->value));
+
+				if (output != NULL) {
+					writeFile(output, filename);
+					free(output);
+				}
+
 				break;
 			}
 			case '4': {

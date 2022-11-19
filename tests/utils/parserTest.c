@@ -24,9 +24,6 @@ double calcQueryTime(clock_t *start) {
 // caso contrário, retornará o resultado esperado.
 char *assertResult(char *result, const char *filename, int isMultiline) {
   char *expectedResult = readFile(filename);
-	
-	if (!isMultiline) 
-  	result = strcat(result, "\n");
 
   if (strcmp(result, expectedResult) == 0) {
     return NULL;
@@ -135,6 +132,26 @@ void parserTest(Lexer *lexer, Catalog *c) {
 			}
 			case '3': {
 				token = getNextToken(lexer);
+
+				time = clock();
+				result = q3(c, atoi(token->value));
+				queryTime = calcQueryTime(&time);
+
+				if (result != NULL) {
+					TestLog results = {
+						.filename = filename,
+						.result = result,
+						.isMultiline = 1,
+
+						.query = 3,
+						.queryTime = queryTime,
+
+						.firstArgument = token->value,
+					};
+
+					logTest(&results);
+				}
+
 				break;
 			}
 			case '4': {

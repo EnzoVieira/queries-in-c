@@ -66,7 +66,7 @@ char *q1(Catalog *c, char *id) {
     // para ter certeza que haverá espaço suficiente
     size_t outputLength = (strlen(name) + 1 + 3 + 4 + 6 + 7) * 5;
     char *output = calloc(outputLength, sizeof(char));
-    sprintf(output, "%s;%c;%d;%.3f;%d;%.3f", name, gender, age, rating, total_rides, total_cost);
+    sprintf(output, "%s;%c;%d;%.3f;%d;%.3f\n", name, gender, age, rating, total_rides, total_cost);
 
     free(name);
 

@@ -135,7 +135,7 @@ char *q4(Catalog *catalog, char *city) {
     // para ter certeza que haverá espaço suficiente
     size_t outputLength = 7 * 5;
     char *output = calloc(outputLength, sizeof(char));
-    sprintf(output, "%.3f", cityToken->media);
+    sprintf(output, "%.3f\n", cityToken->media);
 
     return output;
   }

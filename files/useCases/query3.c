@@ -81,7 +81,7 @@ void copyToHash(gpointer key, gpointer value, gpointer userData) {
         user->distance = user->distance + getRDistance(r);
         user->moreRecentTrip = compareDates(user->moreRecentTrip, getRDate(r));
     } else {
-        user = (q3Aux*)malloc(sizeof(q3Aux*));
+        user = (q3Aux*)malloc(sizeof(q3Aux));
         user->distance = getRDistance(r);
         user->id = u;
         user->moreRecentTrip = getRDate(r);
@@ -110,18 +110,26 @@ int compareFunc(gconstpointer a, gconstpointer b) {
     } else return u1->distance < u2->distance; //compara a distância
 }
 
-void q3(Catalog* c, int N) {
+char *q3(Catalog* c, int N) {
     GHashTable* usersTotalDistance = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
     g_hash_table_foreach(c->rides, copyToHash, usersTotalDistance);
     GList* copyFromHash = g_hash_table_get_values(usersTotalDistance);
     copyFromHash = g_list_sort(copyFromHash, (GCompareFunc)compareFunc);
+
+    size_t lineLength = 20 + 50 + 5;
+    char *stringGrande = calloc(lineLength * N, sizeof(char));
     
     int i = 0;
-    while (copyFromHash->next && i < 50) {
+    while (copyFromHash->next && i < N) {
         q3Aux* q3 = copyFromHash->data;
         User* u = findUserByUsername(c->users, q3->id);
+
         if (getUAccountStatus(u)) {
-            printf("%s, %s, %d, %s\n", q3->id, getUName(u), q3->distance, q3->moreRecentTrip);
+            char *stringAux = calloc(lineLength, sizeof(char));
+            sprintf(stringAux, "%s;%s;%d\n", getUUsername(u), getUName(u), q3->distance);
+            strcat(stringGrande, stringAux);
+            free(stringAux);
+
             copyFromHash = copyFromHash->next;
             i++;
         } else {
@@ -129,4 +137,6 @@ void q3(Catalog* c, int N) {
             q3 = copyFromHash->data;
         }
     }
+
+    return stringGrande;
 }
