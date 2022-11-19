@@ -25,7 +25,7 @@ void parser(Lexer *lexer, Catalog *c) {
 				char *output = q1(c, token->value);
 
 				writeFile(output, filename);
-				if (strcmp(output, "") != 0) {
+				if (output != NULL) {
 					free(output);
 				}
 
@@ -35,8 +35,8 @@ void parser(Lexer *lexer, Catalog *c) {
 				token = getNextToken(lexer);
 				char *output = q2(c, atoi(token->value));
 
+				writeFile(output, filename);
 				if (output != NULL) {
-					writeFile(output, filename);
 					free(output);
 				}
 
@@ -46,8 +46,8 @@ void parser(Lexer *lexer, Catalog *c) {
 				token = getNextToken(lexer);
 				char *output = q3(c, atoi(token->value));
 
+				writeFile(output, filename);
 				if (output != NULL) {
-					writeFile(output, filename);
 					free(output);
 				}
 
@@ -58,7 +58,7 @@ void parser(Lexer *lexer, Catalog *c) {
 				char *output = q4(c, token->value);
 
 				writeFile(output, filename);
-				if (strcmp(output, "") != 0) {
+				if (output != NULL) {
 					free(output);
 				}
 
@@ -70,9 +70,17 @@ void parser(Lexer *lexer, Catalog *c) {
 				break;
 			}
 			case '6': {
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
+				Token *token1 = getNextToken(lexer);
+				Token *token2 = getNextToken(lexer);
+				Token *token3 = getNextToken(lexer);
+
+				char *output = q6(c, token1->value, token2->value, token3->value);
+
+				writeFile(output, filename);
+				if (output != NULL) {
+					free(output);
+				}
+
 				break;
 			}
 			case '7': {
