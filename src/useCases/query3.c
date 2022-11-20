@@ -87,7 +87,7 @@ int compareFunc(gconstpointer a, gconstpointer b) {
     q3Aux* u1 = (q3Aux*)a;
     q3Aux* u2 = (q3Aux*)b;
     if (u1->distance == u2->distance) { //se a distância for igual
-        if (compareRecentTrip(u1->moreRecentTrip, u2->moreRecentTrip)) //se a viagem mais recente for igual
+        if (compareRecentTrip(u1->moreRecentTrip, u2->moreRecentTrip) == 0) //se a viagem mais recente for igual
             return (strcmp(u1->id, u2->id)); //compara o ID
         else
             return compareRecentTrip(u1->moreRecentTrip, u2->moreRecentTrip); //compara a viagem mais recente
@@ -144,5 +144,6 @@ char *q3(Catalog* c, int N) {
             q3 = copyFromHash->data;
         }
     }
+    g_list_free(copyFromHash);
     return stringGrande;
 }
