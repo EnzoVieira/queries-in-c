@@ -63,44 +63,6 @@ char* getRComment(Ride *r) {
   return strdup(r->comment);
 }
 
-void *createRidesHashData(const char *path) {
-  // Cria a HashTable
-  void *hashTable = createTable();
-
-  char *ridesCSVPath = calloc(strlen(path) + strlen("/rides.csv") + 2, sizeof(char));
-  sprintf(ridesCSVPath, "%s/rides.csv", path);
-
-  FILE *fp;
-  fp = fopen(ridesCSVPath, "r");
-  char *line = NULL;
-  size_t len;
-
-  getline(&line, &len, fp);
-
-  while (((getline(&line, &len, fp)) != -1)) {
-    Ride *ride = (Ride *)malloc(sizeof(Ride));
-
-    ride->id = strdup (strsep(&line, ";"));
-    ride->date = strdup(strsep(&line, ";"));
-    ride->driver = strdup(strsep(&line, ";"));
-    ride->user = strdup(strsep(&line, ";"));
-    ride->city = strdup(strsep(&line, ";"));
-    ride->distance = atof(strsep(&line, ";"));
-    ride->score_user = atof(strsep(&line, ";"));
-    ride->score_driver = atof(strsep(&line, ";"));
-    ride->tip = atof(strsep(&line, ";"));
-    ride->comment = strdup(strsep(&line, ";"));
-
-    // insere a key user->user_name e a data user na hash
-    addToTable(hashTable, ride->id, ride);
-  }
-
-  free(line);
-  fclose(fp);
-
-  return hashTable;
-}
-
 void driverAccumulator(void *_, void *currentValue, void *acc) {
   Ride *ride = currentValue;
   TotalDriverAcc *accumulator = acc;

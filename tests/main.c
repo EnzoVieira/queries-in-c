@@ -4,6 +4,8 @@
 
 #define UNIT_TESTS 1
 
+#include "../includes/database.h"
+
 #include "../includes/parser.h"
 #include "includes/parserTest.h"
 
@@ -24,27 +26,24 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    printf("🌱 A criar Hash Tables...\n");
+    printf("🌱 A criar a database...\n\n");
 
     hashTableTime = clock();
-    Catalog c;
-    c.users = createUsersHashData(argv[1]);
-    c.drivers = createDriversHashData(argv[1]);
-    c.rides = createRidesHashData(argv[1]);
+    Catalog *catalog = seedDatabase(argv[1]);
     hashTableTime = clock() - hashTableTime;
 
     calcTime = ((double)hashTableTime)/CLOCKS_PER_SEC;
-    printf("Hash Tables criadas em %.3fs ✅\n", calcTime);
+    printf("\nDatabase criada em %.3fs ✅\n\n", calcTime);
 
     char *args = readFile(argv[2]);
     Lexer *lexer = createLexer(args);
 
     if (UNIT_TESTS) {
-        parserTest(lexer, &c);
+        parserTest(lexer, catalog);
     } else {
         printf("A executar o programa... 💣\n");
 
-        parser(lexer, &c);
+        parser(lexer, catalog);
         totalProgramTime = clock() - totalProgramTime;
 
         calcTime = ((double)totalProgramTime)/CLOCKS_PER_SEC;

@@ -1,21 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "includes/api.h"
+#include "includes/database.h"
 
-#include "includes/userRepository.h"
-#include "includes/driverRepository.h"
-#include "includes/rideRepository.h"
-
-#include "includes/query1.h"
-#include "includes/query4.h"
-#include "includes/query3.h"
-#include "includes/query6.h"
-
-#include "includes/token.h"
 #include "includes/lexer.h"
 #include "includes/reader.h"
-#include "includes/writer.h"
 #include "includes/parser.h"
 
 struct catalog {
@@ -25,21 +14,27 @@ struct catalog {
 };
 
 int main(int argc, char *argv[]) {
+    printf("\n🚀 A executar o programa...\n");
+
     if(argc < 3) {
         printf("Argumentos insuficientes\n");
         exit(1);
     }
 
-    Catalog c;
-    c.users = createUsersHashData(argv[1]);
-    c.drivers = createDriversHashData(argv[1]);
-    c.rides = createRidesHashData(argv[1]);
+    printf("\n🌱 A criar as seeds da database...\n");
+
+    Catalog *catalog = seedDatabase(argv[1]);
+
+    printf("\n✅ Tabelas criadas com sucesso!\n");
+    printf("\n📚 A executar as queries...\n");
 
     char *args = readFile(argv[2]);
     Lexer *lexer = createLexer(args);
-    parser(lexer, &c);
+    parser(lexer, catalog);
 
     free(args);
+
+    printf("\n✅ Programa finalizado com sucesso!\n");
 
     return 0;
 }
