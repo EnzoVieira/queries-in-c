@@ -13,7 +13,6 @@
 
 typedef struct user User;
 
-void *createUsersHashData(const char *path);
 User *findUserByUsername(User *users, char *username);
 int getUserAge(User *user);
 

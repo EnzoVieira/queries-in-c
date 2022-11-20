@@ -48,48 +48,6 @@ int getDAccountStatus(Driver *d) {
   return d->account_status;
 }
 
-void *createDriversHashData(const char *path) {
-  // Cria a HashTable
-  void *hashTable = createTable();
-
-  char *driversCSVPath = calloc(strlen(path) + strlen("/drivers.csv") + 2, sizeof(char));
-  sprintf(driversCSVPath, "%s/drivers.csv", path);
-
-  FILE *fp;
-  fp = fopen(driversCSVPath, "r");
-  char *line = NULL;
-  size_t len;
-
-  getline(&line, &len, fp);
-
-  while (((getline(&line, &len, fp)) != -1)) {
-
-    Driver *driver = (Driver *)malloc(sizeof(Driver));
-
-    driver->id = strdup(strsep(&line, ";"));
-    driver->name = strdup(strsep(&line, ";"));
-    driver->birth_date = strdup(strsep(&line, ";"));
-    driver->gender = *strsep(&line, ";");
-    driver->car_class = strdup(strsep(&line, ";"));
-    driver->license_plate = strdup(strsep(&line, ";"));
-    driver->city = strdup(strsep(&line, ";"));
-    driver->account_creation = strdup(strsep(&line, ";"));
-
-    if (*(strsep(&line, ";")) == 'a')
-      driver->account_status = 1;
-    else
-      driver->account_status = 0;
-
-    // insere a key user->user_name e a data user na hash
-    addToTable(hashTable, driver->id, driver);
-  }
-
-  free(line);
-  fclose(fp);
-
-  return hashTable;
-}
-
 Driver *findDriverByID(Driver *drivers, char *id) {
   return findBy(drivers, id);
 }
