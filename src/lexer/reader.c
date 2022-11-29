@@ -24,6 +24,9 @@ char *readFile(const char *filename) {
 
   if(line)
     free(line);
+
+  if (strcmp(buffer, "\0") == 0)
+    return NULL;
   
   return buffer;
 }

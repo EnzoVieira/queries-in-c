@@ -1,78 +1,18 @@
 #include "../includes/parserTest.h"
 
-typedef struct {
-	char *filename;
-	char *result;
-	int isMultiline;
-
-	int query;
-	double queryTime;
-
-	char *firstArgument;
-	char *secondArgument;
-	char *thirdArgument;
-} TestLog;
-
-double calcQueryTime(clock_t *start) {
-  clock_t time = clock() - *start;
-  double queryTime = ((double)time)/CLOCKS_PER_SEC;
-
-  return queryTime;
-}
-
-// Função que retornará NULL caso as respostas sejam iguais,
-// caso contrário, retornará o resultado esperado.
-char *assertResult(char *result, const char *filename, int isMultiline) {
-  char *expectedResult = readFile(filename);
-
-  if (strcmp(result, expectedResult) == 0) {
-    return NULL;
-  }
-
-  return expectedResult;
-}
-
-void logTest(TestLog *log) {
-	char *expectedResult;
-
-	if ((expectedResult = assertResult(log->result, log->filename, log->isMultiline)) == NULL) {
-		// Cor verde
-		printf("\033[32m");
-
-		printf("%.3fs - query%d('%s') ", log->queryTime, log->query, log->firstArgument);
-		!log->isMultiline && printf("= %s", log->result);
-
-		// Cor padrão
-		printf("\033[0m");
-		log->isMultiline && printf("\n");
-	} else {
-		// Cor vermelha
-		printf("\033[31m");
-		printf("%.3fs - query%d('%s')\n", log->queryTime, log->query, log->firstArgument);
-
-		printf("\tEsperado:");
-
-		log->isMultiline && printf("\n");
-		!log->isMultiline && printf(" ");
-		printf("%s", expectedResult);
-		
-		printf("\tObteve:");
-		log->isMultiline && printf("\n");
-		!log->isMultiline && printf("   ");
-		printf("%s", log->result);
-
-		// Cor padrão
-		printf("\033[0m");
-
-		free(expectedResult);
+// Testa se uma string está contida dentro de um array de string
+// por ex:
+// includesIn("foo", ["foo", "bar"], 2) = true
+int isTestIncluded(char *value, char *arr[], int N) {
+	for (int i = 0; i < N; i++) {
+		if(strcmp(value, arr[i]) == 0) return 1;
 	}
+
+	return 0;
 }
 
-void parserTest(Lexer *lexer, Catalog *c) {
+void parserTest(Lexer *lexer, Catalog *c, int argc, char* argv[]) {
 	Token *token = NULL;
-	char *result;
-	clock_t time;
-	double queryTime;
 
 	int command = 1;
 	char *filename = calloc(strlen("exemplos_de_queries2/tests_2/commandX_output.txt") + 2, sizeof(char));
@@ -82,151 +22,82 @@ void parserTest(Lexer *lexer, Catalog *c) {
 
 		if (token->type == TOKEN_QUERY) {
 			switch (token->value[0]) {
-			case '1': {
-				token = getNextToken(lexer);
+				case '1': {
+					token = getNextToken(lexer);
 
-        time = clock();
-				result = q1(c, token->value);
-        queryTime = calcQueryTime(&time);
+					if (argc < 4 || isTestIncluded("q1", argv, argc)) 
+						testQ1(token, c, filename);
 
-				if (result != NULL) {
-					TestLog results = {
-						.filename = filename,
-						.result = result,
-						.isMultiline = 0,
-
-						.query = 1,
-						.queryTime = queryTime,
-
-						.firstArgument = token->value,
-					};
-
-					logTest(&results);
+					break;
 				}
 
-				break;
-			}
-			case '2': {
-				token = getNextToken(lexer);
+				// case '2': {
+				// 	token = getNextToken(lexer);
 
-				time = clock();
-				result = q2(c, atoi(token->value));
-				queryTime = calcQueryTime(&time);
+				// 	if (argc < 4 || isTestIncluded("q2", argv, argc)) 
+				// 		testQ2(token, c, filename);
 
-				if (result != NULL) {
-					TestLog results = {
-						.filename = filename,
-						.result = result,
-						.isMultiline = 1,
+				// 	break;
+				// }
 
-						.query = 2,
-						.queryTime = queryTime,
+				// case '3': {
+				// 	token = getNextToken(lexer);
 
-						.firstArgument = token->value,
-					};
+				// 	if (argc < 4 || isTestIncluded("q3", argv, argc)) 
+				// 		testQ3(token, c, filename);
 
-					logTest(&results);
-				}
+				// 	break;
+				// }
 
-				break;
-			}
-			case '3': {
-				token = getNextToken(lexer);
+				// case '4': {
+				// 	token = getNextToken(lexer);
 
-				time = clock();
-				result = q3(c, atoi(token->value));
-				queryTime = calcQueryTime(&time);
+				// 	if (argc < 4 || isTestIncluded("q4", argv, argc)) 
+				// 		testQ4(token, c, filename);
 
-				if (result != NULL) {
-					TestLog results = {
-						.filename = filename,
-						.result = result,
-						.isMultiline = 1,
+				// 	break;
+				// }
 
-						.query = 3,
-						.queryTime = queryTime,
+				// case '5': {
+				// 	token = getNextToken(lexer);
+				// 	token = getNextToken(lexer);
+				// 	break;
+				// }
 
-						.firstArgument = token->value,
-					};
+				// case '6': {
+				// 	Token *token1 = getNextToken(lexer);
+				// 	Token *token2 = getNextToken(lexer);
+				// 	Token *token3 = getNextToken(lexer);
 
-					logTest(&results);
-				}
+				// 	Token *(tokens[3]) = {token1, token2, token3};
 
-				break;
-			}
-			case '4': {
-				token = getNextToken(lexer);
+				// 	if (argc < 4 || isTestIncluded("q6", argv, argc)) 
+				// 		testQ6(tokens, c, filename);
 
-				time = clock();
-				result = q4(c, token->value);
-				queryTime = calcQueryTime(&time);
+				// 	break;
+				// }
 
-				if (result != NULL) {
-					TestLog results = {
-						.filename = filename,
-						.result = result,
-						.isMultiline = 0,
+				// case '7': {
+				// 	token = getNextToken(lexer);
+				// 	token = getNextToken(lexer);
 
-						.query = 4,
-						.queryTime = queryTime,
+				// 	break;
+				// }
 
-						.firstArgument = token->value,
-					};
+				// case '8': {
+				// 	token = getNextToken(lexer);
+				// 	token = getNextToken(lexer);
 
-					logTest(&results);
-				}
+				// 	break;
+				// }
 
-				break;
-			}
-			case '5': {
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
-				break;
-			}
-			case '6': {
-				Token *token1 = getNextToken(lexer);
-				Token *token2 = getNextToken(lexer);
-				Token *token3 = getNextToken(lexer);
+				// case '9': {
+				// 	token = getNextToken(lexer);
+				// 	token = getNextToken(lexer);
 
-				time = clock();
-				result = q6(c, token1->value, token2->value, token3->value);
-				queryTime = calcQueryTime(&time);
+				// 	break;
+				// }
 
-				if (result != NULL) {
-					TestLog results = {
-						.filename = filename,
-						.result = result,
-						.isMultiline = 0,
-
-						.query = 6,
-						.queryTime = queryTime,
-
-						.firstArgument = token1->value,
-						.secondArgument = token2->value,
-						.thirdArgument = token3->value,
-					};
-
-					logTest(&results);
-				}
-
-
-				break;
-			}
-			case '7': {
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
-				break;
-			}
-			case '8': {
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
-				break;
-			}
-			case '9': {
-				token = getNextToken(lexer);
-				token = getNextToken(lexer);
-				break;
-			}
 			}
 		}
 
