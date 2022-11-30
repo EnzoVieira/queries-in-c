@@ -1,22 +1,14 @@
 #include "../includes/testQ2.h"
 
 void testQ2(Token *token, Catalog *c, char *filename) {
+	// Array de agumentos (Tokens) que serão passados à query
+	char *(arguments[]) = {token->value};
+
 	clock_t time = clock();
 	char *result = q2(c, atoi(token->value));
 	double queryTime = calcQueryTime(&time);
 
-	if (result != NULL) {
-		TestLog results = {
-			.filename = filename,
-			.result = result,
-			.isMultiline = 1,
+	char *expectedResult = readFile(filename);
 
-			.query = 2,
-			.queryTime = queryTime,
-
-			.firstArgument = token->value,
-		};
-
-		logTest(&results);
-	}
+	assertResult(result, expectedResult, arguments, 2, queryTime, 1);
 }

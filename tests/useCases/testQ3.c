@@ -1,22 +1,13 @@
 #include "../includes/testQ3.h"
 
 void testQ3(Token *token, Catalog *c, char *filename) {
+	char *(arguments[]) = {token->value};
+
 	clock_t time = clock();
-	char *result = q3(c, atoi(token->value));
+	char *result = q3(c, atoi(arguments[0]));
 	double queryTime = calcQueryTime(&time);
 
-	if (result != NULL) {
-		TestLog results = {
-			.filename = filename,
-			.result = result,
-			.isMultiline = 1,
+	char *expectedResult = readFile(filename);
 
-			.query = 3,
-			.queryTime = queryTime,
-
-			.firstArgument = token->value,
-		};
-
-		logTest(&results);
-	}
+	assertResult(result, expectedResult, arguments, 3, queryTime, 1);
 }

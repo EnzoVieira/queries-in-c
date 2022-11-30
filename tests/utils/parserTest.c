@@ -1,7 +1,7 @@
 #include "../includes/parserTest.h"
 
 // Testa se uma string está contida dentro de um array de string
-// por ex:
+// Exemplo:
 // includesIn("foo", ["foo", "bar"], 2) = true
 int isTestIncluded(char *value, char *arr[], int N) {
 	for (int i = 0; i < N; i++) {
@@ -31,73 +31,72 @@ void parserTest(Lexer *lexer, Catalog *c, int argc, char* argv[]) {
 					break;
 				}
 
-				// case '2': {
-				// 	token = getNextToken(lexer);
+				case '2': {
+					token = getNextToken(lexer);
 
-				// 	if (argc < 4 || isTestIncluded("q2", argv, argc)) 
-				// 		testQ2(token, c, filename);
+					if (argc < 4 || isTestIncluded("q2", argv, argc)) 
+						testQ2(token, c, filename);
 
-				// 	break;
-				// }
+					break;
+				}
 
-				// case '3': {
-				// 	token = getNextToken(lexer);
+				case '3': {
+					token = getNextToken(lexer);
 
-				// 	if (argc < 4 || isTestIncluded("q3", argv, argc)) 
-				// 		testQ3(token, c, filename);
+					if (argc < 4 || isTestIncluded("q3", argv, argc)) 
+						testQ3(token, c, filename);
 
-				// 	break;
-				// }
+					break;
+				}
 
-				// case '4': {
-				// 	token = getNextToken(lexer);
+				case '4': {
+					token = getNextToken(lexer);
 
-				// 	if (argc < 4 || isTestIncluded("q4", argv, argc)) 
-				// 		testQ4(token, c, filename);
+					if (argc < 4 || isTestIncluded("q4", argv, argc)) 
+						testQ4(token, c, filename);
 
-				// 	break;
-				// }
+					break;
+				}
 
-				// case '5': {
-				// 	token = getNextToken(lexer);
-				// 	token = getNextToken(lexer);
-				// 	break;
-				// }
+				case '5': {
+					token = getNextToken(lexer);
+					token = getNextToken(lexer);
+					break;
+				}
 
-				// case '6': {
-				// 	Token *token1 = getNextToken(lexer);
-				// 	Token *token2 = getNextToken(lexer);
-				// 	Token *token3 = getNextToken(lexer);
+				case '6': {
+					Token *token1 = getNextToken(lexer);
+					Token *token2 = getNextToken(lexer);
+					Token *token3 = getNextToken(lexer);
 
-				// 	Token *(tokens[3]) = {token1, token2, token3};
+					Token *(tokens[3]) = {token1, token2, token3};
 
-				// 	if (argc < 4 || isTestIncluded("q6", argv, argc)) 
-				// 		testQ6(tokens, c, filename);
+					if (argc < 4 || isTestIncluded("q6", argv, argc)) 
+						testQ6(tokens, c, filename);
 
-				// 	break;
-				// }
+					break;
+				}
 
-				// case '7': {
-				// 	token = getNextToken(lexer);
-				// 	token = getNextToken(lexer);
+				case '7': {
+					token = getNextToken(lexer);
+					token = getNextToken(lexer);
 
-				// 	break;
-				// }
+					break;
+				}
 
-				// case '8': {
-				// 	token = getNextToken(lexer);
-				// 	token = getNextToken(lexer);
+				case '8': {
+					token = getNextToken(lexer);
+					token = getNextToken(lexer);
 
-				// 	break;
-				// }
+					break;
+				}
 
-				// case '9': {
-				// 	token = getNextToken(lexer);
-				// 	token = getNextToken(lexer);
+				case '9': {
+					token = getNextToken(lexer);
+					token = getNextToken(lexer);
 
-				// 	break;
-				// }
-
+					break;
+				}
 			}
 		}
 
