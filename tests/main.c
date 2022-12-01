@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
     Lexer *lexer = createLexer(args);
 
     if (UNIT_TESTS) {
-        parserTest(lexer, catalog);
+        parserTest(lexer, catalog, argc, argv);
     } else {
         printf("A executar o programa... 💣\n");
 

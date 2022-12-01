@@ -1,16 +1,19 @@
 #ifndef PARSER_TEST_H
 #define PARSER_TEST_H
 
-#include "../../includes/query1.h"
-#include "../../includes/query2.h"
-#include "../../includes/query3.h"
-#include "../../includes/query4.h"
-#include "../../includes/query6.h"
+#include "testQ1.h"
+#include "testQ2.h"
+#include "testQ3.h"
+#include "testQ4.h"
+#include "testQ6.h"
 
-#include "../../includes/token.h"
 #include "../../includes/lexer.h"
 #include "../../includes/reader.h"
 
-void parserTest(Lexer *lexer, Catalog *c);
+// Testa se uma string está contida dentro de um array de string.
+// Exemplo:
+// isTestIncluded("foo", ["foo", "bar"], 2) = true
+int isTestIncluded(char *value, char *arr[], int N);
+void parserTest(Lexer *lexer, Catalog *c, int argc, char* argv[]);
 
 #endif

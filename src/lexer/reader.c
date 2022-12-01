@@ -24,6 +24,10 @@ char *readFile(const char *filename) {
 
   if(line)
     free(line);
+
+  // Caso o buffer tenha apenas um '\0', significa que o ficheiro está vazio, logo, retorne NULL
+  if (strcmp(buffer, "\0") == 0)
+    return NULL;
   
   return buffer;
 }
