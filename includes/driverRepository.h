@@ -9,7 +9,7 @@
 
 #include "driverEntity.h"
 
-Driver *findDriverByID(Driver *drivers, char *id);
+Driver* findDriverByID(HashTable *drivers, char *id);
 int getDriverAge(Driver *driver);
 
 #endif

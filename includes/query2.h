@@ -4,15 +4,15 @@
 #include "rideRepository.h"
 #include "userRepository.h"
 #include "driverRepository.h"
+#include "database.h"
+#include "date.h"
 
 typedef struct catalog Catalog;
 
 
 void destroyQ2Aux(void *u);
-void destroyKey(void *u);
-int mostRecenteRide (char* a, char* b);
-int compareMedia(gconstpointer a, gconstpointer b, gpointer user_data);
-void interactMedia(gpointer key, gpointer value, gpointer data);
+int compareMedia(void* a, void* b);
+void createTableOfDriversScoreAcc(void* key, void* value, void* data);
 char *q2(Catalog *catalog, int N);
 
 

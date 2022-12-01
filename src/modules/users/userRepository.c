@@ -38,7 +38,7 @@ int getUAccountStatus(User *u) {
   return u->account_status;
 }
 
-User *findUserByUsername(User *users, char *username) {
+User *findUserByUsername(HashTable* users, char* username) {
   return findBy(users, username);
 }
 

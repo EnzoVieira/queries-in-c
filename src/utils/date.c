@@ -29,7 +29,7 @@ int dateDifference(Date *d) {
   return age;
 }
 
-// Calcula se a data A é menor que a data B
+// Calcula se a data A é menor que a data B 
 int isSmallerDate(char *a, char *b) {
   // compara anos
   if (atoi(a+6) < atoi(b+6)) return 1;
@@ -44,4 +44,25 @@ int isSmallerDate(char *a, char *b) {
 // Calcula se a data B está entre a data A e a data C
 int isDateBetween(char* dateA, char* dateB, char *dateC) {
   return (isSmallerDate(dateA, dateB) && isSmallerDate(dateB, dateC));
+}
+
+int compareDates (char* a, char* b){
+  //Os return são com "-"(menos) antes pois eu quero ordenar por ordem decrescente 
+  //0 se a==b ; -1 se a>b ; 1 se a<b
+  //DATA TIPO XX/XX/XXXX
+  //a+6 vai ler só a parte da string que corresposde ao ano
+  //a+3 vai ler a parte da string que corresposde ao mes e ano
+  //a vai ler só a parte da string que corresposde ao dia mes e ano
+
+  //Se o ano for igual
+  if (!strcmp(a+6,b+6)){
+    //Se o mes e o ano for igual (compara os dias)
+    if (!strcmp(a+3,b+3)){
+      return -(strcmp(a,b));
+    }
+    //Se o mes for diferente (compara os meses)
+    return -(strcmp(a+3,b+3));
+  }
+  //Se o ano for diferente (compara os anos)
+  return -(strcmp(a+6,b+6));
 }

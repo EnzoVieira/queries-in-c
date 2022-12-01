@@ -15,7 +15,7 @@ typedef struct catalog Catalog;
 typedef struct {
   char *driverId;
   char *driverCarClass;
-  Driver *driversTable;
+  HashTable *driversTable;
 
   double totalCost;
   int totalTrips;

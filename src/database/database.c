@@ -43,7 +43,7 @@ struct catalog {
 
 void *createUsersHashData(const char *path) {
   // Cria a HashTable
-  void *hashTable = createTable();
+  void *hashTable = createTable(NULL);
 
   char *userCSVPath = calloc(strlen(path) + strlen("/users.csv") + 2, sizeof(char));
   sprintf(userCSVPath, "%s/users.csv", path);
@@ -88,7 +88,7 @@ void *createUsersHashData(const char *path) {
 
 void *createDriversHashData(const char *path) {
   // Cria a HashTable
-  void *hashTable = createTable();
+  void *hashTable = createTable(NULL);
 
   char *driversCSVPath = calloc(strlen(path) + strlen("/drivers.csv") + 2, sizeof(char));
   sprintf(driversCSVPath, "%s/drivers.csv", path);
@@ -136,7 +136,7 @@ void *createDriversHashData(const char *path) {
 
 void *createRidesHashData(const char *path) {
   // Cria a HashTable
-  void *hashTable = createTable();
+  void *hashTable = createTable(NULL);
 
   char *ridesCSVPath = calloc(strlen(path) + strlen("/rides.csv") + 2, sizeof(char));
   sprintf(ridesCSVPath, "%s/rides.csv", path);
