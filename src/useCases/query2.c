@@ -57,7 +57,7 @@ int compareMedia(void* a, void* b){
 }
 
 // Função para criar a hash com os dados driverId e scoreSum
-void createTableOfDriversScoreAcc(void* key, void* value, void* data){
+void createTableOfDriversScore(void* key, void* value, void* data){
 
   // hash a ser preenchida com q2Aux(Driver;Soma dos scores;total de elementos da soma)
   HashTable *driversScoreHash = data;
@@ -101,10 +101,10 @@ char *q2(Catalog *catalog, int N) {
   // Hash que vai conter todas as structs temporárias da soma dos scores (nao precisa de keyDestroy)
   HashTable *driversTotalScoreHash = createTable(destroyQ2Aux);
   // Função que vai prencher a hash anterior
-  foreach(catalog->rides, createTableOfDriversScoreAcc, driversTotalScoreHash);
+  foreach(catalog->rides, createTableOfDriversScore, driversTotalScoreHash);
 
   // Lista con toda a data da hash
-  void *hashContent = getListFromTable(driversTotalScoreHash);
+  List *hashContent = getListFromTable(driversTotalScoreHash);
   // Ordenação da Lista por Médias
   hashContent = listSortBy(hashContent, compareMedia, NULL);
   

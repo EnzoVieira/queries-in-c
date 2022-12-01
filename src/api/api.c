@@ -24,19 +24,20 @@ void foreach(HashTable *table, void *func, void *accumulator) {
   g_hash_table_foreach((GHashTable*) table, (GHFunc) func, accumulator);
 }
 
-void *getListFromTable(HashTable *table) {
-  return g_hash_table_get_values((GHashTable*) table);
+List* getListFromTable(HashTable *table) {
+  List* list = g_hash_table_get_values((GHashTable*) table);
+  return list;
 }
 
-void *listSortBy(void* list, void *func, void* data){
+void *listSortBy(List* list, void *func, void* data){
   return g_list_sort_with_data((GList*) list,(GCompareDataFunc)func,(gpointer)data);
 }
 
-void *findFromList(void* list, int index){
+void *findFromList(List* list, int index){
   return g_list_nth((GList*) list, index)->data;
 }
 
-void freeList(void* list){
+void freeList(List* list){
   g_list_free((GList*)list);
 }
 
