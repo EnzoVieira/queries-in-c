@@ -13,7 +13,7 @@
 
 typedef struct user User;
 
-User *findUserByUsername(User *users, char *username);
+User *findUserByUsername(HashTable *users, char *username);
 int getUserAge(User *user);
 
 #endif

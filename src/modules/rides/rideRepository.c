@@ -18,9 +18,9 @@ struct driver {
 };
 
 struct catalog {
-  User *users;
-  Driver *drivers;
-  Ride *rides;
+  HashTable* users;
+  HashTable* drivers;
+  HashTable* rides;
 };
 
 char* getRID(Ride *r) {

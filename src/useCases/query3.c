@@ -22,57 +22,6 @@ struct querie3Aux {
     char* moreRecentTrip;
 };
 
-
-//void totalDistance(gpointer key, gpointer value, gpointer userData) {
-//    Ride* r = value;
-//    q3Aux* q3 = userData;
-//    char* u = getRUser(r);
-//    if (strcmp(u, q3->id) == 0) {
-//        q3->distance = q3->distance + getRDistance(r);
-//    }
-//    free(u);
-//}
-//
-//double getTotalDistance(Catalog* c, char* id) {
-//    q3Aux q3 = {id, 0, 0};
-//    g_hash_table_foreach(c->rides, totalDistance, &q3);
-//    printf("Total: %d\n", q3.distance);
-//    return q3.distance;
-//}
-
-
-
-//void recentTrip(gpointer key, gpointer value, gpointer userData) {
-//    Ride* r = value;
-//    q3Aux* q3 = userData;
-//    char* u = getRUser(r);
-//    if (strcmp(u, q3->id) == 0) {
-//        q3->moreRecentTrip = compareDates(getRDate(r), q3->moreRecentTrip);
-//    }
-//    free(u);
-//}
-
-//char* getMostRecentTrip(Catalog* c, char* id) {
-//    q3Aux q3 = {id, 0, "00/00/0000"};
-//    g_hash_table_foreach(c->rides, recentTrip, &q3);
-//    printf("%s\n", q3.moreRecentTrip);
-//    return q3.moreRecentTrip;
-//}
-
-//char* compareDates(char* date1, char* date2) {
-//    Date* d1 = dateConvert(date1);
-//    Date* d2 = dateConvert(date2);
-//    char* recentDate;
-//    //quanto maior for o ano mais recente a data é
-//    if ((d1->year > d2->year) || (d1->year == d2->year && d1->month > d2->month) || (d1->year == d2->year && d1->month == d2->month && d1->day >= d2->day)) {
-//        recentDate = strdup(date1);
-//    }
-//    else recentDate = strdup(date2);
-//    free(d1);
-//    free(d2);
-//    return recentDate;
-//}
-
 int compareRecentTrip(char* a, char* b) {
     if (strcmp(a+6, b+6) == 0) //se o ano igual
         if (strcmp(a+3, b+3) == 0) //se o mês for igual

@@ -1,5 +1,6 @@
 #include "../../includes/query2.h"
 
+
 struct catalog
 {
   void *users;
@@ -9,10 +10,11 @@ struct catalog
 
 typedef struct querie2Aux{
 
-  char *data_identification;
+  char *driverId;
+  double scoreAcc;
+  double scoreAccAddendsQty;
   double media;
-  double valueQty;
-  char *last_ride;
+  char *lastRide;
 } q2Aux;
 
 // Funções destroy
@@ -23,74 +25,42 @@ void destroyQ2Aux(void *u)
   q2Aux *destroyME = (q2Aux *)u;
   if (destroyME)
   {
-    if (destroyME->data_identification)
-      free(destroyME->data_identification);
+    if (destroyME->driverId)
+      free(destroyME->driverId);
   }
   destroyME = NULL;
 }
-
-// Função para dar free da key(se for string) da hash
-void destroyKey(void *u)
-{
-  char *destroyME = (char *)u;
-  if (destroyME)
-    free(destroyME);
-}
-
 // QUERRY 2
 
 
 //Calcular qual a viagem mais recente
-int mostRecenteRide (char* a, char* b){
-  //Os return são com "-"(menos) antes pois eu quero ordenar por ordem decrescente 
-  //0 se a==b ; -1 se a>b ; 1 se a<b
-  //DATA TIPO XX/XX/XXXX
-  //a+6 vai ler só a parte da string que corresposde ao ano
-  //a+3 vai ler a parte da string que corresposde ao mes e ano
-  //a vai ler só a parte da string que corresposde ao dia mes e ano
 
-  //Se o ano for igual
-  if (!strcmp(a+6,b+6)){
-    //Se o mes e o ano for igual (compara os dias)
-    if (!strcmp(a+3,b+3)){
-      return -(strcmp(a,b));
-    }
-    //Se o mes for diferente (compara os meses)
-    else {
-      return -(strcmp(a+3,b+3));
-    }
-  }
-  //Se o ano for diferente (compara os anos)
-  else {
-    return -(strcmp(a+6,b+6));
-  }
-}
 
 // Função comparação para ordenar array de q2Aux (Ordem decrescente)
-int compareMedia(gconstpointer a, gconstpointer b, gpointer user_data)
-{
-
+int compareMedia(void* a, void* b){
   //Variavel que contem os sumatórios das viagens
-  q2Aux *val1 = (q2Aux *)a;
-  q2Aux *val2 = (q2Aux *)b;
+  q2Aux *driver1 = (q2Aux *)a;
+  q2Aux *driver2 = (q2Aux *)b;
+
+  driver1->media = driver1->scoreAcc / driver1->scoreAccAddendsQty;
+  driver2->media = driver2->scoreAcc / driver2->scoreAccAddendsQty;
 
   //Se a média for diferente (ordena pela média maior)
-  if ((val1->media / val1->valueQty) != (val2->media / val2->valueQty)){
-    return ((val1->media / val1->valueQty) < (val2->media / val2->valueQty));
+  if (driver1->media != driver2->media){
+    return (driver1->media < driver2->media);
   //Se a média for igual (ordena pela data mais recente)
-  }else if (mostRecenteRide(val1->last_ride,val2->last_ride)){
-    return mostRecenteRide(val1->last_ride,val2->last_ride);
+  }else if (compareDates(driver1->lastRide,driver2->lastRide)){
+    return compareDates(driver1->lastRide,driver2->lastRide);
   //Se a média e a data são iguais (ordena pelo id crescente)
   }else
-    return strcmp(val1->data_identification,val2->data_identification);
+    return strcmp(driver1->driverId,driver2->driverId);
 }
 
-// Função para criar a hash com os dados data_identification e scoreSum
-void interactMedia(gpointer key, gpointer value, gpointer data)
-{
+// Função para criar a hash com os dados driverId e scoreSum
+void createTableOfDriversScoreAcc(void* key, void* value, void* data){
 
   // hash a ser preenchida com q2Aux(Driver;Soma dos scores;total de elementos da soma)
-  GHashTable *media = (GHashTable *)data;
+  HashTable *driversScoreHash = data;
   // variavel que guarda cada ride da hash Rides
   Ride *ride = (Ride *)value;
 
@@ -100,58 +70,56 @@ void interactMedia(gpointer key, gpointer value, gpointer data)
 
 
   // procura se o driver ja existe na hashlastDrive
-  q2Aux *driverToken = g_hash_table_lookup(media, rideDriver);
+  q2Aux *driverToken = findBy(driversScoreHash, rideDriver);
   // caso exista
-  if (driverToken != NULL)
-  {
-    // incrementa o valueQty, acrescenta ao somatório o valor da Ride atual,guarda a viagem mais recente
-    driverToken->valueQty++;
-    driverToken->media = driverToken->media + rideDriverScore;
-    if (mostRecenteRide(driverToken->last_ride,lastRide)>0){
-      driverToken->last_ride = lastRide;
+  if (driverToken != NULL){
+
+    // incrementa o scoreAccAddendsQty, acrescenta ao somatório o valor da Ride atual,guarda a viagem mais recente
+    driverToken->scoreAccAddendsQty++;
+    driverToken->scoreAcc += rideDriverScore;
+    if (compareDates(driverToken->lastRide,lastRide)>0){
+      driverToken->lastRide = lastRide;
     }
     else free(lastRide);
   }
   // caso não exista
-  else
-  {
+  else{
     // cria espaço para um novo driver do tipo q2Aux
     driverToken = (q2Aux*)malloc(sizeof(q2Aux));
     // atribui os valores necessários (de modo a poder ser libertado mais tarde)
-    driverToken->data_identification = rideDriver;
-    driverToken->valueQty = 1;
-    driverToken->media = rideDriverScore;
-    driverToken->last_ride = lastRide;
+    driverToken->driverId = rideDriver;
+    driverToken->scoreAccAddendsQty = 1;
+    driverToken->scoreAcc = rideDriverScore;
+    driverToken->lastRide = lastRide;
     // insere na hash
-    g_hash_table_insert(media, driverToken->data_identification, driverToken);
+    addToTable(driversScoreHash, strdup(rideDriver), driverToken);
   }
 }
 
 char *q2(Catalog *catalog, int N) {
 
   // Hash que vai conter todas as structs temporárias da soma dos scores (nao precisa de keyDestroy)
-  GHashTable *driversTotalScoreHash = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, destroyQ2Aux);
+  HashTable *driversTotalScoreHash = createTable(destroyQ2Aux);
   // Função que vai prencher a hash anterior
-  g_hash_table_foreach(catalog->rides, interactMedia, driversTotalScoreHash);
+  foreach(catalog->rides, createTableOfDriversScoreAcc, driversTotalScoreHash);
 
   // Lista con toda a data da hash
-  GList *hashContent = g_hash_table_get_values(driversTotalScoreHash);
+  void *hashContent = getListFromTable(driversTotalScoreHash);
   // Ordenação da Lista por Médias
-  hashContent = g_list_sort_with_data(hashContent, (GCompareDataFunc)compareMedia, catalog->drivers);
-
+  hashContent = listSortBy(hashContent, compareMedia, NULL);
+  
   size_t lineLength = 12 + 10 + 50;
   char *stringGrande = calloc(lineLength * N, sizeof(char));
 
   int i = 0, j = N;
   while (i < j) {
     // Guardar o id do elemento da lista em uma variavel para facil leitura
-    char *id = (*(q2Aux *)(g_list_nth(hashContent, i)->data)).data_identification;
+    char *id = (*(q2Aux *)findFromList(hashContent, i)).driverId;
 
-    Driver *driver = g_hash_table_lookup(catalog->drivers,id);
+    Driver *driver = findBy(catalog->drivers,id);
     if (getDAccountStatus(driver)) {
       // Guardar a media ja calculada do elemento da lista em uma variavel para facil leitura
-      double mediaTotal = (*(q2Aux *)(g_list_nth(hashContent, i)->data)).media /
-                         (*(q2Aux *)(g_list_nth(hashContent, i)->data)).valueQty;
+      double mediaTotal = (*(q2Aux *)findFromList(hashContent, i)).media;
   
       char *stringAux = calloc(lineLength, sizeof(char));
       sprintf(stringAux, "%s;%s;%.3f\n", id, getDName(driver), mediaTotal);
@@ -170,9 +138,9 @@ char *q2(Catalog *catalog, int N) {
   }
 
   // free da lista
-  g_list_free(hashContent);
+  freeList(hashContent);
   // free da hash
-  g_hash_table_destroy(driversTotalScoreHash);
+  destroyTable(driversTotalScoreHash);
 
   return stringGrande;
 }

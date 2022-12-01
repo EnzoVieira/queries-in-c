@@ -48,7 +48,7 @@ int getDAccountStatus(Driver *d) {
   return d->account_status;
 }
 
-Driver *findDriverByID(Driver *drivers, char *id) {
+Driver *findDriverByID(HashTable *drivers, char *id) {
   return findBy(drivers, id);
 }
 

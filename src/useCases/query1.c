@@ -1,6 +1,7 @@
 #include "../../includes/query1.h"
 
-struct catalog {
+struct catalog
+{
   void *users;
   void *drivers;
   void *rides;
