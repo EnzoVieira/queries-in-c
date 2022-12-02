@@ -1,8 +1,13 @@
 #ifndef API_H
 #define API_H
-#include <glib.h>
-typedef GHashTable HashTable;
-typedef GList List;
+
+typedef void* Pointer;
+
+typedef struct hashTable HashTable;
+typedef struct {
+    Pointer data;
+    Pointer next;
+} List;
 
 void destroyKey(void *u);
 HashTable *createTable(void(*destroyData)(void* u));
@@ -14,9 +19,5 @@ void *listSortBy(List* list, void *func, void* data);
 void *findFromList(List* list, int index);
 void freeList(List* list);
 void destroyTable(HashTable* table);
-
-
-
-
 
 #endif

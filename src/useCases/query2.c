@@ -1,23 +1,27 @@
 #include "../../includes/query2.h"
 
+#include "../../includes/api.h"
+#include "../../includes/date.h"
+#include "../../includes/driverRepository.h"
+#include "../../includes/rideRepository.h"
 
-struct catalog
-{
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+struct catalog {
   void *users;
   void *drivers;
   void *rides;
 };
 
 typedef struct querie2Aux{
-
   char *driverId;
   double scoreAcc;
   double scoreAccAddendsQty;
   double media;
   char *lastRide;
 } q2Aux;
-
-// Funções destroy
 
 // Função utilizada para free da data da hash de SumData
 void destroyQ2Aux(void *u)
@@ -30,11 +34,6 @@ void destroyQ2Aux(void *u)
   }
   destroyME = NULL;
 }
-// QUERRY 2
-
-
-//Calcular qual a viagem mais recente
-
 
 // Função comparação para ordenar array de q2Aux (Ordem decrescente)
 int compareMedia(void* a, void* b){

@@ -1,10 +1,7 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include <stdlib.h>
-
-typedef struct
-{
+typedef struct {
   char *value;
 
   enum {

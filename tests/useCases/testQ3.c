@@ -1,5 +1,12 @@
 #include "../includes/testQ3.h"
 
+#include "../../includes/query3.h"
+#include "../../includes/reader.h"
+#include "../includes/assertion.h"
+#include "../includes/timer.h"
+
+#include <stdlib.h>
+
 void testQ3(Token *token, Catalog *c, char *filename) {
 	char *(arguments[]) = {token->value};
 

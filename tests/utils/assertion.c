@@ -1,5 +1,11 @@
 #include "../includes/assertion.h"
 
+#include "../../includes/reader.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 // Verifica se o valor obtido da query é igual ao valor esperado.
 // No final faz o print dos testes
 void assertResult(char *result, char *expectedResult, char *(args[3]), int queryNumber, double queryTime, int isMultiline) {

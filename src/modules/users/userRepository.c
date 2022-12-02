@@ -1,5 +1,11 @@
 #include "../../../includes/userRepository.h"
 
+#include "../../../includes/api.h"
+#include "../../../includes/date.h"
+
+#include <string.h>
+#include <stdio.h>
+
 struct user {
   char *user_name;
   char *name;

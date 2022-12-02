@@ -1,5 +1,8 @@
 #include "../../includes/lexer.h"
 
+#include <stdlib.h>
+#include <ctype.h>
+
 Lexer *createLexer(char *args) {
   Lexer *lexer = calloc(1, sizeof(Lexer));
 

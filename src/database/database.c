@@ -1,5 +1,14 @@
 #include "../../includes/database.h"
 
+#include "../../includes/api.h"
+#include "../../includes/userRepository.h"
+#include "../../includes/driverRepository.h"
+#include "../../includes/rideRepository.h"
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
 struct user {
   char *user_name;
   char *name;

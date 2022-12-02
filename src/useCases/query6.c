@@ -1,5 +1,10 @@
 #include "../../includes/query6.h"
 
+#include "../../includes/rideRepository.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+
 struct catalog {
   void *users;
   void *drivers;

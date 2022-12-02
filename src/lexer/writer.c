@@ -1,9 +1,13 @@
-#include <unistd.h>
+#include "../../includes/writer.h"
+
+// #include <unistd.h>
 #include <dirent.h>
 #include <errno.h>
 #include <sys/stat.h>
 
-#include "../../includes/writer.h"
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 void writeFile(const char *args, const char *filename) {
   DIR* dir = opendir("Resultados");

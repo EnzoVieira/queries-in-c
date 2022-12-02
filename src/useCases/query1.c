@@ -1,31 +1,17 @@
 #include "../../includes/query1.h"
 
-struct catalog
-{
+#include "../../includes/userRepository.h"
+#include "../../includes/driverRepository.h"
+#include "../../includes/rideRepository.h"
+
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+struct catalog {
   void *users;
   void *drivers;
   void *rides;
-};
-
-struct user {
-  char *name;
-  char gender;
-  char *birth_date;
-  char *account_creation;
-  char *pay_method;
-  int  account_status;
-};
-
-struct driver {
-  char *id;
-  char *name;
-  char *birth_date;
-  char gender;
-  char *car_class;
-  char *license_plate;
-  char *city;
-  char *account_creation;
-  int  account_status;
 };
 
 char *q1(Catalog *c, char *id) {
@@ -40,8 +26,9 @@ char *q1(Catalog *c, char *id) {
   double total_cost = 0.0;
 
   if (userExists && getUAccountStatus(userExists)) {
-    User userCopy = *userExists;
-    TotalUserAcc *acc = totalUser(c, &userCopy);
+    // FIXME: passar uma cópia para totalUser
+    // User userCopy = *userExists;
+    TotalUserAcc *acc = totalUser(c, userExists);
 
     name = getUName(userExists);
     gender = getUGender(userExists);
@@ -51,8 +38,9 @@ char *q1(Catalog *c, char *id) {
     total_cost = acc->totalCost;
   }
   else if (driverExists && getDAccountStatus(driverExists)) {
-    Driver driverCopy = *driverExists;
-    TotalDriverAcc *acc = totalDriver(c, &driverCopy);
+    // FIXME: passar uma cópia para totalDriver
+    // Driver driverCopy = *driverExists;
+    TotalDriverAcc *acc = totalDriver(c, driverExists);
 
     name = getDName(driverExists);
     gender = getDGender(driverExists);

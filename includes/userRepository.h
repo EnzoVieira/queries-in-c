@@ -1,17 +1,17 @@
 #ifndef USER_REPOSITORY_H
 #define USER_REPOSITORY_H
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
-
 #include "api.h"
-#include "date.h"
-
-#include "userEntity.h"
 
 typedef struct user User;
+
+char *getUUsername(User *u);
+char *getUName(User *u);
+char getUGender(User *u);
+char *getUBirthDate(User *u);
+char *getUAccountCreation(User *u);
+char *getUPayMethod(User *u);
+int getUAccountStatus(User *u);
 
 User *findUserByUsername(HashTable *users, char *username);
 int getUserAge(User *user);
