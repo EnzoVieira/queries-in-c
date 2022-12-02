@@ -1,5 +1,10 @@
 #include "../../../includes/rideRepository.h"
 
+#include "../../../includes/date.h"
+
+#include <stdlib.h>
+#include <string.h>
+
 struct ride {
   char *id;
   char *date;

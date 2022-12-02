@@ -1,5 +1,14 @@
 #include "../includes/parserTest.h"
 
+#include "../includes/testQ1.h"
+#include "../includes/testQ2.h"
+#include "../includes/testQ3.h"
+#include "../includes/testQ4.h"
+#include "../includes/testQ6.h"
+
+#include <stdio.h>
+#include <stdlib.h>
+
 // Testa se uma string está contida dentro de um array de string
 // Exemplo:
 // includesIn("foo", ["foo", "bar"], 2) = true

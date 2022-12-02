@@ -1,14 +1,13 @@
 #ifndef RIDES_REPOSITORY_H
 #define RIDES_REPOSITORY_H
 
-#include <stdio.h>
-#include <string.h>
+// #include <stdio.h>
+// #include <string.h>
 
-#include "api.h"
+// #include "api.h"
 
 #include "userRepository.h"
 #include "driverRepository.h"
-#include "rideEntity.h"
 
 typedef struct catalog Catalog;
 
@@ -42,6 +41,19 @@ typedef struct {
   double averageDistance;
   int totalTrips;
 } TotalRideAcc;
+
+typedef struct ride Ride;
+
+char* getRID(Ride *r);
+char* getRDate(Ride *r);
+char* getRDriver(Ride *r);
+char* getRUser(Ride *r);
+char* getRCity(Ride *r);
+double getRDistance(Ride *r);
+double getRScoreUser(Ride *r);
+double getRScoreDriver(Ride *r);
+double getRTip(Ride *r);
+char* getRComment(Ride *r);
 
 void driverAccumulator(void *_, void *currentValue, void *acc);
 TotalDriverAcc *totalDriver(Catalog *catalog, Driver *driverCopy);

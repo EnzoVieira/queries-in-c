@@ -1,5 +1,16 @@
 #include "../../includes/parser.h"
 
+#include "../../includes/writer.h"
+
+#include "../../includes/query1.h"
+#include "../../includes/query2.h"
+#include "../../includes/query3.h"
+#include "../../includes/query4.h"
+#include "../../includes/query6.h"
+
+#include <stdlib.h>
+#include <stdio.h>
+
 struct catalog {
 	void *users;
 	void *drivers;

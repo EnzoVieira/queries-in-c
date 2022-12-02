@@ -1,12 +1,6 @@
 #ifndef ASSERTION_H
 #define ASSERTION_H
 
-#include "../../includes/query1.h"
-
-#include "../../includes/token.h"
-#include "../../includes/lexer.h"
-#include "../../includes/reader.h"
-
 typedef struct {
 	char *filename;
 	char *result;

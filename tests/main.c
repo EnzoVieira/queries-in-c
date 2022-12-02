@@ -9,6 +9,9 @@
 #include "../includes/parser.h"
 #include "includes/parserTest.h"
 
+#include "../includes/reader.h"
+#include <stdlib.h>
+
 struct catalog {
     void *users;
     void *drivers;

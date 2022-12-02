@@ -1,5 +1,10 @@
 #include "../includes/testQ4.h"
 
+#include "../../includes/query4.h"
+#include "../../includes/reader.h"
+#include "../includes/assertion.h"
+#include "../includes/timer.h"
+
 void testQ4(Token *token, Catalog *c, char *filename) {
 	char *(arguments[]) = {token->value};
 

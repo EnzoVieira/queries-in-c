@@ -1,5 +1,8 @@
 #include "../../includes/date.h"
 
+#include <stdlib.h>
+#include <string.h>
+
 #define DATE "09/10/2022"
 
 Date *dateConvert(char *birthDate) {

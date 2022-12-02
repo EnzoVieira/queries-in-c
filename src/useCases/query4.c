@@ -1,6 +1,13 @@
 #include "../../includes/query4.h"
 #include "../../includes/writer.h"
 
+#include "../../includes/driverRepository.h"
+#include "../../includes/rideRepository.h"
+
+// FIXME: Remover glib
+#include <glib.h>
+#include <stdio.h>
+
 struct catalog {
   void *users;
   void *drivers;
@@ -23,13 +30,6 @@ void destroyQ4Aux(void *u) {
   }
   destroyME = NULL;
 }
-
-//void destroyKey(void *u)
-//{
-//  char *destroyME = (char *)u;
-//  if (destroyME)
-//    free(destroyME);
-//}
 
 void interactPriceMedia(gpointer key, gpointer value, gpointer data) {
 
@@ -68,13 +68,13 @@ void interactPriceMedia(gpointer key, gpointer value, gpointer data) {
   }
 }
 
-void totalPriceCalculator(gpointer key, gpointer value, gpointer data) {
+void totalPriceCalculator(void *key, void *value, void *data) {
 
   // Variavel que vai permitir o acesso aos Drivers
   Driver *driver = (Driver *)value;
 
   // hash que guarda as estruturas com o id dos driver e os km feitos na cidade
-  GHashTable *driversInf = (GHashTable *)data;
+  void *driversInf = data;
 
   char *driverId = getDID(driver);
   char *carClass = getDCarClass(driver);

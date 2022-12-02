@@ -7,6 +7,8 @@
 #include "includes/reader.h"
 #include "includes/parser.h"
 
+#include <stdlib.h>
+
 struct catalog {
     void *users;
     void *drivers;

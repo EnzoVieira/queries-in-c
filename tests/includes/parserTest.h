@@ -1,14 +1,8 @@
 #ifndef PARSER_TEST_H
 #define PARSER_TEST_H
 
-#include "testQ1.h"
-#include "testQ2.h"
-#include "testQ3.h"
-#include "testQ4.h"
-#include "testQ6.h"
-
 #include "../../includes/lexer.h"
-#include "../../includes/reader.h"
+#include "../../includes/database.h"
 
 // Testa se uma string está contida dentro de um array de string.
 // Exemplo:

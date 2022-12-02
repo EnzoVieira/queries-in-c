@@ -1,20 +1,27 @@
 #include "../../includes/query3.h"
 
+#include "../../includes/api.h"
+
+#include "../../includes/userRepository.h"
+#include "../../includes/rideRepository.h"
+
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+
 #define DATE "09/10/2022"
 
-struct catalog
-{
+struct catalog {
   void *users;
   void *drivers;
   void *rides;
 };
 
-struct date
-{
-  int day;
-  int month;
-  int year;
-};
+// struct date {
+//   int day;
+//   int month;
+//   int year;
+// };
 
 struct querie3Aux {
     char* id;
@@ -32,7 +39,7 @@ int compareRecentTrip(char* a, char* b) {
         return -strcmp(a+6, b+6); //senão, compara o ano
 }
 
-int compareFunc(gconstpointer a, gconstpointer b) {
+int compareFunc(void *a, void *b) {
     q3Aux* u1 = (q3Aux*)a;
     q3Aux* u2 = (q3Aux*)b;
     if (u1->distance == u2->distance) { //se a distância for igual
@@ -43,13 +50,13 @@ int compareFunc(gconstpointer a, gconstpointer b) {
     } else return u1->distance < u2->distance; //compara a distância
 }
 
-void copyToHash(gpointer key, gpointer value, gpointer userData) {
-    GHashTable* copy = (GHashTable*)userData;
+void copyToHash(void *key, void *value, void *userData) {
+    void* copy = userData;
     Ride* r = (Ride*)value;
     char* u = getRUser(r);
     char* lastRide = getRDate(r);
     // verifica se o user já existe na hash
-    q3Aux* user = g_hash_table_lookup(copy, u);
+    q3Aux* user = findBy(copy, u);
     if (user) {
         user->distance = user->distance + getRDistance(r);
         if (compareRecentTrip(user->moreRecentTrip, lastRide)>0){
@@ -61,16 +68,16 @@ void copyToHash(gpointer key, gpointer value, gpointer userData) {
         user->distance = getRDistance(r);
         user->id = u;
         user->moreRecentTrip = lastRide;
-        g_hash_table_insert(copy, user->id, user);
+        addToTable(copy, user->id, user);
     }
 }
 
 
 char *q3(Catalog* c, int N) {
-    GHashTable* usersTotalDistance = g_hash_table_new_full(g_str_hash, g_str_equal, NULL, NULL);
-    g_hash_table_foreach(c->rides, copyToHash, usersTotalDistance);
-    GList* copyFromHash = g_hash_table_get_values(usersTotalDistance);
-    copyFromHash = g_list_sort(copyFromHash, (GCompareFunc)compareFunc);
+    HashTable *usersTotalDistance = createTable(NULL);
+    foreach(c->rides, copyToHash, usersTotalDistance);
+    List* copyFromHash = getListFromTable(usersTotalDistance);
+    copyFromHash = listSortBy(copyFromHash, compareFunc, NULL);
 
     size_t lineLength = 20 + 50 + 5;
     char *stringGrande = calloc(lineLength * N, sizeof(char));
@@ -93,6 +100,7 @@ char *q3(Catalog* c, int N) {
             q3 = copyFromHash->data;
         }
     }
-    g_list_free(copyFromHash);
+
+    freeList(copyFromHash);
     return stringGrande;
 }

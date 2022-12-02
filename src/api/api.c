@@ -1,6 +1,8 @@
 
 #include "../../includes/api.h"
 
+#include <glib.h>
+
 void destroyKey(void *u){
   char *destroyME = (char *)u;
   if (destroyME)
@@ -8,12 +10,12 @@ void destroyKey(void *u){
 }
 
 HashTable *createTable(void(*destroyData)(void* u)) {
-  HashTable *hashTable = g_hash_table_new_full(g_str_hash, g_str_equal,destroyKey, destroyData);
+  HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal, destroyKey, destroyData);
   return hashTable;
 }
 
 void addToTable(HashTable *table, void *key, void *value) {
-  g_hash_table_insert(table, key, value);
+  g_hash_table_insert((GHashTable *) table, key, value);
 }
 
 void *findBy(HashTable *table, void* key) {
@@ -25,7 +27,7 @@ void foreach(HashTable *table, void *func, void *accumulator) {
 }
 
 List* getListFromTable(HashTable *table) {
-  List* list = g_hash_table_get_values((GHashTable*) table);
+  List *list = (List*) g_hash_table_get_values((GHashTable*) table);
   return list;
 }
 
@@ -44,8 +46,3 @@ void freeList(List* list){
 void destroyTable(HashTable* table){
   g_hash_table_destroy((GHashTable*)table);
 }
-
-//struct User2{
-//  char*(*getUUsername);
-//
-//};

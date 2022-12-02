@@ -1,5 +1,9 @@
 #include "../../../includes/driverRepository.h"
 
+#include "../../../includes/date.h"
+
+#include <string.h>
+
 struct driver {
   char *id;
   char *name;

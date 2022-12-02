@@ -1,5 +1,9 @@
 #include "../../includes/reader.h"
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 char *readFile(const char *filename) {
   FILE *fp;
   char *line = NULL;
