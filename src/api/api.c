@@ -26,6 +26,10 @@ void foreach(HashTable *table, void *func, void *accumulator) {
   g_hash_table_foreach((GHashTable*) table, (GHFunc) func, accumulator);
 }
 
+int hashSize(HashTable* table){
+  return g_hash_table_size((GHashTable*)table);
+}
+
 List* getListFromTable(HashTable *table) {
   List *list = (List*) g_hash_table_get_values((GHashTable*) table);
   return list;

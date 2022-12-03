@@ -11,11 +11,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-struct catalog {
-	void *users;
-	void *drivers;
-	void *rides;
-};
+
 
 void parser(Lexer *lexer, Catalog *c) {
 	Token *token = NULL;

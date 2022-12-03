@@ -4,7 +4,9 @@
 #include "../includes/testQ2.h"
 #include "../includes/testQ3.h"
 #include "../includes/testQ4.h"
+#include "../includes/testQ5.h"
 #include "../includes/testQ6.h"
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -68,8 +70,14 @@ void parserTest(Lexer *lexer, Catalog *c, int argc, char* argv[]) {
 				}
 
 				case '5': {
-					token = getNextToken(lexer);
-					token = getNextToken(lexer);
+					Token *token1 = getNextToken(lexer);
+					Token *token2 = getNextToken(lexer);
+
+					Token *(tokens[2]) = {token1, token2};
+					
+					if (argc < 4 || isTestIncluded("q5", argv, argc)) 
+						testQ5(tokens,c,filename);
+
 					break;
 				}
 
