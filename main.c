@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "includes/query5.h"
+
 #include "includes/database.h"
 
 #include "includes/lexer.h"
@@ -26,6 +28,8 @@ int main(int argc, char *argv[]) {
     printf("\n🌱 A criar as seeds da database...\n");
 
     Catalog *catalog = seedDatabase(argv[1]);
+
+    //q5(catalog,"01/01/2020","01/01/2021");
 
     printf("\n✅ Tabelas criadas com sucesso!\n");
     printf("\n📚 A executar as queries...\n");
