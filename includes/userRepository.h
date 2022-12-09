@@ -5,7 +5,7 @@
 
 typedef struct user User;
 
-User *createUser(const char *username, const char* name, int age);
+User *createUser(const char *line);
 HashTable *userHashTableSingleton();
 void addUser(User *newUser);
 // Always returns a copy when user exists
@@ -15,9 +15,12 @@ User *findUserByUsername(const char *username);
 //           GETTERS
 // ============================
 
-char *getUsername(const User *user);
+char *getUUsername(const User *user);
 char *getUName(const User *user);
-int getUserAge(const User *user);
+char* getUBirthDate(const User *user);
+char *getUAccountCreation(const User *user);
+char *getUPayMethod(const User *user);
+int getUAccountStatus(const User *user);
 
 // ============================
 //           SETTERS

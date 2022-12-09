@@ -8,8 +8,8 @@ int main() {
   rideHashTableSingleton();
 
   // TODO: Add free users
-  User *userTest = createUser("user1", "User Teste 1", 20);
-  User *userTest2 = createUser("user2", "User Teste 2", 21);
+  User *userTest = createUser("user1;User Teste 1;20");
+  User *userTest2 = createUser("user2;User Teste 2;21");
 
   addUser(userTest);
   addUser(userTest2);
