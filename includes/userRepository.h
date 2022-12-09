@@ -1,19 +1,35 @@
 #ifndef USER_REPOSITORY_H
 #define USER_REPOSITORY_H
 
-#include "api.h"
+#include "./api.h"
 
 typedef struct user User;
 
-char *getUUsername(User *u);
-char *getUName(User *u);
-char getUGender(User *u);
-char *getUBirthDate(User *u);
-char *getUAccountCreation(User *u);
-char *getUPayMethod(User *u);
-int getUAccountStatus(User *u);
+User *createUser(const char *username, const char* name, int age);
+HashTable *userHashTableSingleton();
+void addUser(User *newUser);
+// Always returns a copy when user exists
+User *findUserByUsername(const char *username);
 
-User *findUserByUsername(HashTable *users, char *username);
-int getUserAge(User *user);
+// ============================
+//           GETTERS
+// ============================
+
+char *getUsername(const User *user);
+char *getUName(const User *user);
+int getUserAge(const User *user);
+
+// ============================
+//           SETTERS
+// ============================
+
+// Function to add a rideId to a user->userRidesId list
+void addUserRide(const char *username, const char *rideId);
+
+// ============================
+//           UTILS
+// ============================
+
+void printUser(User *user);
 
 #endif

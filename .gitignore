@@ -16,6 +16,6 @@
 # VS Code
 .vscode
 
-src/data
+config/data
 
 Resultados

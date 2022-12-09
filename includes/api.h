@@ -1,24 +1,16 @@
 #ifndef API_H
 #define API_H
 
+typedef struct hashTable HashTable;
+typedef struct list List;
 typedef void* Pointer;
 
-typedef struct hashTable HashTable;
-typedef struct {
-    Pointer data;
-    Pointer next;
-} List;
-
-void destroyKey(void *u);
-HashTable *createTable(void(*destroyData)(void* u));
-void addToTable(HashTable* table, void *key, void *value);
-void *findBy(HashTable* table, void* key);
-void foreach(HashTable* table, void *func, void *accumulator);
-int hashSize(HashTable* table);
-List *getListFromTable(HashTable* table);
-void *listSortBy(List* list, void *func, void* data);
-void *findFromList(List* list, int index);
-void freeList(List* list);
-void destroyTable(HashTable* table);
+HashTable *createHashTable();
+void addToTable(HashTable *table, char *key, Pointer value);
+Pointer findById(HashTable *table, const char* id);
+List *createList();
+List *copyList(List *list);
+List *addToList(List *list, Pointer data);
+void printList(List *list);
 
 #endif

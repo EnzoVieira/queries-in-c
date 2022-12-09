@@ -1,55 +1,100 @@
 #include "../../../includes/userRepository.h"
 
 #include "../../../includes/api.h"
-#include "../../../includes/date.h"
 
+#include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
 struct user {
-  char *user_name;
+  char *username;
   char *name;
-  char gender;
-  char *birth_date;
-  char *account_creation;
-  char *pay_method;
-  int  account_status;
+  int age;
+
+  List *userRidesId;
 };
 
-char *getUUsername(User *u) {
-  return strdup(u->user_name);
+// ============================
+//       private methods
+// ============================
+
+User *getUserCopy(User *user) {
+  User *userCopy = calloc(1, sizeof(User));
+
+  userCopy->username = strdup(user->username);
+  userCopy->name = strdup(user->name);
+  userCopy->age = user->age;
+  userCopy->userRidesId = copyList(user->userRidesId);
+
+  return userCopy;
 }
 
-char *getUName(User *u) {
-  return strdup(u->name);
+// ============================
+//       public methods
+// ============================
+
+User *createUser(const char *username, const char* name, int age) {
+  User *user = calloc(1, sizeof(User));
+
+  user->username = strdup(username);
+  user->name = strdup(name);
+  user->age = age;
+  user->userRidesId = NULL;
+
+  return user;
 }
 
-char getUGender(User *u) {
-  return u->gender;
+HashTable *userHashTableSingleton() {
+  static HashTable *usersHashTable = NULL;
+
+  if (usersHashTable == NULL) {
+    usersHashTable = createHashTable();
+  }
+
+  return usersHashTable;
 }
 
-char *getUBirthDate(User *u) {
-  return strdup(u->birth_date);
+void addUser(User *newUser) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  addToTable(userHashTable, newUser->username, (Pointer) newUser);
 }
 
-char *getUAccountCreation(User *u) {
-  return strdup(u->account_creation);
+// Always returns a copy when user exists
+User *findUserByUsername(const char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*) findById(userHashTable, username);
+
+  if (userFinded) {
+    return getUserCopy(userFinded);
+  }
+
+  return NULL;
 }
 
-char *getUPayMethod(User *u) {
-  return strdup(u->pay_method);
+char *getUsername(const User *user) {
+  return strdup(user->username);
 }
 
-int getUAccountStatus(User *u) {
-  return u->account_status;
+char *getUName(const User *user) {
+  return strdup(user->name);
 }
 
-User *findUserByUsername(HashTable* users, char* username) {
-  return findBy(users, username);
+int getUserAge(const User *user) {
+  return user->age;
 }
 
-int getUserAge(User *user) {
-  char *userBirthDate = getUBirthDate(user);
+// Function to add a rideId to a user->userRidesId list
+void addUserRide(const char *username, const char *rideId) {
+  HashTable *userHashTable = userHashTableSingleton();
 
-  return dateDifference(dateConvert(userBirthDate));
+  User *userFinded = (User*) findById(userHashTable, username);
+
+  userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
+}
+
+void printUser(User *user) {
+  printf("username: %s\n", user->username);
+  printList(user->userRidesId);
 }
