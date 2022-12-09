@@ -16,7 +16,14 @@ Ride *findRideById(const char *id);
 // ============================
 
 char *getRID(const Ride *ride);
+char *getRDate(const Ride *ride);
+char *getRDriverId(const Ride *ride);
 char *getRUsername(const Ride *ride);
 char *getRCity(const Ride *ride);
+double getRDistance(const Ride *ride);
+double getRScoreUser(const Ride *ride);
+double getRScoreDriver(const Ride *ride);
+double getRTip(const Ride *ride);
+char *getRComment(const Ride *ride);
 
 #endif
