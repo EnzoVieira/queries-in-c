@@ -56,9 +56,7 @@ void addRide(Ride *newRide) {
 
   // Add user and ride relation
   User *user = findUserByUsername(newRide->username);
-  addUserRide(getUsername(user), newRide->id);
-
-  return 0;
+  addUserRide(getUUsername(user), newRide->id);
 }
 
 // Always returns a copy when ride exists
