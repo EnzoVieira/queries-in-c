@@ -1,6 +1,7 @@
 #include "../../../includes/userRepository.h"
 
 #include "../../../includes/api.h"
+#include "../../../includes/reader.h"
 
 #include <stdlib.h>
 #include <string.h>
@@ -60,16 +61,6 @@ User *createUser(const char *line) {
   return user;
 }
 
-HashTable *userHashTableSingleton() {
-  static HashTable *usersHashTable = NULL;
-
-  if (usersHashTable == NULL) {
-    usersHashTable = createHashTable();
-  }
-
-  return usersHashTable;
-}
-
 void addUser(char *line) {
   HashTable *userHashTable = userHashTableSingleton();
   
@@ -79,6 +70,20 @@ void addUser(char *line) {
   User *newUser = createUser(lineCopy);
 
   addToTable(userHashTable, username, (Pointer) newUser);
+}
+
+void createUsersHashTable(const char *path) {
+  foreachLineOfFile(path, &addUser);
+}
+
+HashTable *userHashTableSingleton() {
+  static HashTable *usersHashTable = NULL;
+
+  if (usersHashTable == NULL) {
+    usersHashTable = createHashTable();
+  }
+
+  return usersHashTable;
 }
 
 // Always returns a copy when user exists
@@ -93,6 +98,23 @@ User *findUserByUsername(const char *username) {
 
   return NULL;
 }
+
+// Function to add a rideId to a user->userRidesId list
+void addUserRide(const char *username, const char *rideId) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
+}
+
+void printUser(User *user) {
+  printList(user->userRidesId);
+}
+
+// ============================
+//           GETTERS
+// ============================
 
 char *getUName(const User *user) {
   return strdup(user->name);
@@ -112,18 +134,4 @@ char *getUPayMethod(const User *user) {
 
 int getUAccountStatus(const User *user) {
   return user->account_status;
-}
-
-
-// Function to add a rideId to a user->userRidesId list
-void addUserRide(const char *username, const char *rideId) {
-  HashTable *userHashTable = userHashTableSingleton();
-
-  User *userFinded = (User*)findById(userHashTable, username);
-
-  userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
-}
-
-void printUser(User *user) {
-  printList(user->userRidesId);
 }
