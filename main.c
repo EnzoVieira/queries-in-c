@@ -2,40 +2,22 @@
 #include "includes/rideRepository.h"
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 int main() {
   userHashTableSingleton();
   rideHashTableSingleton();
 
   // TODO: Add free users
-  User *userTest = createUser("user1;User Teste 1;20");
-  User *userTest2 = createUser("user2;User Teste 2;21");
-
-  addUser(userTest);
-  addUser(userTest2);
-
-  Ride *ride1 = createRide("1", "user1", "Braga");
-  Ride *ride2 = createRide("2", "user2", "Braga");
-  Ride *ride3 = createRide("3", "user1", "Braga");
-  Ride *ride4 = createRide("4", "user1", "Braga");
-  Ride *ride5 = createRide("5", "user2", "Braga");
-  Ride *ride6 = createRide("6", "user2", "Braga");
-  Ride *ride7 = createRide("7", "user2", "Braga");
-  Ride *ride8 = createRide("8", "user1", "Braga");
-  Ride *ride9 = createRide("9", "user2", "Braga");
-
-  addRide(ride1);
-  addRide(ride2);
-  addRide(ride3);
-  addRide(ride4);
-  addRide(ride5);
-  addRide(ride6);
-  addRide(ride7);
-  addRide(ride8);
-  addRide(ride9);
-
-  printUser(userTest);
-  printUser(userTest2);
+  char *line = strdup("000000000002;19/10/2019;000000002536;LoSousa98;Faro;1;4;2;5.0;Image outside north effect than though sport.");
+  
+  addUser("MiTeixeira;Miguel Teixeira;M;03/09/1958;05/11/2017;cash;active");
+  addUser("MelisAlmeida;Melissa de Almeida;F;18/06/1983;23/09/2020;debit_card;active");
+  addRide(line);
+  free(line);
+  //printUser(userTest);
+  //printUser(userTest2);
 
   return 0;
 }

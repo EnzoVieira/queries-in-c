@@ -7,7 +7,7 @@
 #include <stdio.h>
 
 struct user {
-  char *user_name;
+  //char *user_name;
   char *name;
   char gender;
   char *birth_date;
@@ -24,7 +24,7 @@ struct user {
 User *getUserCopy(User *user) {
   User *userCopy = calloc(1, sizeof(User));
 
-  userCopy->user_name = strdup(user->user_name);
+  //userCopy->user_name = strdup(user->user_name);
   userCopy->name = strdup(user->name);
   userCopy->gender = user->gender;
   userCopy->birth_date = strdup(user->birth_date);
@@ -45,13 +45,12 @@ User *createUser(const char *line) {
 
   char *lineCopy = strdup(line);
 
-  user->user_name = strdup(strsep(&lineCopy, ";"));
+  //user->user_name = strdup(strsep(&lineCopy, ";"));
   user->name = strdup(strsep(&lineCopy, ";"));
   user->gender = *strsep(&lineCopy, ";");
   user->birth_date = strdup(strsep(&lineCopy, ";"));
   user->account_creation = strdup(strsep(&lineCopy, ";"));
-  user->pay_method = strdup(strsep(&lineCopy, ";"));
-  
+  user->pay_method = strdup(strsep(&lineCopy, ";"));  
   if (*(strsep(&lineCopy, ";")) == 'a')
     user->account_status = 1;
   else 
@@ -71,10 +70,15 @@ HashTable *userHashTableSingleton() {
   return usersHashTable;
 }
 
-void addUser(User *newUser) {
+void addUser(char *line) {
   HashTable *userHashTable = userHashTableSingleton();
+  
+  char* lineCopy = strdup(line);
+  char* username = strdup(strsep(&lineCopy,";"));
 
-  addToTable(userHashTable, newUser->user_name, (Pointer) newUser);
+  User *newUser = createUser(lineCopy);
+
+  addToTable(userHashTable, username, (Pointer) newUser);
 }
 
 // Always returns a copy when user exists
@@ -88,10 +92,6 @@ User *findUserByUsername(const char *username) {
   }
 
   return NULL;
-}
-
-char *getUUsername(const User *user) {
-  return strdup(user->user_name);
 }
 
 char *getUName(const User *user) {
@@ -119,12 +119,11 @@ int getUAccountStatus(const User *user) {
 void addUserRide(const char *username, const char *rideId) {
   HashTable *userHashTable = userHashTableSingleton();
 
-  User *userFinded = (User*) findById(userHashTable, username);
+  User *userFinded = (User*)findById(userHashTable, username);
 
   userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
 }
 
 void printUser(User *user) {
-  printf("username: %s\n", user->user_name);
   printList(user->userRidesId);
 }

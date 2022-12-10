@@ -5,9 +5,9 @@
 
 typedef struct ride Ride;
 
-Ride *createRide(const char *id, const char* username, const char *city);
+Ride *createRide(char* line);
 HashTable *rideHashTableSingleton();
-void addRide(Ride *newRide);
+void addRide(char* line);
 // Always returns a copy when ride exists
 Ride *findRideById(const char *id);
 
@@ -15,7 +15,6 @@ Ride *findRideById(const char *id);
 //           GETTERS
 // ============================
 
-char *getRID(const Ride *ride);
 char *getRDate(const Ride *ride);
 char *getRDriverId(const Ride *ride);
 char *getRUsername(const Ride *ride);
