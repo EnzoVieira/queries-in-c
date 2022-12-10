@@ -1,4 +1,7 @@
 #include "../../../includes/driverRepository.h"
+
+#include "../../../includes/reader.h"
+
 #include <string.h>
 #include <stdlib.h>
 
@@ -44,7 +47,6 @@ Driver *createDriver(const char *line) {
 
   char *lineCopy = strdup(line);
 
-  //driver->id = strdup(strsep(&lineCopy, ";"));
   driver->name = strdup(strsep(&lineCopy, ";"));
   driver->birth_date = strdup(strsep(&lineCopy, ";"));
   driver->gender = *strsep(&lineCopy, ";");
@@ -61,6 +63,48 @@ Driver *createDriver(const char *line) {
   free(lineCopy);
   return driver;
 }
+
+void addDriver(char *line) {
+  HashTable *driverHashTable = driverHashTableSingleton();
+
+  char *lineCopy = strdup(line);
+  char *id = strdup(strsep(&lineCopy, ";"));
+
+  Driver *newDriver = createDriver(lineCopy);
+
+  addToTable(driverHashTable, id, (Pointer) newDriver);
+}
+
+void createDriversHashTable(const char *path) {
+  foreachLineOfFile(path, &addDriver);
+}
+
+HashTable *driverHashTableSingleton() {
+  static HashTable *driversHashTable = NULL;
+
+  if (driversHashTable == NULL) {
+    driversHashTable = createHashTable();
+  }
+
+  return driversHashTable;
+}
+
+// Always returns a copy when driver exists
+Driver *findDriverByID(const char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+
+  if (driverFinded) {
+    return getDriverCopy(driverFinded);
+  }
+
+  return NULL;
+}
+
+// ============================
+//           GETTERS
+// ============================
 
 char *getDName(Driver *driver) {
   return strdup(driver->name);
@@ -92,33 +136,4 @@ char *getDAccountCreation(Driver *driver) {
 
 int getDAccountStatus(Driver *driver) {
   return driver->account_status;
-}
-
-HashTable *driverHashTableSingleton() {
-  static HashTable *driversHashTable = NULL;
-
-  if (driversHashTable == NULL) {
-    driversHashTable = createHashTable();
-  }
-
-  return driversHashTable;
-}
-
-void addDriver(const char *line) {
-  //HashTable *driverHashTable = driverHashTableSingleton();
-
-  //addToTable(driverHashTable, strdup(id), (Pointer) newDriver);
-}
-
-// Always returns a copy when driver exists
-Driver *findDriverByID(const char *id) {
-  HashTable* driverHashTable = driverHashTableSingleton();
-
-  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
-
-  if (driverFinded) {
-    return getDriverCopy(driverFinded);
-  }
-
-  return NULL;
 }

@@ -5,11 +5,11 @@
 
 typedef struct driver Driver;
 
+Driver *createDriver(const char *line);
+void addDriver(char *line);
+void createDriversHashTable(const char *path);
 HashTable *driverHashTableSingleton();
 Driver *findDriverByID(const char *id);
-Driver *createDriver(const char *line);
-void addDriver(const char *line);
-
 
 // ============================
 //           GETTERS

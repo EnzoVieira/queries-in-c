@@ -23,11 +23,6 @@ char* getUBirthDate(const User *user);
 char *getUAccountCreation(const User *user) ;
 char *getUPayMethod(const User *user);
 int getUAccountStatus(const User *user);
-
-// ============================
-//           UTILS
-// ============================
-
-void printUser(User *user);
+List *getUserRidesList(const User *user);
 
 #endif

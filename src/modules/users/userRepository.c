@@ -1,6 +1,5 @@
 #include "../../../includes/userRepository.h"
 
-#include "../../../includes/api.h"
 #include "../../../includes/reader.h"
 
 #include <stdlib.h>
@@ -65,7 +64,7 @@ void addUser(char *line) {
   HashTable *userHashTable = userHashTableSingleton();
   
   char* lineCopy = strdup(line);
-  char* username = strdup(strsep(&lineCopy,";"));
+  char* username = strdup(strsep(&lineCopy, ";"));
 
   User *newUser = createUser(lineCopy);
 
@@ -108,10 +107,6 @@ void addUserRide(const char *username, const char *rideId) {
   userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
 }
 
-void printUser(User *user) {
-  printList(user->userRidesId);
-}
-
 // ============================
 //           GETTERS
 // ============================
@@ -134,4 +129,8 @@ char *getUPayMethod(const User *user) {
 
 int getUAccountStatus(const User *user) {
   return user->account_status;
+}
+
+List *getUserRidesList(const User *user) {
+  return copyList(user->userRidesId);
 }

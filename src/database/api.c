@@ -14,10 +14,6 @@ void destroyKey(void *u){
     free(destroyME);
 }
 
-void printListAux(void *data, void *_) {
-  printf("rideId: %s\n", (char*) data);
-}
-
 // ============================
 //       public methods
 // ============================
@@ -47,6 +43,6 @@ List *addToList(List *list, Pointer data) {
   return (List*) g_list_append((GList*) list, (gpointer) data);
 }
 
-void printList(List *list) {
-  g_list_foreach ((GList*) list, (GFunc) printListAux, NULL);
+void listForeach(List *list, Func func) {
+  g_list_foreach((GList*) list, (GFunc) func, NULL);
 }

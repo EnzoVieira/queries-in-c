@@ -1,26 +1,37 @@
 #include "includes/userRepository.h"
+#include "includes/driverRepository.h"
 #include "includes/rideRepository.h"
+
 #include "includes/api.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+void printUserList(Pointer data, Pointer _) {
+  printf("%s", (char*) data);
+}
+
 int main() {
-  // userHashTableSingleton();
-  // rideHashTableSingleton();
-
-  // // TODO: Add free users
-  // char *line = strdup("000000000002;19/10/2019;000000002536;LoSousa98;Faro;1;4;2;5.0;Image outside north effect than though sport.");
-  
-  // addUser("MiTeixeira;Miguel Teixeira;M;03/09/1958;05/11/2017;cash;active");
-  // addUser("MelisAlmeida;Melissa de Almeida;F;18/06/1983;23/09/2020;debit_card;active");
-  // addRide(line);
-  // free(line);
-  // //printUser(userTest);
-  // //printUser(userTest2);
-
   createUsersHashTable("config/data/users.csv");
+  createDriversHashTable("config/data/drivers.csv");
+  // A tabela de rides precisa ser a última a ser criada.
+  createRidesHashTable("config/data/rides.csv");
+
+  HashTable *usersTable = userHashTableSingleton();
+  HashTable *driversTable = driverHashTableSingleton();
+  HashTable *ridesTable = rideHashTableSingleton();
+
+  User *user = findById(usersTable, "SebastFerreira-Lopes");
+  printf("user name: %s\n", getUName(user));
+  List *userList = getUserRidesList(user);
+  listForeach(userList, &printUserList);
+
+  Driver *driver = findById(driversTable, "000000004416");
+  printf("driver name: %s\n", getDName(driver));
+
+  Ride *ride = findById(ridesTable, "000000002236");
+  printf("ride user: %s\n", getRUsername(ride));
 
   return 0;
 }

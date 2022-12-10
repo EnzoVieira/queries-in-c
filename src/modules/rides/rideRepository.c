@@ -1,6 +1,7 @@
 #include "../../../includes/rideRepository.h"
 
 #include "../../../includes/userRepository.h"
+#include "../../../includes/reader.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -62,16 +63,6 @@ Ride *createRide(char *line) {
   return ride;
 }
 
-HashTable *rideHashTableSingleton() {
-  static HashTable *ridesHashTable = NULL;
-
-  if (ridesHashTable == NULL) {
-    ridesHashTable = createHashTable();
-  }
-
-  return ridesHashTable;
-}
-
 void addRide(char* line) {
   HashTable *ridesHashTable = rideHashTableSingleton();
 
@@ -85,6 +76,20 @@ void addRide(char* line) {
   User *user = findUserByUsername(newRide->user);
   if (user)
     addUserRide(newRide->user, id);
+}
+
+void createRidesHashTable(const char *path) {
+  foreachLineOfFile(path, &addRide);
+}
+
+HashTable *rideHashTableSingleton() {
+  static HashTable *ridesHashTable = NULL;
+
+  if (ridesHashTable == NULL) {
+    ridesHashTable = createHashTable();
+  }
+
+  return ridesHashTable;
 }
 
 // Always returns a copy when ride exists
