@@ -1,6 +1,8 @@
 #include "includes/userRepository.h"
 #include "includes/driverRepository.h"
 #include "includes/rideRepository.h"
+#include "includes/userStatistics.h"
+#include "includes/driverStatistics.h"
 
 #include "includes/api.h"
 
@@ -21,6 +23,8 @@ int main() {
   HashTable *usersTable = userHashTableSingleton();
   HashTable *driversTable = driverHashTableSingleton();
   HashTable *ridesTable = rideHashTableSingleton();
+  HashTable *usersStatisticsTable = usersStatisticsHashTableSingleton();
+  HashTable *driversStatisticsTable = driversStatisticsHashTableSingleton();
 
   User *user = findById(usersTable, "SebastFerreira-Lopes");
   printf("user name: %s\n", getUName(user));
@@ -32,6 +36,10 @@ int main() {
 
   Ride *ride = findById(ridesTable, "000000002236");
   printf("ride user: %s\n", getRUsername(ride));
+
+  UserStatistics *userStatistics = findById(usersStatisticsTable,"PetrPacheco");
+
+  printf("TOTAL EARN:%f\n",getUStotalExpense(userStatistics)+getUStotalTipsExpense(userStatistics));
 
   return 0;
 }

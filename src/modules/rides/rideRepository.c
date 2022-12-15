@@ -1,6 +1,11 @@
 #include "../../../includes/rideRepository.h"
 
+#include "../../../includes/driverRepository.h"
+#include "../../../includes/driverStatistics.h"
 #include "../../../includes/userRepository.h"
+#include "../../../includes/userStatistics.h"
+#include "../../../includes/utilsStatistics.h"
+
 #include "../../../includes/reader.h"
 
 #include <stdlib.h>
@@ -48,34 +53,44 @@ Ride *getRideCopy(Ride *ride) {
 Ride *createRide(char *line) {
   Ride *ride = calloc(1, sizeof(Ride));
 
-  //char *line = strdup(line);
+  char *lineCopy = strdup(line);
 
   //ride->id = strdup (strsep(&line, ";"));
-  ride->date = strdup(strsep(&line, ";"));
-  ride->driver = strdup(strsep(&line, ";"));
-  ride->user = strdup(strsep(&line, ";"));    
-  ride->city = strdup(strsep(&line, ";"));
-  ride->distance = atof(strsep(&line, ";"));
-  ride->score_user = atof(strsep(&line, ";"));
-  ride->score_driver = atof(strsep(&line, ";"));
-  ride->tip = atof(strsep(&line, ";"));
-  ride->comment = strdup(strsep(&line, ";"));
+  ride->date = strdup(strsep(&lineCopy, ";"));
+  ride->driver = strdup(strsep(&lineCopy, ";"));
+  ride->user = strdup(strsep(&lineCopy, ";"));    
+  ride->city = strdup(strsep(&lineCopy, ";"));
+  ride->distance = atof(strsep(&lineCopy, ";"));
+  ride->score_user = atof(strsep(&lineCopy, ";"));
+  ride->score_driver = atof(strsep(&lineCopy, ";"));
+  ride->tip = atof(strsep(&lineCopy, ";"));
+  ride->comment = strdup(strsep(&lineCopy, ";"));
   return ride;
 }
 
 void addRide(char* line) {
   HashTable *ridesHashTable = rideHashTableSingleton();
-
   char* id = strdup(strsep(&line, ";"));
-
   Ride *newRide = createRide(line);
 
   addToTable(ridesHashTable, id, (Pointer)newRide);
 
-  // Add user and ride relation
   User *user = findUserByUsername(newRide->user);
-  if (user)
+  Driver *driver = findDriverByID(newRide->driver);
+  double ridePrice = 0;
+
+  if(driver){
+    char *carClass = getDCarClass(driver);
+    ridePrice = ridePriceCalculator(carClass,newRide->distance);
+    addDriverStatistics(newRide->driver, newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
+    //free(carClass);
+  }
+  if (user){
+  // Add user and ride relation
     addUserRide(newRide->user, id);
+  //Cria ou atualiza um UserStatistics
+    addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
+  }
 }
 
 void createRidesHashTable(const char *path) {

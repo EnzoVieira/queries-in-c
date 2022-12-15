@@ -3,6 +3,8 @@
 #include <glib.h>
 #include <stdio.h>
 
+#define DATE "09/10/2022"
+
 // ============================
 //       private methods
 // ============================

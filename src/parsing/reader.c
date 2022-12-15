@@ -32,6 +32,6 @@ void foreachLineOfFile(const char *path, void(*func)(char *line)) {
     func(line);
   }
 
-  free(line);
   fclose(fp);
+  //free(line);
 }

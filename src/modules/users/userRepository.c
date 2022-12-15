@@ -36,6 +36,22 @@ User *getUserCopy(User *user) {
   return userCopy;
 }
 
+void userDestroy (User *user){
+
+  if (user){
+    if (user->name)
+      free(user->name);
+    if (user->birth_date)
+      free(user->birth_date);
+    if (user->account_creation)
+      free(user->account_creation);
+    if (user->pay_method)
+      free(user->pay_method);
+  }
+  //destroyME = NULL;
+}
+
+
 // ============================
 //       public methods
 // ============================
