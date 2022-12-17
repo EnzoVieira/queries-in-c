@@ -23,7 +23,6 @@ Date *dateConvert(char *birthDate) {
 }
 
 int dateToAge (char *dateString){
-    
     int age = 0;
     Date *todayDate = dateConvert(DATE);
     Date *date = dateConvert(dateString);
@@ -35,7 +34,7 @@ int dateToAge (char *dateString){
     return age;
 }
 
-/*
+
 int dateDifference(Date *d) {
   Date *consideredDate = dateConvert(DATE);
   int age = 0;
@@ -49,7 +48,7 @@ int dateDifference(Date *d) {
   free(consideredDate);
   return age;
 }
-*/
+
 
 // Calcula se a data A é menor que a data B 
 int isSmallerDate(char *a, char *b) {
