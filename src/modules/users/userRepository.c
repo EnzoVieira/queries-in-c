@@ -131,6 +131,10 @@ char *getUName(const User *user) {
   return strdup(user->name);
 }
 
+char getUGender(const User *user) {
+  return user->gender;
+}
+
 char* getUBirthDate(const User *user) {
   return strdup(user->birth_date);
 }

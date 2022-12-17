@@ -6,11 +6,11 @@
 
 #define DATE "09/10/2022"
 
-struct {
+struct date{
     int day;
     int month;
     int year;
-} Date;
+};
 
 
 Date *dateConvert(char *birthDate) {

@@ -14,6 +14,17 @@ struct userStatistics {
   double totalTipsExpense;
 };
 
+UserStatistics *getUserStatisticsCopy(UserStatistics *userStatistics) {
+  UserStatistics *userStatisticsCopy = calloc(1, sizeof(UserStatistics));
+
+  userStatisticsCopy->totalDistance = userStatistics->totalDistance;
+  userStatisticsCopy->totalScore = userStatistics->totalScore;
+  userStatisticsCopy->totalTrips = userStatistics->totalTrips;
+  userStatisticsCopy->totalExpense = userStatistics->totalExpense;
+  userStatisticsCopy->totalTipsExpense = userStatistics->totalTipsExpense;
+  return userStatisticsCopy;
+}
+
 
 HashTable *usersStatisticsHashTableSingleton() {
   static HashTable *userStatisticsHashTable = NULL;
@@ -21,7 +32,18 @@ HashTable *usersStatisticsHashTableSingleton() {
   if (userStatisticsHashTable == NULL) {
     userStatisticsHashTable = createHashTable();
   }
+UserStatistics *createUserStatistics(char *user, double distance, double score, double expense, double tips) {
+  UserStatistics *userStatistics = calloc(1, sizeof(UserStatistics));
 
+  userStatistics->totalDistance += distance;
+  userStatistics->totalScore += score;
+  userStatistics->totalTrips ++;
+  userStatistics->totalExpense += expense;
+  userStatistics->totalTipsExpense += tips;
+
+  return userStatistics;
+
+}
   return userStatisticsHashTable;
 }
 
@@ -59,6 +81,25 @@ void addUserStatistics(char *user, double distance, double score, double expense
   }
 }
 
+UserStatistics *findUserStatisticsByUsername(const char *username) {
+  HashTable *userStatisticsHashTable = usersStatisticsHashTableSingleton();
+
+  UserStatistics *userFinded = (UserStatistics*) findById(userStatisticsHashTable, username);
+  if (userFinded) {
+    return getUserStatisticsCopy(userFinded);
+  }
+
+  return NULL;
+}
+
+double getUStotalDistance(const UserStatistics *userStatistics) {
+  return userStatistics->totalDistance;
+}
+
+double getUStotalScore(const UserStatistics *userStatistics) {
+  return userStatistics->totalScore;
+}
+
 double getUStotalExpense(const UserStatistics *userStatistics) {
   return userStatistics->totalExpense;
 }
@@ -70,3 +111,4 @@ double getUStotalTrips(const UserStatistics *userStatistics) {
 double getUStotalTipsExpense(const UserStatistics *userStatistics) {
   return userStatistics->totalTipsExpense;
 }
+

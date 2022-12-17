@@ -4,6 +4,8 @@
 #include "includes/userStatistics.h"
 #include "includes/driverStatistics.h"
 
+#include "includes/query1.h"
+
 #include "includes/api.h"
 
 #include <stdio.h>
@@ -39,7 +41,8 @@ int main() {
 
   UserStatistics *userStatistics = findById(usersStatisticsTable,"PetrPacheco");
 
-  printf("TOTAL EARN:%f\n",getUStotalExpense(userStatistics)+getUStotalTipsExpense(userStatistics));
+  q1("000000008561");
+
 
   return 0;
 }

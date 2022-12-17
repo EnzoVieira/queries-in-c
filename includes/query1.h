@@ -3,5 +3,7 @@
 
 #include "./api.h"
 
+void q1 (char *identification);
+
 
 #endif

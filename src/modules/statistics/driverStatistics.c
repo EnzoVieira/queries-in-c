@@ -7,12 +7,23 @@
 #include "../../../includes/rideRepository.h"
 
 struct driverStatistics {
-  double totaDistance;
+  double totalDistance;
   double totalScore;
   double totalTrips;
   double totalEarn;
   double totalTipsEarn;
 };
+
+DriverStatistics *getDriverStatisticsCopy(DriverStatistics *driverStatistics) {
+  DriverStatistics *driverStatisticsCopy = calloc(1, sizeof(DriverStatistics));
+
+  driverStatisticsCopy->totalDistance = driverStatistics->totalDistance;
+  driverStatisticsCopy->totalScore = driverStatistics->totalScore;
+  driverStatisticsCopy->totalTrips = driverStatistics->totalTrips;
+  driverStatisticsCopy->totalEarn = driverStatistics->totalEarn;
+  driverStatisticsCopy->totalTipsEarn = driverStatistics->totalTipsEarn;
+  return driverStatisticsCopy;
+}
 
 HashTable *driversStatisticsHashTableSingleton() {
   static HashTable *driverStatisticsHashTable = NULL;
@@ -29,7 +40,7 @@ DriverStatistics *createDriverStatistics(char *id, double distance, double score
   
   DriverStatistics *driverStatistics = calloc(1, sizeof(DriverStatistics));
 
-  driverStatistics->totaDistance += distance;
+  driverStatistics->totalDistance += distance;
   driverStatistics->totalScore += score;
   driverStatistics->totalTrips ++;
   driverStatistics->totalEarn += earn;
@@ -51,10 +62,41 @@ void addDriverStatistics(char *id, double distance, double score, double earn, d
   }
   //Se existir atualiza o existente
   else {
-    driverStatistics->totaDistance += distance;
+    driverStatistics->totalDistance += distance;
     driverStatistics->totalScore += score;
     driverStatistics->totalTrips ++;
     driverStatistics->totalEarn += earn;
     driverStatistics->totalTipsEarn += tips;
   }
+}
+
+DriverStatistics *findDriverStatisticsByUsername(const char *id) {
+  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
+
+  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
+  if (driverFinded) {
+    return getDriverStatisticsCopy(driverFinded);
+  }
+
+  return NULL;
+}
+
+double getDStotalDistance(const DriverStatistics *driverStatistics) {
+  return driverStatistics->totalDistance;
+}
+
+double getDStotalScore(const DriverStatistics *driverStatistics) {
+  return driverStatistics->totalScore;
+}
+
+double getDStotalEarn(const DriverStatistics *driverStatistics) {
+  return driverStatistics->totalEarn;
+}
+
+double getDStotalTrips(const DriverStatistics *driverStatistics) {
+  return driverStatistics->totalTrips;
+}
+
+double getDStotalTipsEarn(const DriverStatistics *driverStatistics) {
+  return driverStatistics->totalTipsEarn;
 }

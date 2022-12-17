@@ -19,6 +19,7 @@ void addUserRide(const char *username, const char *rideId);
 // ============================
 
 char *getUName(const User *user) ;
+char getUGender(const User *user);
 char* getUBirthDate(const User *user);
 char *getUAccountCreation(const User *user) ;
 char *getUPayMethod(const User *user);
