@@ -8,6 +8,7 @@ typedef void* Pointer;
 typedef void(*Func)(Pointer data, Pointer aux);
 
 HashTable *createHashTable();
+void hashForeach(List *list, Func func ,Pointer data);
 void addToTable(HashTable *table, char *key, Pointer value);
 Pointer findById(HashTable *table, const char* id);
 List *createList();

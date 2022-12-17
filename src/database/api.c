@@ -25,6 +25,10 @@ HashTable *createHashTable() {
   return hashTable;
 }
 
+void hashForeach(List *list, Func func ,Pointer data) {
+  g_hash_table_foreach((GHashTable*) list, (GHFunc) func,(gpointer) data);
+}
+
 void addToTable(HashTable *table, char *key, Pointer value) {
   g_hash_table_insert((GHashTable *) table, key, value);
 }
