@@ -5,6 +5,7 @@
 #include "includes/driverStatistics.h"
 
 #include "includes/query1.h"
+#include "includes/dates.h"
 
 #include "includes/api.h"
 
@@ -41,7 +42,9 @@ int main() {
 
   UserStatistics *userStatistics = findById(usersStatisticsTable,"PetrPacheco");
 
-  q1("000000008561");
+  printf("AGEAGE:%d\n",dateToAge("29/04/1996"));
+
+  q1("PetrPacheco");
 
 
   return 0;

@@ -137,3 +137,24 @@ char *getDAccountCreation(Driver *driver) {
 int getDAccountStatus(Driver *driver) {
   return driver->account_status;
 }
+
+void destructDriverCopy(void *d){
+  Driver *driver = (Driver*)d; 
+  if (driver){
+    if (driver->name)
+      free(driver->name);
+    if (driver->birth_date)
+      free(driver->birth_date);
+    if (driver->car_class)
+      free(driver->car_class);
+    if (driver->license_plate)
+      free(driver->license_plate);
+    if (driver->city)
+      free(driver->city);
+    if (driver->account_creation)
+      free(driver->account_creation);
+    
+    freeListOfStrings(driver->driverRidesId);
+    driver = NULL;
+  }
+}

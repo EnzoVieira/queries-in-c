@@ -3,7 +3,7 @@
 
 #include "./api.h"
 
-void q1 (char *identification);
+char *q1 (char *identification);
 
 
 #endif

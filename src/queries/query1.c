@@ -9,8 +9,7 @@
 #include "../../includes/driverStatistics.h"
 #include "../../includes/dates.h"
 
-
-void q1 (char *identification){
+char *q1 (char *identification){
     
     User *userExists = findUserByUsername(identification);
     Driver *driverExists = findDriverByID(identification);
@@ -40,13 +39,18 @@ void q1 (char *identification){
         scoreMedia = getDStotalScore(driverStatistics)/totalRides;
         totalPrice = getDStotalEarn(driverStatistics)+getDStotalTipsEarn(driverStatistics);
     }
+    else {
+        free(name);
+        destructUserCopy(userExists);
+        destructDriverCopy(driverExists);
+        return NULL;
+    }
 
-    size_t outputLength = (strlen(name) + 1 + 3 + 4 + 6 + 7) * 5;
-    char *output = calloc(outputLength, sizeof(char));
-
-
+    char *output = calloc(100, sizeof(char));
     sprintf(output, "%s;%c;%d;%.3f;%g;%.3f\n", name, gender, age, scoreMedia, totalRides, totalPrice);
 
-    printf("OUTPUT: %s\n",output);
+    destructUserCopy(userExists);
+    destructDriverCopy(driverExists);
 
+    return output;
 }

@@ -14,5 +14,6 @@ List *createList();
 List *copyList(List *list);
 List *addToList(List *list, Pointer data);
 void listForeach(List *list, Func func);
+void freeListOfStrings(List *list);
 
 #endif

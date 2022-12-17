@@ -32,18 +32,7 @@ HashTable *usersStatisticsHashTableSingleton() {
   if (userStatisticsHashTable == NULL) {
     userStatisticsHashTable = createHashTable();
   }
-UserStatistics *createUserStatistics(char *user, double distance, double score, double expense, double tips) {
-  UserStatistics *userStatistics = calloc(1, sizeof(UserStatistics));
 
-  userStatistics->totalDistance += distance;
-  userStatistics->totalScore += score;
-  userStatistics->totalTrips ++;
-  userStatistics->totalExpense += expense;
-  userStatistics->totalTipsExpense += tips;
-
-  return userStatistics;
-
-}
   return userStatisticsHashTable;
 }
 
