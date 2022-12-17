@@ -25,5 +25,6 @@ char *getUAccountCreation(const User *user) ;
 char *getUPayMethod(const User *user);
 int getUAccountStatus(const User *user);
 List *getUserRidesList(const User *user);
+void destructUserCopy(void *user);
 
 #endif

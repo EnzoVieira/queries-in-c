@@ -48,3 +48,7 @@ List *addToList(List *list, Pointer data) {
 void listForeach(List *list, Func func) {
   g_list_foreach((GList*) list, (GFunc) func, NULL);
 }
+
+void freeListOfStrings(List *list){
+  g_list_free_full((GList*)list,(GDestroyNotify)free);
+}
