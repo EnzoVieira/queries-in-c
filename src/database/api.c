@@ -25,7 +25,7 @@ HashTable *createHashTable() {
   return hashTable;
 }
 
-void hashForeach(List *list, Func func ,Pointer data) {
+void hashForeach(HashTable *list, HFunc func ,Pointer data) {
   g_hash_table_foreach((GHashTable*) list, (GHFunc) func,(gpointer) data);
 }
 

@@ -5,10 +5,11 @@ typedef struct hashTable HashTable;
 typedef struct list List;
 typedef void* Pointer;
 
+typedef void(*HFunc)(Pointer key, Pointer value, Pointer data);
 typedef void(*Func)(Pointer data, Pointer aux);
 
 HashTable *createHashTable();
-void hashForeach(List *list, Func func ,Pointer data);
+void hashForeach(HashTable *list, HFunc func ,Pointer data);
 void addToTable(HashTable *table, char *key, Pointer value);
 Pointer findById(HashTable *table, const char* id);
 List *createList();
