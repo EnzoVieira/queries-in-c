@@ -5,6 +5,7 @@
 #include "includes/driverStatistics.h"
 
 #include "includes/query1.h"
+#include "includes/query2.h"
 #include "includes/dates.h"
 
 #include "includes/api.h"
@@ -44,7 +45,10 @@ int main() {
 
   printf("AGEAGE:%d\n",dateToAge("29/04/1996"));
 
-  q1("PetrPacheco");
+  printf("%s\n",q1("000000003874"));
+  q2(50);
+  q2(50);
+  q2(50);
 
 
   return 0;

@@ -15,6 +15,7 @@ struct driver {
   char *city;
   char *account_creation;
   int account_status;
+  char *last_ride;
   List *driverRidesId;
 };
 
@@ -33,6 +34,7 @@ Driver *getDriverCopy(Driver* driver) {
   driverCopy->license_plate = strdup(driver->license_plate);
   driverCopy->city = strdup(driver->city);
   driverCopy->account_creation = strdup(driver->account_creation);
+  driverCopy->last_ride = strdup(driver->last_ride);
   driverCopy->account_status = driver->account_status;
 
   return driverCopy;
@@ -54,6 +56,7 @@ Driver *createDriver(const char *line) {
   driver->license_plate = strdup(strsep(&lineCopy, ";"));
   driver->city = strdup(strsep(&lineCopy, ";"));
   driver->account_creation = strdup(strsep(&lineCopy, ";"));
+  driver->last_ride = "00/00/0000";
 
   if (*(strsep(&lineCopy, ";")) == 'a')
     driver->account_status = 1;
@@ -102,6 +105,15 @@ Driver *findDriverByID(const char *id) {
   return NULL;
 }
 
+void addDriverLastRide(const char *id, const char *date) {
+  HashTable *driverHashTable = driverHashTableSingleton();
+
+  Driver *driverFinded = (Driver*)findById(driverHashTable, id);
+
+  driverFinded->last_ride = strdup(date);
+}
+
+
 // ============================
 //           GETTERS
 // ============================
@@ -138,6 +150,10 @@ int getDAccountStatus(Driver *driver) {
   return driver->account_status;
 }
 
+char *getDLastRide(Driver *driver) {
+  return strdup(driver->last_ride);
+}
+
 void destructDriverCopy(void *d){
   Driver *driver = (Driver*)d; 
   if (driver){
@@ -153,6 +169,8 @@ void destructDriverCopy(void *d){
       free(driver->city);
     if (driver->account_creation)
       free(driver->account_creation);
+    if (driver->last_ride)
+      free(driver->last_ride);
     
     freeListOfStrings(driver->driverRidesId);
     driver = NULL;
