@@ -6,6 +6,7 @@
 
 #include "includes/query1.h"
 #include "includes/dates.h"
+#include "includes/interactive.h"
 
 #include "includes/api.h"
 
@@ -46,6 +47,7 @@ int main() {
 
   q1("PetrPacheco");
 
+  interactiveMode();
 
   return 0;
 }
