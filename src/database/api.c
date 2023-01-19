@@ -41,6 +41,9 @@ Pointer findById(HashTable *table, const char* id) {
   return g_hash_table_lookup((GHashTable*) table, id);
 }
 
+List* copyFromHash(HashTable* table) {
+  return (List*) g_hash_table_get_values((GHashTable*) table);
+}
 
 //List
 

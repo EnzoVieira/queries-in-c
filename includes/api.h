@@ -12,6 +12,7 @@ typedef int(*CompareFunc)(Pointer a, Pointer b);
 HashTable *createHashTable();
 void hashForeach(HashTable *list, HFunc func ,Pointer data);
 void addToTable(HashTable *table, char *key, Pointer value);
+List* copyFromHash(HashTable* table);
 Pointer findById(HashTable *table, const char* id);
 List *createList();
 List *copyList(List *list);
