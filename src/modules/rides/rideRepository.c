@@ -5,6 +5,7 @@
 #include "../../../includes/userRepository.h"
 #include "../../../includes/userStatistics.h"
 #include "../../../includes/utilsStatistics.h"
+#include "../../../includes/dates.h"
 
 #include "../../../includes/reader.h"
 
@@ -81,9 +82,15 @@ void addRide(char* line) {
 
   if(driver){
     char *carClass = getDCarClass(driver);
+    char *lastRide = getDLastRide(driver);
+
     ridePrice = ridePriceCalculator(carClass,newRide->distance);
     addDriverStatistics(newRide->driver, newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
+    
+    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
+      addDriverLastRide(newRide->driver,newRide->date);
     //free(carClass);
+    }
   }
   if (user){
   // Add user and ride relation

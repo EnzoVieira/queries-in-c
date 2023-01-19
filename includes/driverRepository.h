@@ -10,6 +10,7 @@ void addDriver(char *line);
 void createDriversHashTable(const char *path);
 HashTable *driverHashTableSingleton();
 Driver *findDriverByID(const char *id);
+void addDriverLastRide(const char *id, const char *date);
 
 // ============================
 //           GETTERS
@@ -23,6 +24,8 @@ char *getDLicensePlate(Driver *d);
 char *getDCity(Driver *d);
 char *getDAccountCreation(Driver *d);
 int getDAccountStatus(Driver *d);
+char *getDLastRide(Driver *d);
 void destructDriverCopy(void *d);
+
 
 #endif
