@@ -1,6 +1,7 @@
 #include "../../includes/reader.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 FILE *openFile(const char *path) {
   FILE *fp;
@@ -18,6 +19,38 @@ int readLine(char **buffer, FILE *fp) {
   size_t len;
 
   return getline(buffer, &len, fp);
+}
+
+// Retorna o conteúdo de um ficheiro.
+// Caso ele esteja vazio (i.e. 0 bytes), retorna NULL.
+char *readFile(const char *filename) {
+  FILE *fp;
+  char *line = NULL;
+
+  fp = fopen(filename, "rb");
+  if (fp == NULL) {
+    printf("Não foi possível ler o ficheiro %s\n", filename);
+    exit(1);
+  }
+
+  char *buffer = calloc(1, sizeof(char));
+  buffer[0] = '\0';
+
+  while(readLine(&line, fp) != -1) {
+    buffer = realloc(buffer, (strlen(buffer) + strlen(line) + 1) * sizeof(char));
+    strcat(buffer, line);
+  }
+
+  fclose(fp);
+
+  if(line)
+    free(line);
+
+  // Caso o buffer tenha apenas um '\0', significa que o ficheiro está vazio, logo, retorne NULL
+  if (strcmp(buffer, "\0") == 0)
+    return NULL;
+  
+  return buffer;
 }
 
 void foreachLineOfFile(const char *path, void(*func)(char *line)) {

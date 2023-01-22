@@ -29,8 +29,6 @@ int dateToAge (char *dateString){
           //diferença de anos           retira 1 se o mes é anterior            retira 1 se o mes for igual e o dia anterior              
     age = (todayDate->year - date->year)-(todayDate->month<date->month || (todayDate->month==date->month && todayDate->day<date->day));
 
-    printf("AGE:%d\n",age);
-
     return age;
 }
 
