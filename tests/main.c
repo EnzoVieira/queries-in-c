@@ -4,6 +4,11 @@
 
 // APAGAR DEPOIS
 #include "../includes/query1.h"
+#include "../includes/query4.h"
+#include "../includes/query5.h"
+#include "../includes/query6.h"
+#include "../includes/query7.h"
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -75,11 +80,72 @@ void func(char *line, unsigned int *index) {
         printf("expected:\n\n");
         printf("\t%s\n\n", expectedResult);
 
+        printf("got:\n\n");
+        printf("\t%s\n\n", result);
+      }
+
+      break;
+    }
+
+    case '4': {
+      token = strtok(NULL, delim);
+      result = q4(token);
+      char *expectedResult = NULL;
+
+      if (assertResult(result, filename, &expectedResult)) {
+        printf("%squery4(%s)\n", AC_GREEN, token);
+      } else {
+        printf("%squery4(%s)\n\n", AC_RED, token);
+
+        printf("expected:\n\n");
+        printf("\t%s\n\n", expectedResult);
 
         printf("got:\n\n");
         printf("\t%s\n\n", result);
       }
 
+      break;
+    }
+
+    case '5': {
+      char *date1 = strtok(NULL, delim);
+      char *date2 = strtok(NULL, delim);
+      result = q5(date1, date2);
+      char *expectedResult = NULL;
+
+      if (assertResult(result, filename, &expectedResult)) {
+        printf("%squery5(%s, %s)\n", AC_GREEN, date1, date2);
+      } else {
+        printf("%squery5(%s, %s)\n\n", AC_RED, date1, date2);
+
+        printf("expected:\n\n");
+        printf("\t%s\n\n", expectedResult);
+
+        printf("got:\n\n");
+        printf("\t%s\n\n", result);
+      }
+
+      break;
+    }
+
+    case '6': {
+      char *city = strtok(NULL, delim);
+      char *date1 = strtok(NULL, delim);
+      char *date2 = strtok(NULL, delim);
+      result = q6(city, date1, date2);
+      char *expectedResult = NULL;
+
+      if (assertResult(result, filename, &expectedResult)) {
+        printf("%squery6(%s, %s, %s)\n", AC_GREEN, city, date1, date2);
+      } else {
+        printf("%squery6(%s, %s, %s)\n\n", AC_RED, city, date1, date2);
+
+        printf("expected:\n\n");
+        printf("\t%s\n\n", expectedResult);
+
+        printf("got:\n\n");
+        printf("\t%s\n\n", result);
+      }
 
       break;
     }

@@ -29,7 +29,6 @@ void mediaPriceCalculator(Pointer key, Pointer value, Pointer data){
 
 
 char *q4(char *city) {
-    
     HashTable *rideHashTable = rideHashTableSingleton();
     Q4Aux cityInfo = {city,0,0};
     
@@ -39,6 +38,4 @@ char *q4(char *city) {
     sprintf(output, "%.3f\n", cityInfo.priceAcc/cityInfo.totalRides);
 
     return output;
-
-    return 0;
 }

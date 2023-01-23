@@ -31,6 +31,5 @@ char* q6(char* city, char* date1, char* date2) {
     hashForeach(rides, getTotalDistanceByCity, &q6);
     char* output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", (q6.totalDistance / q6.totalTrips));
-    printf("%s\n",output);
     return output;
 }
