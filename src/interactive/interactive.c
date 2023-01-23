@@ -1,5 +1,13 @@
 #include "../../includes/interactive.h"
 
+#include "../../includes/terminal.h"
+
+// queries
+#include "../../includes/query1.h"
+#include "../../includes/query4.h"
+#include "../../includes/query5.h"
+#include "../../includes/query6.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,10 +17,6 @@
 #define MAX_COMMANDS_PER_INPUT_LEN 10
 #define MAX_COMMAND_LEN 100
 #define REGEX_OPTIONS_LEN 7
-
-#define AC_BLUE "\x1b[34m"
-#define AC_GREEN "\x1b[32m"
-#define AC_NORMAL "\033[0m"
 
 typedef enum {
   ON,
@@ -114,6 +118,11 @@ void handleQueryCommand(CommandToken *commandTokens) {
       commandTokens++;
 
       printf("A executar query1(%s)...\n\n", commandTokens->token);
+
+      char *result = q1(commandTokens->token);
+      greenColor();
+      printf("%s\n", result);
+
       break;
     }
 
@@ -129,6 +138,11 @@ void handleQueryCommand(CommandToken *commandTokens) {
     
     case '4':
       printf("A executar query4(%s)...\n\n", (++commandTokens)->token);
+
+      char *result = q4(commandTokens->token);
+      greenColor();
+      printf("%s\n", result);
+
       break;
     
     case '5': {
@@ -138,6 +152,11 @@ void handleQueryCommand(CommandToken *commandTokens) {
       char *arg2 = commandTokens->token;
 
       printf("A executar query5(%s, %s)...\n\n", arg1, arg2);
+
+      char *result = q5(arg1, arg2);
+      greenColor();
+      printf("%s\n", result);
+
       break;
     }
     
@@ -150,6 +169,11 @@ void handleQueryCommand(CommandToken *commandTokens) {
       char *arg3 = commandTokens->token;
 
       printf("A executar query6(%s, %s, %s)...\n\n", arg1, arg2, arg3);
+
+      char *result = q6(arg1, arg2, arg3);
+      greenColor();
+      printf("%s\n", result);
+
       break;
     }
 
@@ -186,24 +210,30 @@ void handleQueryCommand(CommandToken *commandTokens) {
     default:
       break;
   }
+
+  resetColor();
 }
 
 void handleCommandTokens(Status *status, CommandToken *commandTokens) {
   switch (commandTokens->commandType) {
     case EXIT:
       *status = OFF;
-      printf("\n%s> A sair do modo interativo 👋\n", AC_GREEN);
+
+      greenColor();
+      printf("\n> A sair do modo interativo 👋\n");
       break;
 
     case INFO:
-      printf("\n%s> Informações sobre o menu:\n", AC_BLUE);
+      blueColor();
+
+      printf("\n> Informações sobre o menu:\n");
 
       printf("\n> Para executar uma query, digite query desejada seguida pelos seus argumentos.\n");
       printf(">> '< query | q | [ID] > [arg1...argN]'\n");
       printf("\nPor exemplo:\n");
       printf("$ 1 <ID>\n");
       printf("$ query1 <ID>\n");
-      printf("$ q6 <city> <date A> <date B>%s\n\n", AC_NORMAL);
+      printf("$ q6 <city> <date A> <date B>\n\n");
       break;
 
     case QUERY:
@@ -215,8 +245,12 @@ void handleCommandTokens(Status *status, CommandToken *commandTokens) {
       break;
     
     default:
+      redColor();
+      printf("\n> Comando incompleto. Digite 'info' para saber os comandos disponíveis.\n\n");
       break;
     }
+
+    resetColor();
 }
 
 // Função que irá ler o input, e depois passá-lo a outra função que ira criar um array de comandos
@@ -238,9 +272,11 @@ void readInput(Status *status) {
 void interactiveMode() {
   Status status = ON;
 
-  printf("\n%s> Você entrou no modo interativo\n", AC_BLUE);
+  blueColor();
+  printf("\n> Você entrou no modo interativo\n");
   printf("> Digite 'info' para mostrar comandos possíveis do menu\n");
-  printf("> Digite 'exit' a qualquer momento para sair%s\n\n", AC_NORMAL);
+  printf("> Digite 'exit' a qualquer momento para sair\n\n");
+  resetColor();
 
   while(status != OFF) {
     readInput(&status);
