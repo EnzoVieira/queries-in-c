@@ -1,6 +1,7 @@
 #include "../../includes/interactive.h"
 
 #include "../../includes/terminal.h"
+#include "../../includes/database.h"
 
 // queries
 #include "../../includes/query1.h"
@@ -83,8 +84,9 @@ Command useRegex(char* textToCheck) {
 
 // Retorna um array de comandos na linha do input e coloca em 'size' o tamanho do array
 CommandToken *identifyCommands(char *line, int *size) {
+  char *lineCopy = strdup(line);
   char delim[] = " ";
-  char *token = strtok(line, delim);
+  char *token = strtok(lineCopy, delim);
 
   // Cria o array de comandos
   CommandToken *commandsArray = calloc(sizeof(CommandToken), MAX_COMMANDS_PER_INPUT_LEN);
@@ -253,8 +255,15 @@ void handleCommandTokens(Status *status, CommandToken *commandTokens) {
     resetColor();
 }
 
-// Função que irá ler o input, e depois passá-lo a outra função que ira criar um array de comandos
-void readInput(Status *status) {
+// Função que irá lidar com input, passando a outra função que ira criar um array de comandos
+void handleInput(Status *status, char *input) {
+  int arraySize = 0;
+  CommandToken *commandsArray = identifyCommands(input, &arraySize);
+
+  handleCommandTokens(status, commandsArray);
+}
+
+char *readInput() {
   char *line = (char*) calloc(sizeof(char), MAX_INPUT_LEN);
   unsigned int len;
   size_t bufferSize = MAX_INPUT_LEN;
@@ -263,10 +272,7 @@ void readInput(Status *status) {
   len--;
   line[len] = 0;
 
-  int arraySize = 0;
-  CommandToken *commandsArray = identifyCommands(line, &arraySize);
-
-  handleCommandTokens(status, commandsArray);
+  return line;
 }
 
 void interactiveMode() {
@@ -276,9 +282,17 @@ void interactiveMode() {
   printf("\n> Você entrou no modo interativo\n");
   printf("> Digite 'info' para mostrar comandos possíveis do menu\n");
   printf("> Digite 'exit' a qualquer momento para sair\n\n");
+
+  yellowColor();
+  printf("> Para continar, por favor informe o caminho onde estão para a pasta onde estão os ficheiros de entrada\n\n");
   resetColor();
 
+  const char *folderPath = readInput();
+
+  seedDatabase(folderPath);
+
   while(status != OFF) {
-    readInput(&status);
+    char *input = readInput();
+    handleInput(&status, input);
   }
 }

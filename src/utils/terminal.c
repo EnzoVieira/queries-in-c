@@ -14,6 +14,10 @@ void greenColor() {
   printf("%s", AC_GREEN);
 }
 
+void yellowColor() {
+  printf("%s", AC_YELLOW);
+}
+
 void blueColor() {
   printf("%s", AC_BLUE);
 }
