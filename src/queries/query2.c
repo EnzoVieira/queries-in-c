@@ -67,7 +67,6 @@ void q2 (int N){
   static List *driversInfo = NULL;
 
   if(driversInfo == NULL){
-      Q2Aux *driverToList = (Q2Aux*)malloc(sizeof(Q2Aux));
       HashTable *driversStatistics = driversStatisticsHashTableSingleton();
       driversInfo = createList();
       hashForeach(driversStatistics,createDriversList,driversInfo);

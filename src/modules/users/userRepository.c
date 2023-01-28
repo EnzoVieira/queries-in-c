@@ -14,6 +14,7 @@ struct user {
   char *account_creation;
   char *pay_method;
   int  account_status;
+  char *last_ride;
   List *userRidesId;
 };
 
@@ -32,6 +33,9 @@ User *getUserCopy(User *user) {
   userCopy->pay_method = strdup(user->pay_method);
   userCopy->account_status = user->account_status;
   userCopy->userRidesId = copyList(user->userRidesId);
+  userCopy->last_ride = strdup(user->last_ride);
+
+  
 
   return userCopy;
 }
@@ -71,6 +75,7 @@ User *createUser(const char *line) {
     user->account_status = 1;
   else 
     user->account_status = 0;
+  user->last_ride = "00/00/0000";
   
   free(lineCopy);
   return user;
@@ -123,6 +128,14 @@ void addUserRide(const char *username, const char *rideId) {
   userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
 }
 
+void addUserLastRide(const char *username, const char *date) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  userFinded->last_ride = strdup(date);
+}
+
 // ============================
 //           GETTERS
 // ============================
@@ -155,6 +168,10 @@ List *getUserRidesList(const User *user) {
   return copyList(user->userRidesId);
 }
 
+char *getULastRide(const User *user) {
+  return strdup(user->last_ride);
+}
+
 void destructUserCopy(void *u){
   User *user = (User*)u; 
   
@@ -167,6 +184,8 @@ void destructUserCopy(void *u){
       free(user->account_creation);
     if (user->pay_method)
       free(user->pay_method);
+    if (user->last_ride)
+      free(user->last_ride);
 
     freeListOfStrings(user->userRidesId);
     user = NULL;
