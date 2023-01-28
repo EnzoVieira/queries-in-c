@@ -1,8 +1,9 @@
-#include "../includes/userRepository.h"
-#include "../includes/driverRepository.h"
-#include "../includes/rideRepository.h"
+#include "../includes/database.h"
+#include "../includes/strings.h"
+#include "../includes/terminal.h"
+#include "../includes/reader.h"
 
-// APAGAR DEPOIS
+// Mover para outro lugar
 #include "../includes/query1.h"
 #include "../includes/query4.h"
 #include "../includes/query5.h"
@@ -12,22 +13,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-#define AC_RED "\x1b[31m"
-#define AC_GREEN "\x1b[32m"
-#define AC_NORMAL "\033[0m"
-
-// Mover para outro lugar
-#include "../includes/reader.h"
-
-void removeNewLine(char *line) {
-  unsigned int len = strlen(line);
-
-  len--;
-  if (line[len] == '\n') { 
-    line[len] = 0;
-  }
-}
 
 int assertResult(char *result, const char *confirmResultPath, char **expectedResult) {
   char *content = readFile(confirmResultPath);
@@ -61,7 +46,8 @@ void func(char *line, unsigned int *index) {
   char queryNumber = strdup(token)[0];
 
   // print do número do input
-  printf("%s%d ", AC_NORMAL, (*index)+1);
+  resetColor();
+  printf("%d ", (*index)+1);
 
   char *filename = calloc(strlen("config/inputs/inputs2/commandX_output.txt"), sizeof(char));
   sprintf(filename, "config/inputs/inputs2/command%d_output.txt", (*index) + 1);
@@ -73,9 +59,11 @@ void func(char *line, unsigned int *index) {
       char *expectedResult = NULL;
 
       if (assertResult(result, filename, &expectedResult)) {
-        printf("%squery1(%s)\n", AC_GREEN, token);
+        greenColor();
+        printf("query1(%s)\n", token);
       } else {
-        printf("%squery1(%s)\n\n", AC_RED, token);
+        redColor();
+        printf("query1(%s)\n\n", token);
 
         printf("expected:\n\n");
         printf("\t%s\n\n", expectedResult);
@@ -93,9 +81,11 @@ void func(char *line, unsigned int *index) {
       char *expectedResult = NULL;
 
       if (assertResult(result, filename, &expectedResult)) {
-        printf("%squery4(%s)\n", AC_GREEN, token);
+        greenColor();
+        printf("query4(%s)\n", token);
       } else {
-        printf("%squery4(%s)\n\n", AC_RED, token);
+        redColor();
+        printf("query4(%s)\n\n", token);
 
         printf("expected:\n\n");
         printf("\t%s\n\n", expectedResult);
@@ -114,9 +104,11 @@ void func(char *line, unsigned int *index) {
       char *expectedResult = NULL;
 
       if (assertResult(result, filename, &expectedResult)) {
-        printf("%squery5(%s, %s)\n", AC_GREEN, date1, date2);
+        greenColor();
+        printf("query5(%s, %s)\n", date1, date2);
       } else {
-        printf("%squery5(%s, %s)\n\n", AC_RED, date1, date2);
+        redColor();
+        printf("query5(%s, %s)\n\n", date1, date2);
 
         printf("expected:\n\n");
         printf("\t%s\n\n", expectedResult);
@@ -136,9 +128,11 @@ void func(char *line, unsigned int *index) {
       char *expectedResult = NULL;
 
       if (assertResult(result, filename, &expectedResult)) {
-        printf("%squery6(%s, %s, %s)\n", AC_GREEN, city, date1, date2);
+        greenColor();
+        printf("query6(%s, %s, %s)\n", city, date1, date2);
       } else {
-        printf("%squery6(%s, %s, %s)\n\n", AC_RED, city, date1, date2);
+        redColor();
+        printf("query6(%s, %s, %s)\n\n", city, date1, date2);
 
         printf("expected:\n\n");
         printf("\t%s\n\n", expectedResult);
@@ -157,13 +151,11 @@ void func(char *line, unsigned int *index) {
 
 }
 
-int main() {
-  createUsersHashTable("config/data/users.csv");
-  createDriversHashTable("config/data/drivers.csv");
-  // A tabela de rides precisa ser a última a ser criada.
-  createRidesHashTable("config/data/rides.csv");
+// FIXME: Arrumar organização dos testes
+int main(int argc, char *argv[]) {
+  seedDatabase(argv[1]);
 
-  FILE *fp = openFile("config/inputs/inputs2/input.txt");
+  FILE *fp = openFile(argv[2]);
 
   char *line = NULL;
 
