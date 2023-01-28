@@ -64,15 +64,36 @@ Ride *createRide(char *line) {
   //ride->id = strdup (strsep(&line, ";"));
   ride->date = strdup(strsep(&lineCopy, ";"));
   if (*(ride->date) == '\0' || !(validateDate(ride->date))) return NULL;
+  
   ride->driver = strdup(strsep(&lineCopy, ";"));
   if (*(ride->driver) == '\0') return NULL;
+  
   ride->user = strdup(strsep(&lineCopy, ";")); 
   if (*(ride->user) == '\0') return NULL;
+  
   ride->city = strdup(strsep(&lineCopy, ";"));
-  ride->distance = atof(strsep(&lineCopy, ";"));
-  ride->score_user = atof(strsep(&lineCopy, ";"));
+  if (*(ride->city) == '\0') return NULL;
+  
+  char* tmpDistance = strdup(strsep(&lineCopy, ";"));
+  if ((!validatePositiveInt(tmpDistance))) return NULL;
+  ride->distance = atof(tmpDistance);
+  free(tmpDistance);
+  
+  char* tmpScoreUser = strdup(strsep(&lineCopy, ";"));
+  if ((!validatePositiveFloat(tmpScoreUser))) return NULL;
+  ride->score_user = atof(tmpScoreUser);
+  free(tmpScoreUser);
+
+  char* tmpScoreDriver = strdup(strsep(&lineCopy, ";"));
+  if ((!validatePositiveFloat(tmpScoreDriver))) return NULL;
   ride->score_driver = atof(strsep(&lineCopy, ";"));
+  free(tmpScoreDriver);
+  
+  char* tmpTip = strdup(strsep(&lineCopy, ";"));
+  if ((!validatePositiveFloat(tmpTip))) return NULL;
   ride->tip = atof(strsep(&lineCopy, ";"));
+  free(tmpTip);
+
   ride->comment = strdup(strsep(&lineCopy, ";"));
   return ride;
 }
