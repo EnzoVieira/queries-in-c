@@ -53,5 +53,34 @@ int validateStatus(char *status) {
     return match == 0;
 }
 
+int validatePositiveInt (char* number){
 
+char  *numberRegex = "^[1-9][0-9]*$";
+regex_t regex;
+int match;
 
+if (regcomp(&regex,numberRegex,REG_EXTENDED) !=0){
+    return 0;
+}
+
+match = regexec(&regex,number,0,NULL,0);
+regfree(&regex);
+
+return match == 0;
+}
+
+int validatePositiveFloat (char* number){
+
+char  *numberRegex = "^([1-9][0-9]*|0)(.[0-9]+)?$";
+regex_t regex;
+int match;
+
+if (regcomp(&regex,numberRegex,REG_EXTENDED) !=0){
+    return 0;
+}
+
+match = regexec(&regex,number,0,NULL,0);
+regfree(&regex);
+
+return match == 0;
+}
