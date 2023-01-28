@@ -19,7 +19,7 @@ int:
 	./programa-principal
 
 test:
-	./programa-testes "src/data" "exemplos_de_queries2/tests_2/input.txt"
+	./programa-testes "config/data" "config/inputs/inputs2/input.txt"
 
 clean:
 	rm -rf test
