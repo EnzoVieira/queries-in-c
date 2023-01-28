@@ -6,6 +6,7 @@
 
 #include "includes/query1.h"
 #include "includes/query2.h"
+#include "includes/query3.h"
 #include "includes/dates.h"
 #include "includes/interactive.h"
 
@@ -47,11 +48,14 @@ int main() {
   printf("AGEAGE:%d\n",dateToAge("29/04/1996"));
 
   printf("%s\n",q1("000000003874"));
-  q2(50);
-  q2(50);
-  q2(50);
-
-  interactiveMode();
+  //q1("000000003874");
+  //q2(50);
+  //q3(50);
+  Ride *ola = createRide(strdup("19/12/2021;000000002941;JoaqSantos;Faro;3;1;3;5.0;Decade test probably yard."));
+  if (ola) printf("aqui :%s\n",getRUsername(ola));
+//  q3(500);
+  //q3(50);
+  //interactiveMode();
 
   return 0;
 }

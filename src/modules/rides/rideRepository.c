@@ -7,6 +7,10 @@
 #include "../../../includes/utilsStatistics.h"
 #include "../../../includes/dates.h"
 
+#include "../../../includes/validateFuncs.h"
+
+
+
 #include "../../../includes/reader.h"
 
 #include <stdlib.h>
@@ -55,11 +59,15 @@ Ride *createRide(char *line) {
   Ride *ride = calloc(1, sizeof(Ride));
 
   char *lineCopy = strdup(line);
+  int valid;
 
   //ride->id = strdup (strsep(&line, ";"));
   ride->date = strdup(strsep(&lineCopy, ";"));
+  if (*(ride->date) == '\0' || !(validateDate(ride->date))) return NULL;
   ride->driver = strdup(strsep(&lineCopy, ";"));
-  ride->user = strdup(strsep(&lineCopy, ";"));    
+  if (*(ride->driver) == '\0') return NULL;
+  ride->user = strdup(strsep(&lineCopy, ";")); 
+  if (*(ride->user) == '\0') return NULL;
   ride->city = strdup(strsep(&lineCopy, ";"));
   ride->distance = atof(strsep(&lineCopy, ";"));
   ride->score_user = atof(strsep(&lineCopy, ";"));
@@ -73,7 +81,7 @@ void addRide(char* line) {
   HashTable *ridesHashTable = rideHashTableSingleton();
   char* id = strdup(strsep(&line, ";"));
   Ride *newRide = createRide(line);
-
+  if (!newRide) return ;
   addToTable(ridesHashTable, id, (Pointer)newRide);
 
   User *user = findUserByUsername(newRide->user);
@@ -93,11 +101,20 @@ void addRide(char* line) {
     }
   }
   if (user){
+    char *lastRide = getULastRide(user);
+    
   // Add user and ride relation
     addUserRide(newRide->user, id);
   //Cria ou atualiza um UserStatistics
     addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
+   
+    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
+      addUserLastRide(newRide->user,newRide->date);
+    //free(carClass);
+    }
   }
+
+
 }
 
 void createRidesHashTable(const char *path) {
