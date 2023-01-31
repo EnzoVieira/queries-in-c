@@ -4,14 +4,17 @@
 
 #include "../../includes/terminal.h"
 #include "../../includes/strings.h"
+#include "../../includes/times.h"
 
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 
 void seedDatabase(char *folderPath) {
+  clock_t timer;
+
   blueColor();
   printf("\n🌱 A criar a database...\n\n");
+
+  timer = initClock();
 
   createUsersHashTable(concatStrings(folderPath, "/users.csv"));
   createDriversHashTable(concatStrings(folderPath, "/drivers.csv"));
@@ -19,7 +22,6 @@ void seedDatabase(char *folderPath) {
   createRidesHashTable(concatStrings(folderPath, "/rides.csv"));
 
   greenColor();
-  printf("Database criada em 0.00s\n\n");
-
+  printf("Database criada em %.3fs ✅\n\n", calcTime(&timer));
   resetColor();
 }
