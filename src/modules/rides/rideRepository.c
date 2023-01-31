@@ -86,12 +86,12 @@ Ride *createRide(char *line) {
 
   char* tmpScoreDriver = strdup(strsep(&lineCopy, ";"));
   if ((!validatePositiveFloat(tmpScoreDriver))) return NULL;
-  ride->score_driver = atof(strsep(&lineCopy, ";"));
+  ride->score_driver = atof(tmpScoreDriver);
   free(tmpScoreDriver);
   
   char* tmpTip = strdup(strsep(&lineCopy, ";"));
   if ((!validatePositiveFloat(tmpTip))) return NULL;
-  ride->tip = atof(strsep(&lineCopy, ";"));
+  ride->tip = atof(tmpTip);
   free(tmpTip);
 
   ride->comment = strdup(strsep(&lineCopy, ";"));
