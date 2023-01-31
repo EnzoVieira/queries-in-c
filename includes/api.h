@@ -14,6 +14,7 @@ void hashForeach(HashTable *list, HFunc func ,Pointer data);
 void addToTable(HashTable *table, char *key, Pointer value);
 List* copyFromHash(HashTable* table);
 Pointer findById(HashTable *table, const char* id);
+int hashSize(HashTable* hashTable);
 List *createList();
 List *copyList(List *list);
 List *addToList(List *list, Pointer data);
@@ -22,5 +23,6 @@ List *addToSortedList(List *list, Pointer data, CompareFunc func);
 Pointer findInListByIndex(List *list, int index);
 void listForeach(List *list, Func func);
 void freeListOfStrings(List *list);
+int listLength(List* list);
 
 #endif

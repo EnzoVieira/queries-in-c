@@ -42,7 +42,7 @@ void copyToHash(Pointer key, Pointer value, Pointer userData) {
             driver->totalScore += getRScoreDriver(r);
             driver->totalTrips++;
         } else {
-            driver = (Q7Aux*)malloc(sizeof(Q7Aux*));
+            driver = (Q7Aux*)malloc(sizeof(Q7Aux));
             driver->driverID = getRDriverId(r);
             driver->totalScore = getRScoreDriver(r);
             driver->totalTrips = 1;
@@ -63,7 +63,7 @@ char* q7(int N, char* city) {
     HashTable* rides = rideHashTableSingleton();
     HashTable* driversAverageScore = createHashTable();
 
-    Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
+    Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp*));
     temp->city = strdup(city);
     temp->hashTable = driversAverageScore;
     hashForeach(rides, copyToHash, temp);
@@ -73,6 +73,8 @@ char* q7(int N, char* city) {
 
     size_t lineLength = 20 + 50 + 5;
     char* stringGrande = calloc(lineLength * N, sizeof(char));
+
+    // printf("TEST: %d\n", listLength(copy));
     
     int i = 0, j = N;
     while (i < j) {
