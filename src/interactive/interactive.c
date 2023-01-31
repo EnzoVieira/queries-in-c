@@ -2,9 +2,11 @@
 
 #include "../../includes/terminal.h"
 #include "../../includes/database.h"
+#include "../../includes/pagination.h"
 
 // queries
 #include "../../includes/query1.h"
+#include "../../includes/query2.h"
 #include "../../includes/query4.h"
 #include "../../includes/query5.h"
 #include "../../includes/query6.h"
@@ -128,11 +130,17 @@ void handleQueryCommand(CommandToken *commandTokens) {
       break;
     }
 
-    case '2':
+    case '2': {
       commandTokens++;
 
       printf("A executar query2(%s)...\n\n", commandTokens->token);
+
+      char *result = q2(atoi(commandTokens->token));
+      greenColor();
+      pagination(result);
+
       break;
+    }
 
     case '3':
       printf("A executar query3(%s)...\n\n", (++commandTokens)->token);
@@ -275,6 +283,7 @@ char *readInput() {
   return line;
 }
 
+// TODO: Melhorar a apresentação dos resultados do modo interativo
 void interactiveMode() {
   Status status = ON;
 

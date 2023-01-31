@@ -1,16 +1,16 @@
+#include "../../includes/query2.h"
+
+#include "../../includes/driverRepository.h"
+#include "../../includes/driverStatistics.h"
+
+#include "../../includes/api.h"
+#include "../../includes/dates.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "../../includes/api.h"
-#include "../../includes/query2.h"
-
-#include "glib.h"
-//#include "../../includes/userRepository.h"
-#include "../../includes/driverRepository.h"
-//#include "../../includes/userStatistics.h"
-#include "../../includes/driverStatistics.h"
-#include "../../includes/dates.h"
+#define MAX_LINE_LEN 200
 
 typedef struct querie2Aux{
   char *driverId;
@@ -62,21 +62,32 @@ void createDriversList (Pointer key, Pointer value, Pointer data){
 
 
 
-void q2 (int N){
+char *q2(int N) {
 
   static List *driversInfo = NULL;
 
   if(driversInfo == NULL){
-      HashTable *driversStatistics = driversStatisticsHashTableSingleton();
-      driversInfo = createList();
-      hashForeach(driversStatistics,createDriversList,driversInfo);
+    HashTable *driversStatistics = driversStatisticsHashTableSingleton();
+    driversInfo = createList();
+    hashForeach(driversStatistics,createDriversList,driversInfo);
   }
   Q2Aux *driver;
   
+  char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
+
   int i = 1;
   while (i <= N) {
     driver = (Q2Aux*)findInListByIndex(driversInfo,i);
-    printf("i :%d,%s,%s,%f\n",i,driver->driverId,driver->driverName,driver->scoreMedia);
-      i++;
-    }    
+    
+    char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
+    // FIXME: Não acessar diretamente aos valores.
+    sprintf(stringAux, "%s;%s;%.3f\n", driver->driverId, driver->driverName, driver->scoreMedia);
+    
+    strcat(resultStr, stringAux);
+    free(stringAux);
+
+    i++;
+  }
+
+  return resultStr;
 }
