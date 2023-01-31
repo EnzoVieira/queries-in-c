@@ -45,6 +45,10 @@ List* copyFromHash(HashTable* table) {
   return (List*) g_hash_table_get_values((GHashTable*) table);
 }
 
+int hashSize(HashTable* hashTable) {
+  return (int) g_hash_table_size((GHashTable*) hashTable);
+}
+
 //List
 
 List *createList() {
@@ -78,3 +82,8 @@ void listForeach(List *list, Func func) {
 void freeListOfStrings(List *list){
   g_list_free_full((GList*)list,(GDestroyNotify)free);
 }
+
+int listLength(List* list) {
+  return (int) g_list_length((GList*) list);
+}
+
