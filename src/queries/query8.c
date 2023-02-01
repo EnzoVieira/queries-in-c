@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/query8.h"
+#include "../../includes/api.h"
 
 #include "../../includes/rideRepository.h"
 #include "../../includes/driverRepository.h"
 #include "../../includes/userRepository.h"
-#include "../../includes/api.h"
 #include "../../includes/dates.h"
 
 typedef struct query8Aux {
@@ -99,7 +99,6 @@ char* q8(char gender, int years) {
         User* user = findUserByUsername(q8->userID);
 
         if (getDAccountStatus(driver) && getUAccountStatus(user)) {
-            printf("%s,%s,%s,%s,%s,%s\n", q8->driverID, q8->driverName, q8->userID, q8->userName, getDAccountCreation(driver), q8->rideID);
             char *stringAux = calloc(lineLength, sizeof(char));
             sprintf(stringAux, "%s;%s;%s;%s\n", q8->driverID, q8->driverName, q8->userID, q8->userName);
             strcat(stringGrande, stringAux);

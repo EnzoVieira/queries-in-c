@@ -2,10 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/query9.h"
+#include "../../includes/api.h"
 
 #include "../../includes/rideRepository.h"
-#include "../../includes/driverRepository.h"
-#include "../../includes/userRepository.h"
 #include "../../includes/dates.h"
 
 typedef struct query9Aux {
@@ -69,8 +68,6 @@ char* q9(char* date1, char* date2) {
     int i = 0, j = listLength(copy);
     while (i < j) {
         Q9Aux* q9 = findInListByIndex(copy, i);
-
-        printf("%s,%s,%d,%s,%.3f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
         char *stringAux = calloc(lineLength, sizeof(char));
         sprintf(stringAux, "%s;%s;%d;%s;%.3f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
         strcat(stringGrande, stringAux);
