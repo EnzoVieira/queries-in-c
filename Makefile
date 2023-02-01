@@ -6,7 +6,7 @@ OBJ = programa-principal
 FILES = src/modules/**/*.c src/database/*.c src/parsing/*.c src/queries/*.c src/utils/*.c src/interactive/*.c
 
 OBJTEST = programa-testes
-TESTFILES = src/modules/**/*.c src/database/*.c src/parsing/*.c src/queries/*.c src/utils/*.c
+TESTFILES = src/modules/**/*.c src/database/*.c src/parsing/*.c src/queries/*.c src/utils/*.c tests/testQueries/*.c tests/utils/*.c
 
 all:
 	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
