@@ -11,7 +11,7 @@
 typedef struct query9Aux {
     char* rideID;
     char* date;
-    double distance;
+    int distance;
     char* city;
     double tip;
 } Q9Aux;
@@ -28,9 +28,9 @@ int compareFunc3(Pointer a, Pointer b) {
 
     if (r1->distance == r2->distance) {             
         if (compareDates(r1->date, r2->date) == 0)  
-            return strcmp(r1->rideID, r2->rideID);      //compara por ID da viagem
+            return -strcmp(r1->rideID, r2->rideID);      //compara por ID da viagem
         else return compareDates(r1->date, r2->date);   //compara por data da viagem
-    } else return r1->distance > r2->distance;          //compara por distância
+    } else return r1->distance < r2->distance;          //compara por distância
 }
 
 void copyToHash3(Pointer key, Pointer value, Pointer userData) {
@@ -70,9 +70,9 @@ char* q9(char* date1, char* date2) {
     while (i < j) {
         Q9Aux* q9 = findInListByIndex(copy, i);
 
-        printf("%s,%s,%f,%s,%f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
+        printf("%s,%s,%d,%s,%.3f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
         char *stringAux = calloc(lineLength, sizeof(char));
-        sprintf(stringAux, "%s;%s;%f;%s;%f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
+        sprintf(stringAux, "%s;%s;%d;%s;%.3f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
         strcat(stringGrande, stringAux);
         free(stringAux);
         i++;
