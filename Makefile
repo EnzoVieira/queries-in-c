@@ -13,7 +13,7 @@ all:
 	$(CC) tests/main.c $(TESTFILES) -o $(OBJTEST) $(CFLAGS)
 
 exec:
-	./programa-principal "config/data" "exemplos_de_queries2/tests_2/input.txt"
+	./programa-principal "config/data" "config/inputs/inputs2/input.txt"
 
 int:
 	./programa-principal
@@ -22,7 +22,6 @@ test:
 	./programa-testes "config/data" "config/inputs/inputs2/input.txt"
 
 clean:
-	rm -rf test
 	rm -rf *.ex
 	rm -rf *.o
 	rm -rf Resultados/*

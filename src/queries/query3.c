@@ -5,10 +5,11 @@
 #include "../../includes/api.h"
 #include "../../includes/query3.h"
 
-#include "glib.h"
 #include "../../includes/userRepository.h"
 #include "../../includes/userStatistics.h"
 #include "../../includes/dates.h"
+
+#define MAX_LINE_LEN 200
 
 typedef struct querie3Aux{
   char *username;
@@ -35,7 +36,10 @@ int userCompare (Pointer a, Pointer b){
     char *date1 = getULastRide(user1cpy);
     char *date2 = getULastRide(user2cpy);
 
-    return -(compareDates(date1,date2)||strcmp(user1->username,user2->username));
+    int cmpDates = compareDates(date1, date2);
+
+    if (cmpDates) return cmpDates;
+    return strcmp(user1->username, user2->username);
   }
 }
 
@@ -57,24 +61,34 @@ void createUsersList (Pointer key, Pointer value, Pointer data){
   }
 }
 
-void q3 (int N){
+char *q3 (int N){
 
-  printf("oi");
   static List *usersInfo = NULL;
 
   if(usersInfo == NULL){
-      HashTable *usersStatistics = usersStatisticsHashTableSingleton();
-      HashTable *usersInfoHash = createHashTable();
-      hashForeach(usersStatistics,createUsersList,usersInfoHash);
-      usersInfo = copyFromHash(usersInfoHash);
-      usersInfo = sortList(usersInfo,userCompare);
+    HashTable *usersStatistics = usersStatisticsHashTableSingleton();
+    HashTable *usersInfoHash = createHashTable();
+    hashForeach(usersStatistics,createUsersList,usersInfoHash);
+    usersInfo = copyFromHash(usersInfoHash);
+    usersInfo = sortList(usersInfo,userCompare);
   }
   Q3Aux *user;
+
+  char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
   
   int i = 0;
   while (i < N) {
-        user = (Q3Aux*)findInListByIndex(usersInfo,i);
-        printf("i :%d,%s,%s,%.3f\n",i,user->username,user->name,user->totalDistance);
-        i++;
-    }    
+    user = (Q3Aux*)findInListByIndex(usersInfo,i);
+
+    char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
+    // FIXME: Não acessar diretamente aos valores.
+    sprintf(stringAux, "%s;%s;%.0f\n", user->username, user->name, user->totalDistance);
+    
+    strcat(resultStr, stringAux);
+    free(stringAux);
+
+    i++;
+  }
+
+  return resultStr;
 }

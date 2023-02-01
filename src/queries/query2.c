@@ -30,15 +30,16 @@ int mediaDriverCompare (Pointer a, Pointer b){
     return (score1 < score2);
   }
 
-  else {
-    Driver *driver1cpy = findDriverByID(driver1->driverId);
-    Driver *driver2cpy = findDriverByID(driver2->driverId);
-    
-    char *date1 = getDLastRide(driver1cpy);
-    char *date2 = getDLastRide(driver2cpy);
+  Driver *driver1cpy = findDriverByID(driver1->driverId);
+  Driver *driver2cpy = findDriverByID(driver2->driverId);
+  
+  char *date1 = getDLastRide(driver1cpy);
+  char *date2 = getDLastRide(driver2cpy);
 
-    return -(compareDates(date1,date2)||strcmp(driver1->driverId,driver2->driverId));
-  }
+  int cmpDates = compareDates(date1, date2);
+
+  if (cmpDates) return cmpDates;
+  return -strcmp(driver1->driverId, driver2->driverId);
 }
 
 void createDriversList (Pointer key, Pointer value, Pointer data){

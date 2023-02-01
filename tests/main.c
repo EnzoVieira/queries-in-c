@@ -5,6 +5,8 @@
 
 // Mover para outro lugar
 #include "../includes/query1.h"
+#include "../includes/query2.h"
+#include "../includes/query3.h"
 #include "../includes/query4.h"
 #include "../includes/query5.h"
 #include "../includes/query6.h"
@@ -70,6 +72,50 @@ void func(char *line, unsigned int *index) {
 
         printf("got:\n\n");
         printf("\t%s\n\n", result);
+      }
+
+      break;
+    }
+
+    case '2': {
+      token = strtok(NULL, delim);
+      result = q2(atoi(token));
+      char *expectedResult = NULL;
+
+      if (assertResult(result, filename, &expectedResult)) {
+        greenColor();
+        printf("query2(%s)\n", token);
+      } else {
+        redColor();
+        printf("query2(%s)\n\n", token);
+
+        printf("expected:\n\n");
+        printf("%s\n\n", expectedResult);
+
+        printf("got:\n\n");
+        printf("%s\n\n", result);
+      }
+
+      break;
+    }
+
+    case '3': {
+      token = strtok(NULL, delim);
+      result = q3(atoi(token));
+      char *expectedResult = NULL;
+
+      if (assertResult(result, filename, &expectedResult)) {
+        greenColor();
+        printf("query3(%s)\n", token);
+      } else {
+        redColor();
+        printf("query3(%s)\n\n", token);
+
+        printf("expected:\n\n");
+        printf("%s\n\n", expectedResult);
+
+        printf("got:\n\n");
+        printf("%s\n\n", result);
       }
 
       break;
