@@ -9,8 +9,6 @@
 #include "../../includes/api.h"
 #include "../../includes/dates.h"
 
-#define MAX(x,y) ((x > y) ? x : y)
-
 typedef struct query8Aux {
     char* rideID;
     char* driverID;
