@@ -7,6 +7,7 @@
 #include "../../includes/times.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 
 void seedDatabase(char *folderPath) {
   clock_t timer;
@@ -16,12 +17,20 @@ void seedDatabase(char *folderPath) {
 
   timer = initClock();
 
-  createUsersHashTable(concatStrings(folderPath, "/users.csv"));
-  createDriversHashTable(concatStrings(folderPath, "/drivers.csv"));
+  char *usersPath = concatStrings(folderPath, "/users.csv");
+  char *driversPath = concatStrings(folderPath, "/drivers.csv");
+  char *ridesPath = concatStrings(folderPath, "/rides.csv");
+  
+  createUsersHashTable(usersPath);
+  createDriversHashTable(driversPath);
   // A tabela de rides precisa ser a última a ser criada.
-  createRidesHashTable(concatStrings(folderPath, "/rides.csv"));
+  createRidesHashTable(ridesPath);
 
   greenColor();
   printf("Database criada em %.3fs ✅\n\n", calcTime(&timer));
   resetColor();
+
+  free(usersPath);
+  free(driversPath);
+  free(ridesPath);
 }
