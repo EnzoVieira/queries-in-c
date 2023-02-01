@@ -3,142 +3,63 @@
 #include "../includes/terminal.h"
 #include "../includes/reader.h"
 
-// Mover para outro lugar
-#include "../includes/query1.h"
-#include "../includes/query2.h"
-#include "../includes/query3.h"
-#include "../includes/query4.h"
-#include "../includes/query5.h"
-#include "../includes/query6.h"
-#include "../includes/query7.h"
+#include "includes/testQuery1.h"
+#include "includes/testQuery2.h"
+#include "includes/testQuery3.h"
+#include "includes/testQuery4.h"
+#include "includes/testQuery5.h"
+#include "includes/testQuery6.h"
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-int assertResult(char *result, const char *confirmResultPath, char **expectedResult) {
-  char *content = readFile(confirmResultPath);
-
-  // Copia o valor de content se for diferente de NULL
-  if (content != NULL) {
-    *expectedResult = calloc(strlen(content), sizeof(char));
-    *expectedResult = content;
-  }
-
-  if (result == NULL) {
-    return content == NULL;
-  }
-
-  if (content == NULL) {
-    return result == NULL;
-  }
-
-  return strcmp(result, content) == 0;
-}
-
 void func(char *line, unsigned int *index) {
   char *token = NULL;
-  char *result = NULL;
 
   removeNewLine(line);
 
   char delim[] = " ";
   token = strtok(line, delim);
 
-  char queryNumber = strdup(token)[0];
+  char queryNumber = token[0];
 
   // print do número do input
   resetColor();
   printf("%d ", (*index)+1);
 
-  char *filename = calloc(strlen("config/inputs/inputs2/commandX_output.txt"), sizeof(char));
+  char *filename = calloc(strlen("config/inputs/inputs2/commandX_output.txt") + 1, sizeof(char));
   sprintf(filename, "config/inputs/inputs2/command%d_output.txt", (*index) + 1);
 
   switch (queryNumber) {
     case '1': {
       token = strtok(NULL, delim);
-      result = q1(token);
-      char *expectedResult = NULL;
 
-      if (assertResult(result, filename, &expectedResult)) {
-        greenColor();
-        printf("query1(%s)\n", token);
-      } else {
-        redColor();
-        printf("query1(%s)\n\n", token);
-
-        printf("expected:\n\n");
-        printf("\t%s\n\n", expectedResult);
-
-        printf("got:\n\n");
-        printf("\t%s\n\n", result);
-      }
+      testQuery1(filename, token);
 
       break;
     }
 
     case '2': {
       token = strtok(NULL, delim);
-      result = q2(atoi(token));
-      char *expectedResult = NULL;
 
-      if (assertResult(result, filename, &expectedResult)) {
-        greenColor();
-        printf("query2(%s)\n", token);
-      } else {
-        redColor();
-        printf("query2(%s)\n\n", token);
-
-        printf("expected:\n\n");
-        printf("%s\n\n", expectedResult);
-
-        printf("got:\n\n");
-        printf("%s\n\n", result);
-      }
+      testQuery2(filename, token);
 
       break;
     }
 
     case '3': {
       token = strtok(NULL, delim);
-      result = q3(atoi(token));
-      char *expectedResult = NULL;
 
-      if (assertResult(result, filename, &expectedResult)) {
-        greenColor();
-        printf("query3(%s)\n", token);
-      } else {
-        redColor();
-        printf("query3(%s)\n\n", token);
-
-        printf("expected:\n\n");
-        printf("%s\n\n", expectedResult);
-
-        printf("got:\n\n");
-        printf("%s\n\n", result);
-      }
+      testQuery3(filename, token);
 
       break;
     }
 
     case '4': {
       token = strtok(NULL, delim);
-      result = q4(token);
-      char *expectedResult = NULL;
 
-      if (assertResult(result, filename, &expectedResult)) {
-        greenColor();
-        printf("query4(%s)\n", token);
-      } else {
-        redColor();
-        printf("query4(%s)\n\n", token);
-
-        printf("expected:\n\n");
-        printf("\t%s\n\n", expectedResult);
-
-        printf("got:\n\n");
-        printf("\t%s\n\n", result);
-      }
+      testQuery4(filename, token);
 
       break;
     }
@@ -146,22 +67,8 @@ void func(char *line, unsigned int *index) {
     case '5': {
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
-      result = q5(date1, date2);
-      char *expectedResult = NULL;
 
-      if (assertResult(result, filename, &expectedResult)) {
-        greenColor();
-        printf("query5(%s, %s)\n", date1, date2);
-      } else {
-        redColor();
-        printf("query5(%s, %s)\n\n", date1, date2);
-
-        printf("expected:\n\n");
-        printf("\t%s\n\n", expectedResult);
-
-        printf("got:\n\n");
-        printf("\t%s\n\n", result);
-      }
+      testQuery5(filename, date1, date2);
 
       break;
     }
@@ -170,22 +77,8 @@ void func(char *line, unsigned int *index) {
       char *city = strtok(NULL, delim);
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
-      result = q6(city, date1, date2);
-      char *expectedResult = NULL;
 
-      if (assertResult(result, filename, &expectedResult)) {
-        greenColor();
-        printf("query6(%s, %s, %s)\n", city, date1, date2);
-      } else {
-        redColor();
-        printf("query6(%s, %s, %s)\n\n", city, date1, date2);
-
-        printf("expected:\n\n");
-        printf("\t%s\n\n", expectedResult);
-
-        printf("got:\n\n");
-        printf("\t%s\n\n", result);
-      }
+      testQuery6(filename, city, date1, date2);
 
       break;
     }
@@ -195,6 +88,7 @@ void func(char *line, unsigned int *index) {
       break;
   }
 
+  free(filename);
 }
 
 // FIXME: Arrumar organização dos testes
@@ -212,6 +106,7 @@ int main(int argc, char *argv[]) {
   }
 
   fclose(fp);
+  free(line);
 
   return 0;
 }
