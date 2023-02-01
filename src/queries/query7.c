@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "../../includes/query7.h"
+#include "../../includes/api.h"
 
 #include "../../includes/rideRepository.h"
 #include "../../includes/driverRepository.h"
-#include "../../includes/api.h"
 
 
 typedef struct query7Aux {
@@ -82,7 +82,6 @@ char* q7(int N, char* city) {
         Driver* driver = findDriverByID(q7->driverID);
 
         if (getDAccountStatus(driver)) {
-            printf("%s,%s,%.3f\n", q7->driverID, getDName(driver), (q7->totalScore / q7->totalTrips));
             char *stringAux = calloc(lineLength, sizeof(char));
             sprintf(stringAux, "%s;%s;%.3f\n", q7->driverID, getDName(driver), (q7->totalScore / q7->totalTrips));
             strcat(stringGrande, stringAux);
