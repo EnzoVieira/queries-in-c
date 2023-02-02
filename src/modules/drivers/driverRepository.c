@@ -1,9 +1,12 @@
 #include "../../../includes/driverRepository.h"
 
 #include "../../../includes/reader.h"
+#include "../../../includes/validations.h"
 
 #include <string.h>
 #include <stdlib.h>
+
+#define MAX_FIELD_LEN 100
 
 struct driver {
   //char *id;
@@ -35,6 +38,25 @@ Driver *getDriverCopy(Driver* driver) {
   driverCopy->account_status = driver->account_status;
 
   return driverCopy;
+}
+
+int isValidDriver(const char *line) {
+  // Condutor: id, name, gender, license_plate, city;
+  char id[13], name[MAX_FIELD_LEN], birthDay[11], gender[2], carClass[8], licensePlate[9], city[MAX_FIELD_LEN], accountCreation[11], accountStatus[9];
+
+  //                        id;name;birth_day;gender;car_class;license_plate;city;account_creation;account_status
+  int fields = sscanf(line, "%12[^;];%[^;];%10[^;];%1[^;];%[^;];%8[^;];%[^;];%10[^;];%s[^\n]", id, name, birthDay, gender, carClass, licensePlate, city, accountCreation, accountStatus);
+  // Falha na conversão
+  if (fields != 9) {
+    return 0;
+  }
+
+  int isCorrect = isValidDate(birthDay) && 
+                  isValidDate(accountCreation) && 
+                  isValidCarClass(carClass) && 
+                  isValidAccountStatus(accountStatus);
+
+  return isCorrect;
 }
 
 // ============================
@@ -76,7 +98,7 @@ void addDriver(char *line) {
 }
 
 void createDriversHashTable(const char *path) {
-  foreachLineOfFile(path, &addDriver, NULL);
+  foreachLineOfFile(path, &addDriver, &isValidDriver);
 }
 
 HashTable *driverHashTableSingleton() {

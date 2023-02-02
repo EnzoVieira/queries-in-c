@@ -5,7 +5,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <ctype.h>
 
 int isValidDate(const char *date) {
   int day, month, year;
@@ -47,4 +46,18 @@ int isValidDecimal(const char *str) {
   double num = strtod(str, &end);
 
   return (*end == '\0') && (num > 0);
+}
+
+int isValidCarClass(const char *str) {
+  char *toLowerStr = toLowerCase(str);
+
+  return (strcmp(toLowerStr, "premium") == 0 || 
+          strcmp(toLowerStr, "green") == 0 || 
+          strcmp(toLowerStr, "basic") == 0);
+}
+
+int isValidAccountStatus(const char *str) {
+  char *toLowerStr = toLowerCase(str);
+
+  return (strcmp(toLowerStr, "active") == 0 || strcmp(toLowerStr, "inactive") == 0);
 }

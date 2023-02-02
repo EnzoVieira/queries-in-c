@@ -125,11 +125,13 @@ int main(int argc, char *argv[]) {
   // Programa executado sem argumentos
   if (argc == 1) {
     interactiveMode();
+
     destroyDatabase();
     return 0;
   }
 
   seedDatabase(argv[1]);
+
   // Criar pasta de resultados
   FILE *fp = openFile(argv[2]);
 
