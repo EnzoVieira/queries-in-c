@@ -29,6 +29,7 @@ char *q1 (char *identification){
         totalRides = getUStotalTrips(userStatistics);
         scoreMedia = getUStotalScore(userStatistics)/totalRides;
         totalPrice = getUStotalExpense(userStatistics)+getUStotalTipsExpense(userStatistics);
+        free(userStatistics);
     }
     else if (driverExists && getDAccountStatus(driverExists)){
         DriverStatistics *driverStatistics = findDriverStatisticsByUsername(identification);
@@ -38,6 +39,7 @@ char *q1 (char *identification){
         totalRides = getDStotalTrips(driverStatistics);
         scoreMedia = getDStotalScore(driverStatistics)/totalRides;
         totalPrice = getDStotalEarn(driverStatistics)+getDStotalTipsEarn(driverStatistics);
+        free(driverStatistics);
     }
     else {
         free(name);
@@ -48,7 +50,8 @@ char *q1 (char *identification){
 
     char *output = calloc(100, sizeof(char));
     sprintf(output, "%s;%c;%d;%.3f;%g;%.3f\n", name, gender, age, scoreMedia, totalRides, totalPrice);
-
+    
+    free(name);
     destructUserCopy(userExists);
     destructDriverCopy(driverExists);
 

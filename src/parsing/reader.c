@@ -66,5 +66,4 @@ void foreachLineOfFile(const char *path, void(*func)(char *line)) {
   }
 
   fclose(fp);
-  //free(line);
 }

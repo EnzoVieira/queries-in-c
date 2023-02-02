@@ -9,6 +9,8 @@
 #include "../../includes/userRepository.h"
 #include "../../includes/dates.h"
 
+#define MAX_LINE_LENGTH 200
+
 typedef struct query8Aux {
     char* rideID;
     char* driverID;
@@ -29,14 +31,33 @@ int compareFunc2(Pointer a, Pointer b) {
 
     Driver* driver1 = findDriverByID(d1->driverID);
     Driver* driver2 = findDriverByID(d2->driverID);
-    User* user1 = findUserByUsername(d1->userID);
-    User* user2 = findUserByUsername(d2->userID);
 
-    if (strcmp(getDAccountCreation(driver1), getDAccountCreation(driver2)) == 0) {
-        if (strcmp(getUAccountCreation(user1), getUAccountCreation(user2)) == 0) 
-            return strcmp(d1->rideID, d2->rideID); //fazer comparação com os ID's das viagens.
-        else return -compareDates(getUAccountCreation(user1), getUAccountCreation(user2)); //fazer comparação das datas de criação da conta dos Users 
-    } else return -compareDates(getDAccountCreation(driver1), getDAccountCreation(driver2)); //fazer comparação das datas de criação da conta dos Drivers
+    char *accountCreationD1 = getDAccountCreation(driver1);
+    char *accountCreationD2 = getDAccountCreation(driver2);
+    int driverComp = compareDates(accountCreationD1,accountCreationD2);
+    
+    free(accountCreationD1);
+    free(accountCreationD2);
+    destructDriverCopy(driver1);
+    destructDriverCopy(driver2);
+
+    if (!driverComp){
+        User* user1 = findUserByUsername(d1->userID);
+        User* user2 = findUserByUsername(d2->userID);
+        char *accountCreationU1 = getUAccountCreation(user1);
+        char *accountCreationU2 = getUAccountCreation(user2);
+        int userComp = compareDates(accountCreationU1,accountCreationU2);
+
+        free(accountCreationU1);
+        free(accountCreationU2);
+        destructUserCopy(user1);
+        destructUserCopy(user2);
+
+        if (!userComp) return strcmp(d1->rideID, d2->rideID);
+        else return -userComp;
+    } else return -driverComp;
+
+
 }
 
 void copyToHash2(Pointer key, Pointer value, Pointer userData) {
@@ -88,10 +109,10 @@ char* q8(char gender, int years) {
     List* copy = copyFromHash(resultHash);
     copy = sortList(copy, compareFunc2);
 
-    size_t lineLength = 20 + 50 + 5;
-    char* stringGrande = calloc(lineLength * listLength(copy), sizeof(char));
+    char* stringGrande = calloc(MAX_LINE_LENGTH * listLength(copy), sizeof(char));
     
     int i = 0, j = listLength(copy);
+    if (!j) return NULL;
     while (i < j) {
         Q8Aux* q8 = findInListByIndex(copy, i);
 
@@ -99,7 +120,7 @@ char* q8(char gender, int years) {
         User* user = findUserByUsername(q8->userID);
 
         if (getDAccountStatus(driver) && getUAccountStatus(user)) {
-            char *stringAux = calloc(lineLength, sizeof(char));
+            char *stringAux = calloc(MAX_LINE_LENGTH, sizeof(char));
             sprintf(stringAux, "%s;%s;%s;%s\n", q8->driverID, q8->driverName, q8->userID, q8->userName);
             strcat(stringGrande, stringAux);
             free(stringAux);

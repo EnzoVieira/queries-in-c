@@ -15,6 +15,7 @@ void addToTable(HashTable *table, char *key, Pointer value);
 List* copyFromHash(HashTable* table);
 Pointer findById(HashTable *table, const char* id);
 int hashSize(HashTable* hashTable);
+void destroyHash(HashTable* table);
 List *createList();
 List *copyList(List *list);
 List *addToList(List *list, Pointer data);
@@ -24,5 +25,6 @@ Pointer findInListByIndex(List *list, int index);
 void listForeach(List *list, Func func);
 void freeListOfStrings(List *list);
 int listLength(List* list);
+void freeList(List *list);
 
 #endif

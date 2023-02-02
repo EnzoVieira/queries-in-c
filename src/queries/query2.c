@@ -26,25 +26,29 @@ int mediaDriverCompare (Pointer a, Pointer b){
   double score1 = driver1->scoreMedia;
   double score2 = driver2->scoreMedia;
 
-  if (driver1->scoreMedia != driver2->scoreMedia){
+  if (score1 != score2){
     return (score1 < score2);
   }
 
-  Driver *driver1cpy = findDriverByID(driver1->driverId);
+  Driver *driver1cpy = findDriverByID(driver1->driverId); 
   Driver *driver2cpy = findDriverByID(driver2->driverId);
-  
+
   char *date1 = getDLastRide(driver1cpy);
   char *date2 = getDLastRide(driver2cpy);
 
-  int cmpDates = compareDates(date1, date2);
+  int dateCompare = compareDates(date1, date2);
+  free(date1);
+  free(date2);
+  destructDriverCopy(driver1cpy);
+  destructDriverCopy(driver2cpy);
 
-  if (cmpDates) return cmpDates;
+  if (dateCompare) return dateCompare;
   return -strcmp(driver1->driverId, driver2->driverId);
 }
 
 void createDriversList (Pointer key, Pointer value, Pointer data){
   
-  char* id = (char*) key;
+  char* id = (char*)key;
   Driver *driver = findDriverByID(id); 
   
   if (getDAccountStatus(driver)){
@@ -59,6 +63,7 @@ void createDriversList (Pointer key, Pointer value, Pointer data){
 
     addToSortedList(driversList,driverToList,mediaDriverCompare);
   }
+  destructDriverCopy(driver);
 }
 
 

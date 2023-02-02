@@ -29,36 +29,38 @@ int userCompare (Pointer a, Pointer b){
     return (distance1 < distance2);
   }
 
-  else {
     User *user1cpy = findUserByUsername(user1->username);
     User *user2cpy = findUserByUsername(user2->username);
     
     char *date1 = getULastRide(user1cpy);
     char *date2 = getULastRide(user2cpy);
-
+    
     int cmpDates = compareDates(date1, date2);
+    free(date1);
+    free(date2);
+    destructUserCopy(user1cpy);
+    destructUserCopy(user2cpy);
 
     if (cmpDates) return cmpDates;
     return strcmp(user1->username, user2->username);
-  }
 }
 
 void createUsersList (Pointer key, Pointer value, Pointer data){
   
   char* username = (char*) key;
-  User *user = findUserByUsername(username); 
   UserStatistics* userStatistics = (UserStatistics*)value;
-  if (getUAccountStatus(user)){
-    
+  User *userCpy = findUserByUsername(username); 
+  if (getUAccountStatus(userCpy)){
     Q3Aux *userToList = (Q3Aux*)malloc(sizeof(Q3Aux));
     HashTable *usersList = (HashTable*)data;
 
     userToList->username = strdup(username);
-    userToList->name = getUName(user);
+    userToList->name = getUName(userCpy);
     userToList->totalDistance = getUStotalDistance(userStatistics);
 
     addToTable(usersList,strdup(username),userToList);    
   }
+  destructUserCopy(userCpy);
 }
 
 char *q3 (int N){
@@ -89,6 +91,7 @@ char *q3 (int N){
 
     i++;
   }
+  free(user);
 
   return resultStr;
 }

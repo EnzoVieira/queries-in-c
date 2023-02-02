@@ -25,3 +25,5 @@ clean:
 	rm -rf *.ex
 	rm -rf *.o
 	rm -rf Resultados/*
+valgrind:
+	valgrind --tool=memcheck --leak-check=full ./programa-principal "config/data" "exemplos_de_queries2/tests_2/input.txt"

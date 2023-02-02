@@ -9,6 +9,9 @@
 #include "includes/testQuery4.h"
 #include "includes/testQuery5.h"
 #include "includes/testQuery6.h"
+#include "includes/testQuery7.h"
+#include "includes/testQuery8.h"
+#include "includes/testQuery9.h"
 
 #include <string.h>
 #include <stdio.h>
@@ -79,6 +82,33 @@ void func(char *line, unsigned int *index) {
       char *date2 = strtok(NULL, delim);
 
       testQuery6(filename, city, date1, date2);
+
+      break;
+    }
+
+    case '7': {
+      char *N = strtok(NULL, delim);
+      char *city = strtok(NULL, delim);
+
+      testQuery7(filename, atoi(N), city);
+
+      break;
+    }
+
+    case '8': {
+      char *gender = strtok(NULL, delim);
+      char *years = strtok(NULL, delim);
+
+      testQuery8(filename, *gender, atoi(years));
+
+      break;
+    }
+
+    case '9': {
+      char *date1 = strtok(NULL, delim);
+      char *date2 = strtok(NULL, delim);
+
+      testQuery9(filename, date1, date2);
 
       break;
     }

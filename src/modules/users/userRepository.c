@@ -15,7 +15,6 @@ struct user {
   char *pay_method;
   int  account_status;
   char *last_ride;
-  List *userRidesId;
 };
 
 // ============================
@@ -32,7 +31,6 @@ User *getUserCopy(User *user) {
   userCopy->account_creation = strdup(user->account_creation);
   userCopy->pay_method = strdup(user->pay_method);
   userCopy->account_status = user->account_status;
-  userCopy->userRidesId = copyList(user->userRidesId);
   userCopy->last_ride = strdup(user->last_ride);
 
   
@@ -119,15 +117,6 @@ User *findUserByUsername(const char *username) {
   return NULL;
 }
 
-// Function to add a rideId to a user->userRidesId list
-void addUserRide(const char *username, const char *rideId) {
-  HashTable *userHashTable = userHashTableSingleton();
-
-  User *userFinded = (User*)findById(userHashTable, username);
-
-  userFinded->userRidesId = addToList(userFinded->userRidesId, strdup(rideId));
-}
-
 void addUserLastRide(const char *username, const char *date) {
   HashTable *userHashTable = userHashTableSingleton();
 
@@ -164,10 +153,6 @@ int getUAccountStatus(const User *user) {
   return user->account_status;
 }
 
-List *getUserRidesList(const User *user) {
-  return copyList(user->userRidesId);
-}
-
 char *getULastRide(const User *user) {
   return strdup(user->last_ride);
 }
@@ -186,8 +171,6 @@ void destructUserCopy(void *u){
       free(user->pay_method);
     if (user->last_ride)
       free(user->last_ride);
-
-    freeListOfStrings(user->userRidesId);
     user = NULL;
   }
 }

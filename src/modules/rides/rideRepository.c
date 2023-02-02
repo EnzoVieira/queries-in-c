@@ -27,7 +27,7 @@ struct ride {
   double score_user;
   double score_driver;
   double tip;
-  char *comment;
+  //char *comment;
 };
 
 // ============================
@@ -46,7 +46,7 @@ Ride *getRideCopy(Ride *ride) {
   rideCopy->score_user = ride->score_user;
   rideCopy->score_driver = ride->score_driver;
   rideCopy->tip = ride->tip;
-  rideCopy->comment = strdup(ride->comment);
+  //rideCopy->comment = strdup(ride->comment);
 
   return rideCopy;
 }
@@ -63,38 +63,38 @@ Ride *createRide(char *line) {
 
   //ride->id = strdup (strsep(&line, ";"));
   ride->date = strdup(strsep(&lineCopy, ";"));
-  if (*(ride->date) == '\0' || !(validateDate(ride->date))) return NULL;
+  //if (*(ride->date) == '\0' || !(validateDate(ride->date))) return NULL;
   
   ride->driver = strdup(strsep(&lineCopy, ";"));
-  if (*(ride->driver) == '\0') return NULL;
+  //if (*(ride->driver) == '\0') return NULL;
   
   ride->user = strdup(strsep(&lineCopy, ";")); 
-  if (*(ride->user) == '\0') return NULL;
+  //if (*(ride->user) == '\0') return NULL;
   
   ride->city = strdup(strsep(&lineCopy, ";"));
-  if (*(ride->city) == '\0') return NULL;
+  //if (*(ride->city) == '\0') return NULL;
   
   char* tmpDistance = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveInt(tmpDistance))) return NULL;
+  //if ((!validatePositiveInt(tmpDistance))) return NULL;
   ride->distance = atof(tmpDistance);
   free(tmpDistance);
   
   char* tmpScoreUser = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveFloat(tmpScoreUser))) return NULL;
+  //if ((!validatePositiveFloat(tmpScoreUser))) return NULL;
   ride->score_user = atof(tmpScoreUser);
   free(tmpScoreUser);
 
   char* tmpScoreDriver = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveFloat(tmpScoreDriver))) return NULL;
+  //if ((!validatePositiveFloat(tmpScoreDriver))) return NULL;
   ride->score_driver = atof(tmpScoreDriver);
   free(tmpScoreDriver);
   
   char* tmpTip = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveFloat(tmpTip))) return NULL;
+  //if ((!validatePositiveFloat(tmpTip))) return NULL;
   ride->tip = atof(tmpTip);
   free(tmpTip);
 
-  ride->comment = strdup(strsep(&lineCopy, ";"));
+  //ride->comment = strdup(strsep(&lineCopy, ";"));
   return ride;
 }
 
@@ -124,8 +124,6 @@ void addRide(char* line) {
   if (user){
     char *lastRide = getULastRide(user);
     
-  // Add user and ride relation
-    addUserRide(newRide->user, id);
   //Cria ou atualiza um UserStatistics
     addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
    
@@ -201,6 +199,6 @@ double getRTip(const Ride *ride) {
   return ride->tip;
 }
 
-char *getRComment(const Ride *ride) {
-  return strdup(ride->comment);
-}
+//char *getRComment(const Ride *ride) {
+//  return strdup(ride->comment);
+//}

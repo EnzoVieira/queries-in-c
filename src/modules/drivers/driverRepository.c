@@ -16,7 +16,6 @@ struct driver {
   char *account_creation;
   int account_status;
   char *last_ride;
-  List *driverRidesId;
 };
 
 // ============================
@@ -171,8 +170,6 @@ void destructDriverCopy(void *d){
       free(driver->account_creation);
     if (driver->last_ride)
       free(driver->last_ride);
-    
-    freeListOfStrings(driver->driverRidesId);
     driver = NULL;
   }
 }

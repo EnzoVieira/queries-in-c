@@ -12,7 +12,6 @@ HashTable *userHashTableSingleton();
 // Always returns a copy when user exists
 User *findUserByUsername(const char *username);
 // Function to add a rideId to a user->userRidesId list
-void addUserRide(const char *username, const char *rideId);
 void addUserLastRide(const char *username, const char *date);
 
 // ============================
@@ -25,7 +24,6 @@ char* getUBirthDate(const User *user);
 char *getUAccountCreation(const User *user) ;
 char *getUPayMethod(const User *user);
 int getUAccountStatus(const User *user);
-List *getUserRidesList(const User *user);
 char *getULastRide(const User *user);
 void destructUserCopy(void *user);
 

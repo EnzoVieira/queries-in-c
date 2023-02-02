@@ -34,10 +34,9 @@ void copyToHash(Pointer key, Pointer value, Pointer userData) {
     Ride* r = (Ride*)value;
     Q7Temp* copy = (Q7Temp*)userData;
 
-    char* city = copy->city;
-
     Q7Aux* driver = findById(copy->hashTable, getRDriverId(r));
-    if (strcmp(getRCity(r), city) == 0) {
+
+    if (strcmp(getRCity(r), copy->city) == 0) {
         if (driver) {
             driver->totalScore += getRScoreDriver(r);
             driver->totalTrips++;
@@ -61,20 +60,17 @@ condutor poderá ter médias diferentes dependendo da cidade)
 
 char* q7(int N, char* city) {
     HashTable* rides = rideHashTableSingleton();
-    HashTable* driversAverageScore = createHashTable();
 
-    Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp*));
+    Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
     temp->city = strdup(city);
-    temp->hashTable = driversAverageScore;
+    temp->hashTable = createHashTable();
     hashForeach(rides, copyToHash, temp);
 
-    List* copy = copyFromHash(driversAverageScore);
+    List* copy = copyFromHash(temp->hashTable);
     copy = sortList(copy, compareFunc);
 
     size_t lineLength = 20 + 50 + 5;
     char* stringGrande = calloc(lineLength * N, sizeof(char));
-
-    // printf("TEST: %d\n", listLength(copy));
     
     int i = 0, j = N;
     while (i < j) {
@@ -91,7 +87,15 @@ char* q7(int N, char* city) {
             i++;
             j++;
         }
+        q7=NULL;
+        destructDriverCopy(driver);
     }
+
+    freeList(copy);
+    destroyHash(temp->hashTable);
+    free(temp->city);
+    free(temp);
+
     return stringGrande;
 }
 

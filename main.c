@@ -10,6 +10,9 @@
 #include "includes/query4.h"
 #include "includes/query5.h"
 #include "includes/query6.h"
+#include "includes/query7.h"
+#include "includes/query8.h"
+#include "includes/query9.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -127,7 +130,6 @@ int main(int argc, char *argv[]) {
   }
 
   seedDatabase(argv[1]);
-  
   // Criar pasta de resultados
   FILE *fp = openFile(argv[2]);
 
