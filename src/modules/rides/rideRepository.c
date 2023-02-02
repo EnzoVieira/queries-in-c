@@ -46,8 +46,6 @@ Ride *getRideCopy(Ride *ride) {
   rideCopy->score_user = ride->score_user;
   rideCopy->score_driver = ride->score_driver;
   rideCopy->tip = ride->tip;
-  //rideCopy->comment = strdup(ride->comment);
-
   return rideCopy;
 }
 
@@ -107,18 +105,7 @@ void addRide(char* line) {
   User *user = findUserByUsername(newRide->user);
   Driver *driver = findDriverByID(newRide->driver);
   double ridePrice = 0;
-  if (user){
-    char *lastRide = getULastRide(user);
-    
-  //Cria ou atualiza um UserStatistics
-    addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
-   
-    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
-      addUserLastRide(newRide->user,newRide->date);
-      free(lastRide);
-    }
-  }
-
+ 
     if(driver){
     char *carClass = getDCarClass(driver);
     char *lastRide = getDLastRide(driver);
@@ -129,6 +116,18 @@ void addRide(char* line) {
     if (!lastRide || isSmallerDate(lastRide,newRide->date)){
       addDriverLastRide(newRide->driver,newRide->date);
     //free(carClass);
+    }
+  }
+
+  if (user){
+    char *lastRide = getULastRide(user);
+    
+  //Cria ou atualiza um UserStatistics
+    addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
+   
+    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
+      addUserLastRide(newRide->user,newRide->date);
+      free(lastRide);
     }
   }
     destructUserCopy(user);
@@ -197,7 +196,3 @@ double getRScoreDriver(const Ride *ride) {
 double getRTip(const Ride *ride) {
   return ride->tip;
 }
-
-//char *getRComment(const Ride *ride) {
-//  return strdup(ride->comment);
-//}

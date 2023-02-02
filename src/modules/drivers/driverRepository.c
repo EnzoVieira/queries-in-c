@@ -11,7 +11,6 @@ struct driver {
   char *birth_date;
   char gender;
   char *car_class;
-  char *license_plate;
   char *city;
   char *account_creation;
   int account_status;
@@ -30,7 +29,6 @@ Driver *getDriverCopy(Driver* driver) {
   driverCopy->birth_date = strdup(driver->birth_date);
   driverCopy->gender = driver->gender;
   driverCopy->car_class = strdup(driver->car_class);
-  driverCopy->license_plate = strdup(driver->license_plate);
   driverCopy->city = strdup(driver->city);
   driverCopy->account_creation = strdup(driver->account_creation);
   driverCopy->last_ride = strdup(driver->last_ride);
@@ -52,10 +50,10 @@ Driver *createDriver(const char *line) {
   driver->birth_date = strdup(strsep(&lineCopy, ";"));
   driver->gender = *strsep(&lineCopy, ";");
   driver->car_class = strdup(strsep(&lineCopy, ";"));
-  driver->license_plate = strdup(strsep(&lineCopy, ";"));
+  strsep(&lineCopy, ";");
   driver->city = strdup(strsep(&lineCopy, ";"));
   driver->account_creation = strdup(strsep(&lineCopy, ";"));
-  driver->last_ride = "00/00/0000";
+  driver->last_ride = calloc(11,sizeof(char));
 
   if (*(strsep(&lineCopy, ";")) == 'a')
     driver->account_status = 1;
@@ -133,10 +131,6 @@ char *getDCarClass(Driver *driver) {
   return strdup(driver->car_class);
 }
 
-char *getDLicensePlate(Driver *driver) {
-  return strdup(driver->license_plate);
-}
-
 char *getDCity(Driver *driver) {
   return strdup(driver->city);
 }
@@ -162,8 +156,6 @@ void destructDriverCopy(void *d){
       free(driver->birth_date);
     if (driver->car_class)
       free(driver->car_class);
-    if (driver->license_plate)
-      free(driver->license_plate);
     if (driver->city)
       free(driver->city);
     if (driver->account_creation)

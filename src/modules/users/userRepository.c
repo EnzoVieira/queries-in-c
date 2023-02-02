@@ -12,7 +12,6 @@ struct user {
   char gender;
   char *birth_date;
   char *account_creation;
-  char *pay_method;
   int  account_status;
   char *last_ride;
 };
@@ -29,7 +28,6 @@ User *getUserCopy(User *user) {
   userCopy->gender = user->gender;
   userCopy->birth_date = strdup(user->birth_date);
   userCopy->account_creation = strdup(user->account_creation);
-  userCopy->pay_method = strdup(user->pay_method);
   userCopy->account_status = user->account_status;
   userCopy->last_ride = strdup(user->last_ride);
 
@@ -37,22 +35,6 @@ User *getUserCopy(User *user) {
 
   return userCopy;
 }
-
-void userDestroy (User *user){
-
-  if (user){
-    if (user->name)
-      free(user->name);
-    if (user->birth_date)
-      free(user->birth_date);
-    if (user->account_creation)
-      free(user->account_creation);
-    if (user->pay_method)
-      free(user->pay_method);
-  }
-  //destroyME = NULL;
-}
-
 
 // ============================
 //       public methods
@@ -68,12 +50,12 @@ User *createUser(const char *line) {
   user->gender = *strsep(&lineCopy, ";");
   user->birth_date = strdup(strsep(&lineCopy, ";"));
   user->account_creation = strdup(strsep(&lineCopy, ";"));
-  user->pay_method = strdup(strsep(&lineCopy, ";"));  
+  strdup(strsep(&lineCopy, ";"));  
   if (*(strsep(&lineCopy, ";")) == 'a')
     user->account_status = 1;
   else 
     user->account_status = 0;
-  user->last_ride = "00/00/0000";
+  user->last_ride = calloc(11,sizeof(char));
   
   free(lineCopy);
   return user;
@@ -145,10 +127,6 @@ char *getUAccountCreation(const User *user) {
   return strdup(user->account_creation);
 }
 
-char *getUPayMethod(const User *user) {
-  return strdup(user->pay_method);
-}
-
 int getUAccountStatus(const User *user) {
   return user->account_status;
 }
@@ -167,8 +145,6 @@ void destructUserCopy(void *u){
       free(user->birth_date);
     if (user->account_creation)
       free(user->account_creation);
-    if (user->pay_method)
-      free(user->pay_method);
     if (user->last_ride)
       free(user->last_ride);
     user = NULL;
