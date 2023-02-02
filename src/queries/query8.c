@@ -127,5 +127,9 @@ char* q8(char gender, int years) {
         }
         i++;
     }
+    freeList(copy);
+    destroyHash(temp->hashTable);
+    free(temp);
+
     return stringGrande;
 }

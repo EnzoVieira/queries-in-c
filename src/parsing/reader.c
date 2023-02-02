@@ -30,6 +30,7 @@ char *readFile(const char *filename) {
   fp = fopen(filename, "rb");
   if (fp == NULL) {
     printf("Não foi possível ler o ficheiro %s\n", filename);
+    free(line);
     exit(1);
   }
 

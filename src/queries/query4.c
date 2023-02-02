@@ -36,6 +36,6 @@ char *q4(char *city) {
 
     char *output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", cityInfo.priceAcc/cityInfo.totalRides);
-
+    
     return output;
 }

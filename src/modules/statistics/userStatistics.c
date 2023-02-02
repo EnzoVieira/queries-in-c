@@ -37,7 +37,7 @@ HashTable *usersStatisticsHashTableSingleton() {
 }
 
 
-UserStatistics *createUserStatistics(char *user, double distance, double score, double expense, double tips) {
+UserStatistics *createUserStatistics(double distance, double score, double expense, double tips) {
   UserStatistics *userStatistics = calloc(1, sizeof(UserStatistics));
 
   userStatistics->totalDistance += distance;
@@ -57,7 +57,7 @@ void addUserStatistics(char *user, double distance, double score, double expense
 
   //Se não existir cria um novo
   if (!userStatistics){
-    userStatistics = createUserStatistics (user, distance, score,expense,tips);
+    userStatistics = createUserStatistics (distance, score,expense,tips);
     addToTable(usersStatisticsHashTable, strdup(user),(Pointer)userStatistics);
   }
   //Se existir atualiza o existente

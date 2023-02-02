@@ -29,6 +29,11 @@ HashTable *createHashTable() {
   return hashTable;
 }
 
+HashTable *createHashTable2() {
+  HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal, destroyKey, NULL);
+  return hashTable;
+}
+
 void hashForeach(HashTable *list, HFunc func ,Pointer data) {
   g_hash_table_foreach((GHashTable*) list, (GHFunc) func,(gpointer) data);
 }
@@ -51,6 +56,8 @@ int hashSize(HashTable* hashTable) {
 
 void destroyHash(HashTable* table){
   g_hash_table_destroy((GHashTable*)table);
+
+  g_hash_table_new_full()
 }
 
 //List

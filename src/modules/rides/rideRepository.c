@@ -93,7 +93,7 @@ Ride *createRide(char *line) {
   //if ((!validatePositiveFloat(tmpTip))) return NULL;
   ride->tip = atof(tmpTip);
   free(tmpTip);
-
+  
   //ride->comment = strdup(strsep(&lineCopy, ";"));
   return ride;
 }
@@ -108,19 +108,6 @@ void addRide(char* line) {
   User *user = findUserByUsername(newRide->user);
   Driver *driver = findDriverByID(newRide->driver);
   double ridePrice = 0;
-
-  if(driver){
-    char *carClass = getDCarClass(driver);
-    char *lastRide = getDLastRide(driver);
-
-    ridePrice = ridePriceCalculator(carClass,newRide->distance);
-    addDriverStatistics(newRide->driver, newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
-    
-    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
-      addDriverLastRide(newRide->driver,newRide->date);
-    //free(carClass);
-    }
-  }
   if (user){
     char *lastRide = getULastRide(user);
     
@@ -129,11 +116,24 @@ void addRide(char* line) {
    
     if (!lastRide || isSmallerDate(lastRide,newRide->date)){
       addUserLastRide(newRide->user,newRide->date);
-    //free(carClass);
+      free(lastRide);
     }
   }
 
+    if(driver){
+    char *carClass = getDCarClass(driver);
+    char *lastRide = getDLastRide(driver);
 
+    ridePrice = ridePriceCalculator(carClass,newRide->distance);
+    addDriverStatistics(strdup(newRide->driver), newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
+    
+    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
+      addDriverLastRide(newRide->driver,newRide->date);
+    //free(carClass);
+    }
+  }
+    destructUserCopy(user);
+    destructDriverCopy(driver);
 }
 
 void createRidesHashTable(const char *path) {

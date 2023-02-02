@@ -25,11 +25,14 @@ int compareFunc3(Pointer a, Pointer b) {
     Q9Aux* r1 = (Q9Aux*)a;
     Q9Aux* r2 = (Q9Aux*)b;
 
-    if (r1->distance == r2->distance) {             
-        if (compareDates(r1->date, r2->date) == 0)  
+    int datesDiference = compareDates(r1->date, r2->date);
+    int distanceDiference = r1->distance - r2->distance;
+
+    if (!distanceDiference) {             
+        if (!datesDiference)  
             return -strcmp(r1->rideID, r2->rideID);      //compara por ID da viagem
-        else return compareDates(r1->date, r2->date);   //compara por data da viagem
-    } else return r1->distance < r2->distance;          //compara por distância
+        else return datesDiference;   //compara por data da viagem
+    } else return -distanceDiference;          //compara por distância
 }
 
 void copyToHash3(Pointer key, Pointer value, Pointer userData) {
@@ -45,7 +48,7 @@ void copyToHash3(Pointer key, Pointer value, Pointer userData) {
         result->distance = getRDistance(r);
         result->city = getRCity(r);
         result->tip = getRTip(r);
-        addToTable(temp->hashTable, strdup(rideID), result);
+        addToTable(temp->hashTable, result->rideID, result);
     }
 }
 
@@ -54,8 +57,8 @@ char* q9(char* date1, char* date2) {
     HashTable* resultHash = createHashTable();
 
     Q9Temp* temp = (Q9Temp*)malloc(sizeof(Q9Temp));
-    temp->date1 = date1;
-    temp->date2 = date2;
+    temp->date1 = strdup(date1);
+    temp->date2 = strdup(date2);
     temp->hashTable = resultHash;
     hashForeach(rides, copyToHash3, temp);
 
@@ -74,5 +77,10 @@ char* q9(char* date1, char* date2) {
         free(stringAux);
         i++;
     }
+    freeList(copy);
+    destroyHash(temp->hashTable);
+    free(temp->date1);
+    free(temp->date2);
+    free(temp);
     return stringGrande;
 }
