@@ -6,10 +6,7 @@
 #include "../../../includes/userStatistics.h"
 #include "../../../includes/utilsStatistics.h"
 #include "../../../includes/dates.h"
-
-#include "../../../includes/validateFuncs.h"
-
-
+#include "../../../includes/validations.h"
 
 #include "../../../includes/reader.h"
 
@@ -17,8 +14,9 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_FIELD_LEN 100
+
 struct ride {
-  //char *id;
   char *date;
   char *driver;
   char *user;
@@ -51,6 +49,20 @@ Ride *getRideCopy(Ride *ride) {
   return rideCopy;
 }
 
+int isValidRide(const char *line) {
+  char id[13], date[11], driver[MAX_FIELD_LEN], user[MAX_FIELD_LEN], city[MAX_FIELD_LEN], distance[13], scoreUser[16], scoreDriver[16], tip[16], comment[MAX_FIELD_LEN];
+  
+  int fields = sscanf(line, "%12[^;];%10[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%[^;];%s", id, date, driver, user, city, distance, scoreUser, scoreDriver, tip, comment);
+  // Falha na conversão
+  if (fields < 9) {
+    return 0;
+  }
+
+  int isCorrect = isValidDate(date) && isValidInt(distance, 0) && isValidInt(scoreUser, 1) && isValidInt(scoreDriver, 1) && isValidDecimal(tip);
+
+  return isCorrect;
+}
+
 // ============================
 //       public methods
 // ============================
@@ -59,42 +71,17 @@ Ride *createRide(char *line) {
   Ride *ride = calloc(1, sizeof(Ride));
 
   char *lineCopy = strdup(line);
-  int valid;
 
-  //ride->id = strdup (strsep(&line, ";"));
   ride->date = strdup(strsep(&lineCopy, ";"));
-  if (*(ride->date) == '\0' || !(validateDate(ride->date))) return NULL;
-  
   ride->driver = strdup(strsep(&lineCopy, ";"));
-  if (*(ride->driver) == '\0') return NULL;
-  
-  ride->user = strdup(strsep(&lineCopy, ";")); 
-  if (*(ride->user) == '\0') return NULL;
-  
+  ride->user = strdup(strsep(&lineCopy, ";"));    
   ride->city = strdup(strsep(&lineCopy, ";"));
-  if (*(ride->city) == '\0') return NULL;
-  
-  char* tmpDistance = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveInt(tmpDistance))) return NULL;
-  ride->distance = atof(tmpDistance);
-  free(tmpDistance);
-  
-  char* tmpScoreUser = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveFloat(tmpScoreUser))) return NULL;
-  ride->score_user = atof(tmpScoreUser);
-  free(tmpScoreUser);
-
-  char* tmpScoreDriver = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveFloat(tmpScoreDriver))) return NULL;
-  ride->score_driver = atof(tmpScoreDriver);
-  free(tmpScoreDriver);
-  
-  char* tmpTip = strdup(strsep(&lineCopy, ";"));
-  if ((!validatePositiveFloat(tmpTip))) return NULL;
-  ride->tip = atof(tmpTip);
-  free(tmpTip);
-
+  ride->distance = atof(strsep(&lineCopy, ";"));
+  ride->score_user = atof(strsep(&lineCopy, ";"));
+  ride->score_driver = atof(strsep(&lineCopy, ";"));
+  ride->tip = atof(strsep(&lineCopy, ";"));
   ride->comment = strdup(strsep(&lineCopy, ";"));
+
   return ride;
 }
 
@@ -139,7 +126,7 @@ void addRide(char* line) {
 }
 
 void createRidesHashTable(const char *path) {
-  foreachLineOfFile(path, &addRide);
+  foreachLineOfFile(path, &addRide, &isValidRide);
 }
 
 HashTable *rideHashTableSingleton() {

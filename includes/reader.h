@@ -8,6 +8,6 @@ FILE *openFile(const char *path);
 // Caso ele esteja vazio (i.e. 0 bytes), retorna NULL.
 char *readFile(const char *filename);
 int readLine(char **buffer, FILE *fp);
-void foreachLineOfFile(const char *path, void(*func)(char *line));
+void foreachLineOfFile(const char *path, void (*func) (char *line), int (*validation) (const char *line));
 
 #endif
