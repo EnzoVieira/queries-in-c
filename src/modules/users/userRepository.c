@@ -73,7 +73,7 @@ void addUser(char *line) {
 }
 
 void createUsersHashTable(const char *path) {
-  foreachLineOfFile(path, &addUser);
+  foreachLineOfFile(path, &addUser, NULL);
 }
 
 HashTable *userHashTableSingleton() {

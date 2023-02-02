@@ -20,3 +20,13 @@ void removeNewLine(char *line) {
     line[len] = 0;
   }
 }
+
+void eraseUntilFind(char *str, char delim) {
+  unsigned int len = strlen(str);
+
+  len--;
+  while ( str[len] != delim ) {
+    str[len] = 0;
+    len--;
+  }
+}

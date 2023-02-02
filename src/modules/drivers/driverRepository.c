@@ -76,7 +76,7 @@ void addDriver(char *line) {
 }
 
 void createDriversHashTable(const char *path) {
-  foreachLineOfFile(path, &addDriver);
+  foreachLineOfFile(path, &addDriver, NULL);
 }
 
 HashTable *driverHashTableSingleton() {

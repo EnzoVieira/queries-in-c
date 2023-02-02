@@ -54,7 +54,7 @@ char *readFile(const char *filename) {
   return buffer;
 }
 
-void foreachLineOfFile(const char *path, void(*func)(char *line)) {
+void foreachLineOfFile(const char *path, void (*func) (char *line), int (*validation) (const char *line)) {
   FILE *fp = openFile(path);
 
   char *line = NULL;
@@ -63,6 +63,11 @@ void foreachLineOfFile(const char *path, void(*func)(char *line)) {
   readLine(&line, fp);
 
   while (readLine(&line, fp) != -1) {
+    // Se receber uma função de validação
+    if (validation != NULL)
+      // Valida se a linha é válida, caso não seja, avança para a próxima
+      if (!validation(line)) continue;
+
     func(line);
   }
 

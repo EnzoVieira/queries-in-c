@@ -17,5 +17,7 @@
 .vscode
 
 config/data
+config/**/*large*
+config/**/*errors*
 
 Resultados
