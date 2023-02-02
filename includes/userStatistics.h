@@ -14,5 +14,6 @@ double getUStotalScore(const UserStatistics *userStatistics);
 double getUStotalExpense(const UserStatistics *userStatistics);
 double getUStotalTrips(const UserStatistics *userStatistics);
 double getUStotalTipsExpense(const UserStatistics *userStatistics);
+void destroyUserStatistics(void *us);
 
 #endif

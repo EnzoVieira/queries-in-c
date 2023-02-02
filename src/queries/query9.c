@@ -21,6 +21,19 @@ typedef struct query9Temp {
     HashTable* hashTable;
 } Q9Temp;
 
+void destroyQ9Aux (void *q9Aux){
+
+    Q9Aux *q9 = (Q9Aux*)q9Aux;
+
+    if(q9){
+        if(q9->city)
+            free(q9->city);
+        if(q9->date)
+            free(q9->date);
+        free(q9);
+    }
+}
+
 int compareFunc3(Pointer a, Pointer b) {
     Q9Aux* r1 = (Q9Aux*)a;
     Q9Aux* r2 = (Q9Aux*)b;
@@ -54,7 +67,7 @@ void copyToHash3(Pointer key, Pointer value, Pointer userData) {
 
 char* q9(char* date1, char* date2) {
     HashTable* rides = rideHashTableSingleton();
-    HashTable* resultHash = createHashTable();
+    HashTable* resultHash = createHashTable2(destroyQ9Aux);
 
     Q9Temp* temp = (Q9Temp*)malloc(sizeof(Q9Temp));
     temp->date1 = strdup(date1);

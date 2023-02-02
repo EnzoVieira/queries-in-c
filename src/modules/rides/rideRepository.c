@@ -142,7 +142,7 @@ HashTable *rideHashTableSingleton() {
   static HashTable *ridesHashTable = NULL;
 
   if (ridesHashTable == NULL) {
-    ridesHashTable = createHashTable();
+    ridesHashTable = createHashTable2(&destructRideCopy);
   }
 
   return ridesHashTable;
@@ -195,4 +195,19 @@ double getRScoreDriver(const Ride *ride) {
 
 double getRTip(const Ride *ride) {
   return ride->tip;
+}
+
+void destructRideCopy(void *r){
+  Ride *ride = (Ride*)r; 
+  if (ride){
+    if (ride->city)
+      free(ride->city);
+    if(ride->date)
+      free(ride->date);
+    if(ride->driver)
+      free(ride->driver);
+    if(ride->user)
+      free(ride->user);
+  free(ride);
+  }
 }

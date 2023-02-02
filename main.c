@@ -125,7 +125,7 @@ int main(int argc, char *argv[]) {
   // Programa executado sem argumentos
   if (argc == 1) {
     interactiveMode();
-
+    destroyDatabase();
     return 0;
   }
 
@@ -140,6 +140,8 @@ int main(int argc, char *argv[]) {
     func(line, &index);
     index++;
   }
+
+  destroyDatabase();
 
   return 0;
 }

@@ -18,6 +18,18 @@ typedef struct querie2Aux{
   double scoreMedia;
 }Q2Aux;
 
+void destroyQ2Aux(void *q2Aux){
+  Q2Aux *q2 = (Q2Aux*)q2Aux;
+  
+  if (q2){
+    if(q2->driverId)
+      free(q2->driverId);
+    if(q2->driverName)
+      free(q2->driverName);
+    free(q2);
+  }
+}
+
 int mediaDriverCompare (Pointer a, Pointer b){
   Q2Aux *driver1 = (Q2Aux*)a;
   Q2Aux *driver2 = (Q2Aux*)b;
@@ -67,16 +79,28 @@ void createDriversList (Pointer key, Pointer value, Pointer data){
 }
 
 
-
-char *q2(int N) {
-
+List *q2Singleton (){
+  
   static List *driversInfo = NULL;
-
+  
   if(driversInfo == NULL){
     HashTable *driversStatistics = driversStatisticsHashTableSingleton();
     driversInfo = createList();
     hashForeach(driversStatistics,createDriversList,driversInfo);
   }
+
+  return driversInfo;
+}
+
+void destroyDataQ2(){
+  List *q2Data = q2Singleton();
+  freeListFull(q2Data,&destroyQ2Aux);
+}
+
+char *q2(int N) {
+
+  List *driversInfo = q2Singleton();
+
   Q2Aux *driver;
   
   char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));

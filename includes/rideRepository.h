@@ -24,6 +24,6 @@ double getRDistance(const Ride *ride);
 double getRScoreUser(const Ride *ride);
 double getRScoreDriver(const Ride *ride);
 double getRTip(const Ride *ride);
-char *getRComment(const Ride *ride);
+void destructRideCopy(void *r);
 
 #endif

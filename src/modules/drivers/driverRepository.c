@@ -83,7 +83,7 @@ HashTable *driverHashTableSingleton() {
   static HashTable *driversHashTable = NULL;
 
   if (driversHashTable == NULL) {
-    driversHashTable = createHashTable();
+    driversHashTable = createHashTable2(&destructDriverCopy);
   }
 
   return driversHashTable;
@@ -162,6 +162,6 @@ void destructDriverCopy(void *d){
       free(driver->account_creation);
     if (driver->last_ride)
       free(driver->last_ride);
-    driver = NULL;
+    free(driver);
   }
 }

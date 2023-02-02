@@ -80,7 +80,7 @@ HashTable *userHashTableSingleton() {
   static HashTable *usersHashTable = NULL;
 
   if (usersHashTable == NULL) {
-    usersHashTable = createHashTable();
+    usersHashTable = createHashTable2(&destructUserCopy);
   }
 
   return usersHashTable;
@@ -147,6 +147,6 @@ void destructUserCopy(void *u){
       free(user->account_creation);
     if (user->last_ride)
       free(user->last_ride);
-    user = NULL;
+    free(user);
   }
 }

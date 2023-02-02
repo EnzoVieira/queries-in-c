@@ -17,7 +17,6 @@ typedef struct querie3Aux{
   double totalDistance;
 }Q3Aux;
 
-
 int userCompare (Pointer a, Pointer b){
   Q3Aux *user1 = (Q3Aux*)a;
   Q3Aux *user2 = (Q3Aux*)b;

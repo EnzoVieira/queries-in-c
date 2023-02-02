@@ -30,7 +30,7 @@ HashTable *usersStatisticsHashTableSingleton() {
   static HashTable *userStatisticsHashTable = NULL;
 
   if (userStatisticsHashTable == NULL) {
-    userStatisticsHashTable = createHashTable();
+    userStatisticsHashTable = createHashTable2(&destroyUserStatistics);
   }
 
   return userStatisticsHashTable;
@@ -101,3 +101,10 @@ double getUStotalTipsExpense(const UserStatistics *userStatistics) {
   return userStatistics->totalTipsExpense;
 }
 
+void destroyUserStatistics(void *us){
+  UserStatistics *user = (UserStatistics*)us; 
+  
+  if(user){
+    free(user);
+  }
+}

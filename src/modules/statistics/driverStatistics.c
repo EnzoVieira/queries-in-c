@@ -29,7 +29,7 @@ HashTable *driversStatisticsHashTableSingleton() {
   static HashTable *driverStatisticsHashTable = NULL;
 
   if (driverStatisticsHashTable == NULL) {
-    driverStatisticsHashTable = createHashTable();
+    driverStatisticsHashTable = createHashTable2(&destroyDriverStatistics);
   }
 
   return driverStatisticsHashTable;
@@ -99,4 +99,12 @@ double getDStotalTrips(const DriverStatistics *driverStatistics) {
 
 double getDStotalTipsEarn(const DriverStatistics *driverStatistics) {
   return driverStatistics->totalTipsEarn;
+}
+
+void destroyDriverStatistics(void *ds){
+  DriverStatistics *driver = (DriverStatistics*)ds; 
+  
+  if(driver){
+    free(driver);
+  }
 }

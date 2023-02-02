@@ -19,6 +19,15 @@ typedef struct query7Temp {
     HashTable* hashTable;
 } Q7Temp;
 
+void destroyQ7Aux(void *q7Aux){
+   
+    Q7Aux *q7 = (Q7Aux*)q7Aux;
+    
+    if(q7){
+        free(q7);
+    }
+}
+
 int compareFunc(Pointer a, Pointer b) {
     Q7Aux* d1 = (Q7Aux*)a;
     Q7Aux* d2 = (Q7Aux*)b;
@@ -63,7 +72,7 @@ char* q7(int N, char* city) {
 
     Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
     temp->city = strdup(city);
-    temp->hashTable = createHashTable();
+    temp->hashTable = createHashTable2(&destroyQ7Aux);
     hashForeach(rides, copyToHash, temp);
 
     List* copy = copyFromHash(temp->hashTable);

@@ -28,6 +28,10 @@ HashTable *createHashTable() {
   HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal, destroyKey, NULL);
   return hashTable;
 }
+HashTable *createHashTable2(DestroyFunc destroyFunc) {
+  HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal, destroyKey, destroyFunc);
+  return hashTable;
+}
 
 void hashForeach(HashTable *list, HFunc func ,Pointer data) {
   g_hash_table_foreach((GHashTable*) list, (GHFunc) func,(gpointer) data);
@@ -83,8 +87,8 @@ void listForeach(List *list, Func func) {
   g_list_foreach((GList*) list, (GFunc) func, NULL);
 }
 
-void freeListOfStrings(List *list){
-  g_list_free_full((GList*)list,(GDestroyNotify)free);
+void freeListFull(List *list,DestroyFunc destroyFunc){
+  g_list_free_full((GList*)list,(GDestroyNotify)destroyFunc);
 }
 
 void freeList(List *list){

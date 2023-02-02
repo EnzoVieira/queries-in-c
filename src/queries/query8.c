@@ -25,6 +25,23 @@ typedef struct query8Temp {
     HashTable* hashTable;
 } Q8Temp;
 
+void destroyQ8Aux (void *q8Aux){
+    
+    Q8Aux *q8 = (Q8Aux*)q8Aux;
+
+    if(q8){
+        if(q8->driverID)
+            free(q8->driverID);
+        if(q8->driverName)
+            free(q8->driverName);
+        if(q8->userID)
+            free(q8->userID);
+        if(q8->userName)
+            free(q8->userName);
+        free (q8);
+    }
+}
+
 int compareFunc2(Pointer a, Pointer b) {
     Q8Aux* d1 = (Q8Aux*)a;
     Q8Aux* d2 = (Q8Aux*)b;
@@ -85,7 +102,7 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
         temp->driverName = getDName(d);
         temp->userID = getRUsername(r);
         temp->userName = getUName(u);
-        addToTable(copy->hashTable, strdup(rideID), temp);
+        addToTable(copy->hashTable, temp->rideID, temp);
     }
 }
 
@@ -98,7 +115,7 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
 
 char* q8(char gender, int years) {
     HashTable* rides = rideHashTableSingleton();
-    HashTable* resultHash = createHashTable();
+    HashTable* resultHash = createHashTable2(&destroyQ8Aux);
 
     Q8Temp* temp = (Q8Temp*)malloc(sizeof(Q8Temp));
     temp->gender = gender;
