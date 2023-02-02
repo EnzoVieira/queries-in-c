@@ -59,7 +59,6 @@ Ride *createRide(char *line) {
   Ride *ride = calloc(1, sizeof(Ride));
 
   char *lineCopy = strdup(line);
-  int valid;
 
   //ride->id = strdup (strsep(&line, ";"));
   ride->date = strdup(strsep(&lineCopy, ";"));
