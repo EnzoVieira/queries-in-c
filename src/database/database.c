@@ -53,4 +53,5 @@
     destroyHash(driverStatistics);
     destroyHash(userStatistics);
     destroyDataQ2();
+    destroyDataQ3();
   }

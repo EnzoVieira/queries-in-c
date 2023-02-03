@@ -17,6 +17,23 @@ typedef struct querie3Aux{
   double totalDistance;
 }Q3Aux;
 
+typedef struct q3Data{
+  HashTable *hash;
+  List *list;
+}Q3Data;
+
+void destroyQ3Aux(void *q3Aux){
+  Q3Aux *q3 = (Q3Aux*)q3Aux;
+  
+  if (q3){
+    if(q3->username)
+      free(q3->username);
+    if(q3->name)
+      free(q3->name);
+    free(q3);
+  }
+}
+
 int userCompare (Pointer a, Pointer b){
   Q3Aux *user1 = (Q3Aux*)a;
   Q3Aux *user2 = (Q3Aux*)b;
@@ -56,30 +73,46 @@ void createUsersList (Pointer key, Pointer value, Pointer data){
     userToList->username = strdup(username);
     userToList->name = getUName(userCpy);
     userToList->totalDistance = getUStotalDistance(userStatistics);
-
     addToTable(usersList,strdup(username),userToList);    
   }
   destructUserCopy(userCpy);
 }
 
+Q3Data *dataSingleton (){
+  
+  static Q3Data *data = NULL;
+  
+  if(data==NULL){
+    
+    data = (Q3Data*)malloc(sizeof(Q3Data));
+    HashTable *usersStatistics = usersStatisticsHashTableSingleton();
+    data->hash = createHashTable2(destroyQ3Aux);
+    hashForeach(usersStatistics,createUsersList,data->hash);
+    data->list = copyFromHash(data->hash);
+    data->list = sortList(data->list,userCompare);
+  
+  }
+  return data;
+}
+
+void destroyDataQ3(){
+  Q3Data *q3Data = dataSingleton();
+  freeList(q3Data->list);
+  destroyHash(q3Data->hash);
+  free(q3Data);
+}
+
 char *q3 (int N){
 
-  static List *usersInfo = NULL;
+  Q3Data *data = dataSingleton();
 
-  if(usersInfo == NULL){
-    HashTable *usersStatistics = usersStatisticsHashTableSingleton();
-    HashTable *usersInfoHash = createHashTable();
-    hashForeach(usersStatistics,createUsersList,usersInfoHash);
-    usersInfo = copyFromHash(usersInfoHash);
-    usersInfo = sortList(usersInfo,userCompare);
-  }
   Q3Aux *user;
 
   char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
   
   int i = 0;
   while (i < N) {
-    user = (Q3Aux*)findInListByIndex(usersInfo,i);
+    user = (Q3Aux*)findInListByIndex(data->list,i);
 
     char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
     // FIXME: Não acessar diretamente aos valores.
