@@ -6,6 +6,7 @@
 
 #include "../../includes/rideRepository.h"
 #include "../../includes/dates.h"
+#include "../../includes/writer.h"
 
 typedef struct query9Aux {
     char* rideID;
@@ -65,7 +66,7 @@ void copyToHash3(Pointer key, Pointer value, Pointer userData) {
     }
 }
 
-char* q9(char* date1, char* date2) {
+void q9(char* date1, char* date2) {
     HashTable* rides = rideHashTableSingleton();
     HashTable* resultHash = createHashTable2(destroyQ9Aux);
 
@@ -79,21 +80,24 @@ char* q9(char* date1, char* date2) {
     copy = sortList(copy, compareFunc3);
 
     size_t lineLength = 20 + 50 + 5;
-    char* stringGrande = calloc(lineLength * listLength(copy), sizeof(char));
-    
+
     int i = 0, j = listLength(copy);
     while (i < j) {
         Q9Aux* q9 = findInListByIndex(copy, i);
+
         char *stringAux = calloc(lineLength, sizeof(char));
         sprintf(stringAux, "%s;%s;%d;%s;%.3f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
-        strcat(stringGrande, stringAux);
+        writeResultFile(stringAux);
+
         free(stringAux);
         i++;
     }
+
+    advanceResultIndex();
+
     freeList(copy);
     destroyHash(temp->hashTable);
     free(temp->date1);
     free(temp->date2);
     free(temp);
-    return stringGrande;
 }

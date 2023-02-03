@@ -8,6 +8,7 @@
 #include "../../includes/dates.h"           // chama a função isDateBetween
 #include "../../includes/utilsStatistics.h" // chama a função ridePriceCalculator
 #include "../../includes/api.h"             // chama o tipo Pointer
+#include "../../includes/writer.h"
 
 typedef struct query5Aux {
     double totalValue;
@@ -34,15 +35,16 @@ void currentTrip(Pointer key, Pointer value, Pointer userData) {
         free(driverID);
 }
 
-char* q5(char* date1, char* date2) {
+void q5(char* date1, char* date2) {
     Q5Aux q5 = {0.0, 0, date1, date2};
     HashTable* rides = rideHashTableSingleton();
     hashForeach(rides, currentTrip, &q5);
+
     char* output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", (q5.totalValue / q5.totalTrips));
-    return output;
+
+    writeResultFile(output);
+    advanceResultIndex();
+
+    free(output);
 }
-
-
-
-

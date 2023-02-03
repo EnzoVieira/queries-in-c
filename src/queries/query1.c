@@ -9,7 +9,9 @@
 #include "../../includes/driverStatistics.h"
 #include "../../includes/dates.h"
 
-char *q1 (char *identification){
+#include "../../includes/writer.h"
+
+void q1 (char *identification){
     
     User *userExists = findUserByUsername(identification);
     Driver *driverExists = findDriverByID(identification);
@@ -51,15 +53,20 @@ char *q1 (char *identification){
         free(name);
         destructUserCopy(userExists);
         destructDriverCopy(driverExists);
-        return NULL;
+
+        writeResultFile(NULL);
+        advanceResultIndex();
+        return;
     }
 
     char *output = calloc(100, sizeof(char));
     sprintf(output, "%s;%c;%d;%.3f;%g;%.3f\n", name, gender, age, scoreMedia, totalRides, totalPrice);
     
+    writeResultFile(output);
+    advanceResultIndex();
+
+    free(output);
     free(name);
     destructUserCopy(userExists);
     destructDriverCopy(driverExists);
-
-    return output;
 }

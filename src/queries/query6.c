@@ -6,6 +6,7 @@
 #include "../../includes/rideRepository.h"
 #include "../../includes/dates.h"           // chama a função isDateBetween
 #include "../../includes/api.h"             // chama o tipo Pointer, hashForeach
+#include "../../includes/writer.h"
 
 typedef struct query6Aux {
     char* city;
@@ -43,7 +44,7 @@ void getTotalDistanceByCity(Pointer key, Pointer value, Pointer userData) {
     free(date);
 }
 
-char* q6(char* city, char* date1, char* date2) {
+void q6(char* city, char* date1, char* date2) {
     Q6Aux *q6 = (Q6Aux*)malloc(sizeof(Q6Aux));
     q6->city = strdup(city);
     q6->date1 = strdup(date1);
@@ -56,7 +57,9 @@ char* q6(char* city, char* date1, char* date2) {
     char* output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", (q6->totalDistance / q6->totalTrips));
 
+    writeResultFile(output);
+    advanceResultIndex();
+
+    free(output);
     destroyQ6Aux(q6);
-    
-    return output;
 }

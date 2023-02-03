@@ -2,6 +2,6 @@
 #define QUERY2_H
 
 void destroyDataQ2();
-char *q2(int N);
+void q2(int N);
 
 #endif

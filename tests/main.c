@@ -31,18 +31,11 @@ void func(const char *path, char *line, unsigned int *index) {
   resetColor();
   printf("%d ", (*index)+1);
 
-  char *pathCopy = strdup(path);
-  // Apaga os caracteres do final até encontrar um /
-  eraseUntilFind(pathCopy, '/');
-  
-  char *filename = calloc(strlen(pathCopy) + strlen("commandX_output.txt") + 1, sizeof(char));
-  sprintf(filename, "%scommand%d_output.txt", pathCopy, (*index) + 1);
-
   switch (queryNumber) {
     case '1': {
       token = strtok(NULL, delim);
 
-      testQuery1(filename, token);
+      testQuery1(path, token);
 
       break;
     }
@@ -50,7 +43,7 @@ void func(const char *path, char *line, unsigned int *index) {
     case '2': {
       token = strtok(NULL, delim);
 
-      testQuery2(filename, token);
+      testQuery2(path, token);
 
       break;
     }
@@ -58,7 +51,7 @@ void func(const char *path, char *line, unsigned int *index) {
     case '3': {
       token = strtok(NULL, delim);
 
-      testQuery3(filename, token);
+      testQuery3(path, token);
 
       break;
     }
@@ -66,7 +59,7 @@ void func(const char *path, char *line, unsigned int *index) {
     case '4': {
       token = strtok(NULL, delim);
 
-      testQuery4(filename, token);
+      testQuery4(path, token);
 
       break;
     }
@@ -75,7 +68,7 @@ void func(const char *path, char *line, unsigned int *index) {
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
 
-      testQuery5(filename, date1, date2);
+      testQuery5(path, date1, date2);
 
       break;
     }
@@ -85,7 +78,7 @@ void func(const char *path, char *line, unsigned int *index) {
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
 
-      testQuery6(filename, city, date1, date2);
+      testQuery6(path, city, date1, date2);
 
       break;
     }
@@ -94,7 +87,7 @@ void func(const char *path, char *line, unsigned int *index) {
       char *N = strtok(NULL, delim);
       char *city = strtok(NULL, delim);
 
-      testQuery7(filename, atoi(N), city);
+      testQuery7(path, atoi(N), city);
 
       break;
     }
@@ -103,7 +96,7 @@ void func(const char *path, char *line, unsigned int *index) {
       char *gender = strtok(NULL, delim);
       char *years = strtok(NULL, delim);
 
-      testQuery8(filename, *gender, atoi(years));
+      testQuery8(path, *gender, atoi(years));
 
       break;
     }
@@ -112,7 +105,7 @@ void func(const char *path, char *line, unsigned int *index) {
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
 
-      testQuery9(filename, date1, date2);
+      testQuery9(path, date1, date2);
 
       break;
     }
@@ -122,7 +115,7 @@ void func(const char *path, char *line, unsigned int *index) {
       break;
   }
 
-  free(filename);
+  // free(filename);
 }
 
 // FIXME: Arrumar organização dos testes

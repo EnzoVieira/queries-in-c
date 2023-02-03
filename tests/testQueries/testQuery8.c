@@ -11,11 +11,12 @@
 
 void testQuery8(const char *filename, char gender, int years) {
   clock_t timer = initClock();
-  char *result = q8(gender, years);
+  q8(gender, years);
   double seconds = calcTime(&timer);
 
   char *expectedResult = NULL;
-  int isCorrect = assertResult(result, filename, &expectedResult);
+  char *result = NULL;
+  int isCorrect = assertResult(filename, &result, &expectedResult);
 
   if (isCorrect) {
     greenColor();

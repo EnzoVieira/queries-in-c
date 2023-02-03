@@ -8,6 +8,7 @@
 #include "../../includes/driverRepository.h"
 #include "../../includes/userRepository.h"
 #include "../../includes/dates.h"
+#include "../../includes/writer.h"
 
 #define MAX_LINE_LENGTH 200
 
@@ -123,7 +124,7 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
 */
 
 
-char* q8(char gender, int years) {
+void q8(char gender, int years) {
     HashTable* rides = rideHashTableSingleton();
     HashTable* resultHash = createHashTable2(&destroyQ8Aux);
 
@@ -136,10 +137,13 @@ char* q8(char gender, int years) {
     List* copy = copyFromHash(resultHash);
     copy = sortList(copy, compareFunc2);
 
-    char* stringGrande = calloc(MAX_LINE_LENGTH * listLength(copy), sizeof(char));
-    
     int i = 0, j = listLength(copy);
-    if (!j) return NULL;
+    if (!j) {
+        writeResultFile(NULL);
+        advanceResultIndex();
+        return;
+    }
+
     while (i < j) {
         Q8Aux* q8 = findInListByIndex(copy, i);
 
@@ -149,14 +153,18 @@ char* q8(char gender, int years) {
         if (getDAccountStatus(driver) && getUAccountStatus(user)) {
             char *stringAux = calloc(MAX_LINE_LENGTH, sizeof(char));
             sprintf(stringAux, "%s;%s;%s;%s\n", q8->driverID, q8->driverName, q8->userID, q8->userName);
-            strcat(stringGrande, stringAux);
+
+            writeResultFile(stringAux);
+
             free(stringAux);
         }
+
         i++;
     }
+
+    advanceResultIndex();
+
     freeList(copy);
     destroyHash(temp->hashTable);
     free(temp);
-
-    return stringGrande;
 }

@@ -3,6 +3,6 @@
 
 #include "./api.h"
 
-char* q6(char* city, char* date1, char* date2);
+void q6(char* city, char* date1, char* date2);
 
 #endif

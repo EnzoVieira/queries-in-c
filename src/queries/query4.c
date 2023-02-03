@@ -8,6 +8,7 @@
 #include "../../includes/driverRepository.h"
 #include "../../includes/rideRepository.h"
 #include "../../includes/utilsStatistics.h"
+#include "../../includes/writer.h"
 
 typedef struct querie4Aux {
     char *city;
@@ -34,7 +35,7 @@ void mediaPriceCalculator(Pointer key, Pointer value, Pointer data){
 }
 
 
-char *q4(char *city) {
+void q4(char *city) {
     HashTable *rideHashTable = rideHashTableSingleton();
     Q4Aux cityInfo = {city,0,0};
     
@@ -42,6 +43,9 @@ char *q4(char *city) {
 
     char *output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", cityInfo.priceAcc/cityInfo.totalRides);
-    
-    return output;
+
+    writeResultFile(output);
+    advanceResultIndex();
+
+    free(output);
 }

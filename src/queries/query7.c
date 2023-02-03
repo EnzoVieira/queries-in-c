@@ -3,6 +3,7 @@
 #include <string.h>
 #include "../../includes/query7.h"
 #include "../../includes/api.h"
+#include "../../includes/writer.h"
 
 #include "../../includes/rideRepository.h"
 #include "../../includes/driverRepository.h"
@@ -70,7 +71,7 @@ A avaliação média de um condutor numa cidade é referente às suas viagens ne
 condutor poderá ter médias diferentes dependendo da cidade)
 */
 
-char* q7(int N, char* city) {
+void q7(int N, char* city) {
     HashTable* rides = rideHashTableSingleton();
 
     Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
@@ -82,7 +83,6 @@ char* q7(int N, char* city) {
     copy = sortList(copy, compareFunc);
 
     size_t lineLength = 20 + 50 + 5;
-    char* stringGrande = calloc(lineLength * N, sizeof(char));
     
     int i = 0, j = N;
     while (i < j) {
@@ -90,25 +90,27 @@ char* q7(int N, char* city) {
         Driver* driver = findDriverByID(q7->driverID);
 
         if (getDAccountStatus(driver)) {
+
             char *stringAux = calloc(lineLength, sizeof(char));
             sprintf(stringAux, "%s;%s;%.3f\n", q7->driverID, getDName(driver), (q7->totalScore / q7->totalTrips));
-            strcat(stringGrande, stringAux);
+
+            writeResultFile(stringAux);
+
             free(stringAux);
             i++;
         } else {
             i++;
             j++;
         }
-        q7=NULL;
+
+        q7 = NULL;
         destructDriverCopy(driver);
     }
+
+    advanceResultIndex();
 
     freeList(copy);
     destroyHash(temp->hashTable);
     free(temp->city);
     free(temp);
-
-    return stringGrande;
 }
-
-

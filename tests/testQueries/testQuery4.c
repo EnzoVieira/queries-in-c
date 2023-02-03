@@ -11,11 +11,12 @@
 
 void testQuery4(const char *filename, char *token) {
   clock_t timer = initClock();
-  char *result = q4(token);
+  q4(token);
   double seconds = calcTime(&timer);
 
   char *expectedResult = NULL;
-  int isCorrect = assertResult(result, filename, &expectedResult);
+  char *result = NULL;
+  int isCorrect = assertResult(filename, &result, &expectedResult);
 
   if (isCorrect) {
     greenColor();

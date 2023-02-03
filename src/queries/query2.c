@@ -5,6 +5,7 @@
 
 #include "../../includes/api.h"
 #include "../../includes/dates.h"
+#include "../../includes/writer.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -97,12 +98,10 @@ void destroyDataQ2(){
   freeListFull(q2Data,&destroyQ2Aux);
 }
 
-char *q2(int N) {
+void q2(int N) {
 
   List *driversInfo = q2Singleton();
 
-  
-  char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
   Q2Aux *driver;
 
   int i = 1;
@@ -110,14 +109,13 @@ char *q2(int N) {
     driver = (Q2Aux*)findInListByIndex(driversInfo,i);
     
     char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
-    // FIXME: Não acessar diretamente aos valores.
     sprintf(stringAux, "%s;%s;%.3f\n", driver->driverId, driver->driverName, driver->scoreMedia);
-    
-    strcat(resultStr, stringAux);
+
+    writeResultFile(stringAux);
 
     free(stringAux);
     i++;
   }
 
-  return resultStr;
+  advanceResultIndex();
 }

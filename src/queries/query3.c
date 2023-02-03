@@ -8,6 +8,7 @@
 #include "../../includes/userRepository.h"
 #include "../../includes/userStatistics.h"
 #include "../../includes/dates.h"
+#include "../../includes/writer.h"
 
 #define MAX_LINE_LEN 200
 
@@ -62,7 +63,7 @@ void createUsersList (Pointer key, Pointer value, Pointer data){
   destructUserCopy(userCpy);
 }
 
-char *q3 (int N){
+void q3(int N){
 
   static List *usersInfo = NULL;
 
@@ -75,21 +76,18 @@ char *q3 (int N){
   }
   Q3Aux *user;
 
-  char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
-  
   int i = 0;
   while (i < N) {
     user = (Q3Aux*)findInListByIndex(usersInfo,i);
 
     char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
-    // FIXME: Não acessar diretamente aos valores.
     sprintf(stringAux, "%s;%s;%.0f\n", user->username, user->name, user->totalDistance);
     
-    strcat(resultStr, stringAux);
-    free(stringAux);
+    writeResultFile(stringAux);
 
+    free(stringAux);
     i++;
   }
 
-  return resultStr;
+  advanceResultIndex();
 }

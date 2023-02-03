@@ -9,13 +9,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void testQuery1(const char *filename, char *token) {
+void testQuery1(const char *path, char *token) {
   clock_t timer = initClock();
-  char *result = q1(token);
+  q1(token);
   double seconds = calcTime(&timer);
 
   char *expectedResult = NULL;
-  int isCorrect = assertResult(result, filename, &expectedResult);
+  char *result = NULL;
+  int isCorrect = assertResult(path, &result, &expectedResult);
 
   if (isCorrect) {
     greenColor();

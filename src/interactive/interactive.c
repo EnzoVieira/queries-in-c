@@ -123,9 +123,9 @@ void handleQueryCommand(CommandToken *commandTokens) {
 
       printf("A executar query1(%s)...\n\n", commandTokens->token);
 
-      char *result = q1(commandTokens->token);
+      q1(commandTokens->token);
       greenColor();
-      printf("%s\n", result);
+      // printf("%s\n", result);
 
       break;
     }
@@ -135,9 +135,9 @@ void handleQueryCommand(CommandToken *commandTokens) {
 
       printf("A executar query2(%s)...\n\n", commandTokens->token);
 
-      char *result = q2(atoi(commandTokens->token));
+      q2(atoi(commandTokens->token));
       greenColor();
-      pagination(result);
+      // pagination(result);
 
       break;
     }
@@ -149,9 +149,9 @@ void handleQueryCommand(CommandToken *commandTokens) {
     case '4':
       printf("A executar query4(%s)...\n\n", (++commandTokens)->token);
 
-      char *result = q4(commandTokens->token);
+      q4(commandTokens->token);
       greenColor();
-      printf("%s\n", result);
+      // printf("%s\n", result);
 
       break;
     
@@ -163,9 +163,9 @@ void handleQueryCommand(CommandToken *commandTokens) {
 
       printf("A executar query5(%s, %s)...\n\n", arg1, arg2);
 
-      char *result = q5(arg1, arg2);
+      q5(arg1, arg2);
       greenColor();
-      printf("%s\n", result);
+      // printf("%s\n", result);
 
       break;
     }
@@ -180,9 +180,9 @@ void handleQueryCommand(CommandToken *commandTokens) {
 
       printf("A executar query6(%s, %s, %s)...\n\n", arg1, arg2, arg3);
 
-      char *result = q6(arg1, arg2, arg3);
+      q6(arg1, arg2, arg3);
       greenColor();
-      printf("%s\n", result);
+      // printf("%s\n", result);
 
       break;
     }

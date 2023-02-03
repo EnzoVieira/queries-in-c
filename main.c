@@ -19,69 +19,45 @@
 #include <string.h>
 
 void func(const char *line, unsigned int *index) {
-  char *token = NULL, *result = NULL;
+  char *token = NULL;
   char *linecopy = strdup(line);
   removeNewLine(linecopy);
 
   char delim[] = " ";
   token = strtok(linecopy, delim);
 
-  char queryNumber = strdup(token)[0];
-
-	char *filenameAux1 = "Resultados/command";
-	char *filenameAux2 = "_output.txt";
-	size_t filenameLength = strlen(filenameAux1) + strlen(filenameAux2) + 2;
-	char *filename = calloc(filenameLength, sizeof(char));
-
-
-  sprintf(filename, "%s%d%s", filenameAux1, (*index)+1, filenameAux2);
+  char queryNumber = token[0];
 
   switch (queryNumber) {
 
     case '1': {
       token = strtok(NULL, delim);
-      result = q1(token);
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+      q1(token);
 
       break;
     }
 
     case '2': {
       token = strtok(NULL, delim);
-      result = q2(atoi(token));
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+      q2(atoi(token));
 
       break;
     }
-
+ 
     case '3': {
       token = strtok(NULL, delim);
-      result = q3(atoi(token));
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+      q3(atoi(token));
 
       break;
     }
 
     case '4': {
       token = strtok(NULL, delim);
-      result = q4(token);
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+      q4(token);
 
       break;
     }
@@ -89,12 +65,8 @@ void func(const char *line, unsigned int *index) {
     case '5': {
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
-      result = q5(date1, date2);
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+      q5(date1, date2);
 
       break;
     }
@@ -103,17 +75,40 @@ void func(const char *line, unsigned int *index) {
       char *city = strtok(NULL, delim);
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
-      result = q6(city, date1, date2);
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+      q6(city, date1, date2);
 
       break;
     }
+
+    case '7': {
+      char *N = strtok(NULL, delim);
+      char *city = strtok(NULL, delim);
+
+      q7(atoi(N), city);
+
+      break;
+    }
+
+    case '8': {
+      char *gender = strtok(NULL, delim);
+      char *years = strtok(NULL, delim);
+
+      q8(*gender, atoi(years));
+
+      break;
+    }
+
+    // case '9': {
+    //   char *date1 = strtok(NULL, delim);
+    //   char *date2 = strtok(NULL, delim);
+
+    //   q9(date1, date2);
+
+    //   break;
+    // }
   }
-  free(filename);
+
   free(linecopy);
 }
 
