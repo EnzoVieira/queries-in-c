@@ -26,4 +26,4 @@ clean:
 	rm -rf *.o
 	rm -rf Resultados/*
 valgrind:
-	valgrind  --leak-check=full ./programa-principal "config/data" "exemplos_de_queries2/tests_2/input.txt"
+	valgrind  --leak-check=full ./programa-principal "config/data" "config/inputs/inputs2/input.txt"

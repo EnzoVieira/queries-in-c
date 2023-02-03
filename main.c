@@ -18,13 +18,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-void func(char *line, unsigned int *index) {
+void func(const char *line, unsigned int *index) {
   char *token = NULL, *result = NULL;
-
-  removeNewLine(line);
+  char *linecopy = strdup(line);
+  removeNewLine(linecopy);
 
   char delim[] = " ";
-  token = strtok(line, delim);
+  token = strtok(linecopy, delim);
 
   char queryNumber = strdup(token)[0];
 
@@ -113,6 +113,8 @@ void func(char *line, unsigned int *index) {
       break;
     }
   }
+  free(filename);
+  free(linecopy);
 }
 
 int main(int argc, char *argv[]) {
@@ -138,6 +140,8 @@ int main(int argc, char *argv[]) {
   unsigned int index = 0;
   while(readLine(&line, fp) != -1) {
     func(line, &index);
+    free(line);
+    line=NULL;
     index++;
   }
 

@@ -16,7 +16,7 @@ FILE *openFile(const char *path) {
 }
 
 int readLine(char **buffer, FILE *fp) {
-  size_t len;
+  size_t len = 0;
 
   return getline(buffer, &len, fp);
 }
@@ -40,16 +40,17 @@ char *readFile(const char *filename) {
   while(readLine(&line, fp) != -1) {
     buffer = realloc(buffer, (strlen(buffer) + strlen(line) + 1) * sizeof(char));
     strcat(buffer, line);
+    free(line);
+    line = NULL;
   }
 
   fclose(fp);
 
-  if(line)
-    free(line);
-
   // Caso o buffer tenha apenas um '\0', significa que o ficheiro está vazio, logo, retorne NULL
-  if (strcmp(buffer, "\0") == 0)
+  if (strcmp(buffer, "\0") == 0){
+    free(buffer);
     return NULL;
+  }
   
   return buffer;
 }
@@ -64,6 +65,8 @@ void foreachLineOfFile(const char *path, void(*func)(char *line)) {
 
   while (readLine(&line, fp) != -1) {
     func(line);
+    free(line);
+    line=NULL;
   }
 
   fclose(fp);
