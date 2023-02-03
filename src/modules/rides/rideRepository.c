@@ -67,16 +67,14 @@ int isValidRide(const char *line) {
 Ride *createRide(char *line) {
   Ride *ride = calloc(1, sizeof(Ride));
 
-  char *lineCopy = strdup(line);
-
-  ride->date = strdup(strsep(&lineCopy, ";"));
-  ride->driver = strdup(strsep(&lineCopy, ";"));
-  ride->user = strdup(strsep(&lineCopy, ";"));    
-  ride->city = strdup(strsep(&lineCopy, ";"));
-  ride->distance = atof(strsep(&lineCopy, ";"));
-  ride->score_user = atof(strsep(&lineCopy, ";"));
-  ride->score_driver = atof(strsep(&lineCopy, ";"));
-  ride->tip = atof(strsep(&lineCopy, ";"));
+  ride->date = strdup(strsep(&line, ";"));
+  ride->driver = strdup(strsep(&line, ";"));
+  ride->user = strdup(strsep(&line, ";"));    
+  ride->city = strdup(strsep(&line, ";"));
+  ride->distance = atof(strsep(&line, ";"));
+  ride->score_user = atof(strsep(&line, ";"));
+  ride->score_driver = atof(strsep(&line, ";"));
+  ride->tip = atof(strsep(&line, ";"));  
 
   return ride;
 }
@@ -101,8 +99,9 @@ void addRide(char* line) {
     
     if (!lastRide || isSmallerDate(lastRide,newRide->date)){
       addDriverLastRide(newRide->driver,newRide->date);
-    //free(carClass);
     }
+      free(carClass);
+      free(lastRide);
   }
 
   if (user){
@@ -113,11 +112,12 @@ void addRide(char* line) {
    
     if (!lastRide || isSmallerDate(lastRide,newRide->date)){
       addUserLastRide(newRide->user,newRide->date);
-      free(lastRide);
     }
+    free(lastRide);
   }
     destructUserCopy(user);
     destructDriverCopy(driver);
+
 }
 
 void createRidesHashTable(const char *path) {

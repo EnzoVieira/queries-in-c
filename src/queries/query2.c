@@ -101,9 +101,9 @@ char *q2(int N) {
 
   List *driversInfo = q2Singleton();
 
-  Q2Aux *driver;
   
   char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
+  Q2Aux *driver;
 
   int i = 1;
   while (i <= N) {
@@ -114,8 +114,8 @@ char *q2(int N) {
     sprintf(stringAux, "%s;%s;%.3f\n", driver->driverId, driver->driverName, driver->scoreMedia);
     
     strcat(resultStr, stringAux);
-    free(stringAux);
 
+    free(stringAux);
     i++;
   }
 

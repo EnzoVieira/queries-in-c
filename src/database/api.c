@@ -38,7 +38,7 @@ void hashForeach(HashTable *list, HFunc func ,Pointer data) {
 }
 
 void addToTable(HashTable *table, char *key, Pointer value) {
-  g_hash_table_insert((GHashTable *) table, key, value);
+  g_hash_table_insert((GHashTable *) table, (gpointer)key, value);
 }
 
 Pointer findById(HashTable *table, const char* id) {

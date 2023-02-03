@@ -65,7 +65,7 @@ User *createUser(const char *line) {
   user->gender = *strsep(&lineCopy, ";");
   user->birth_date = strdup(strsep(&lineCopy, ";"));
   user->account_creation = strdup(strsep(&lineCopy, ";"));
-  strdup(strsep(&lineCopy, ";"));  
+  strsep(&lineCopy, ";");  
   if (*(strsep(&lineCopy, ";")) == 'a')
     user->account_status = 1;
   else 
@@ -79,10 +79,10 @@ User *createUser(const char *line) {
 void addUser(char *line) {
   HashTable *userHashTable = userHashTableSingleton();
   
-  char* lineCopy = strdup(line);
-  char* username = strdup(strsep(&lineCopy, ";"));
+  //char* lineCopy = strdup(line);
+  char* username = strdup(strsep(&line, ";"));
 
-  User *newUser = createUser(lineCopy);
+  User *newUser = createUser(line);
 
   addToTable(userHashTable, username, (Pointer) newUser);
 }

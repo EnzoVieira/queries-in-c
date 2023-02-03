@@ -43,20 +43,23 @@ void copyToHash(Pointer key, Pointer value, Pointer userData) {
     Ride* r = (Ride*)value;
     Q7Temp* copy = (Q7Temp*)userData;
 
-    Q7Aux* driver = findById(copy->hashTable, getRDriverId(r));
+    char *id = getRDriverId(r);
+    char *city = getRCity(r);
+    Q7Aux* driver = findById(copy->hashTable, id);
 
-    if (strcmp(getRCity(r), copy->city) == 0) {
+    if (strcmp(city, copy->city) == 0) {
         if (driver) {
             driver->totalScore += getRScoreDriver(r);
             driver->totalTrips++;
         } else {
             driver = (Q7Aux*)malloc(sizeof(Q7Aux));
-            driver->driverID = getRDriverId(r);
+            driver->driverID = id;
             driver->totalScore = getRScoreDriver(r);
             driver->totalTrips = 1;
             addToTable(copy->hashTable, driver->driverID, driver);
         }
     }
+    free(city);
 }
     
 

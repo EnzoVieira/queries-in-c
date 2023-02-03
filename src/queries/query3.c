@@ -90,7 +90,6 @@ char *q3 (int N){
 
     i++;
   }
-  free(user);
 
   return resultStr;
 }

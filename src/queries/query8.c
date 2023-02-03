@@ -85,22 +85,32 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
     char gender = copy->gender;
     int accountYears = copy->accountYears;
 
+    char *driverId = getRDriverId(r);
+    char *username = getRUsername(r);
+    
+
     Driver* d = findDriverByID(getRDriverId(r));
     User* u = findUserByUsername(getRUsername(r));
 
     Q8Aux* temp = (Q8Aux*)malloc(sizeof(Q8Aux));
 
-    int driverAccountCreation = dateDifference(dateConvert(getDAccountCreation(d)));
-    int userAccountCreation = dateDifference(dateConvert(getUAccountCreation(u)));
+    char *date1 = getDAccountCreation(d);
+    char *date2 = getUAccountCreation(u);
+
+    int driverAccountCreation = dateDifference(dateConvert(date1));
+    int userAccountCreation = dateDifference(dateConvert(date2));
+
+    free(date1);
+    free(date2);
 
     int validGender = (getDGender(d) == gender && getUGender(u) == gender);
     int validAccountYears = (driverAccountCreation >= accountYears && userAccountCreation >= accountYears);
 
     if (validGender && validAccountYears) {
         temp->rideID = strdup(rideID);
-        temp->driverID = getRDriverId(r);
+        temp->driverID = driverId;
         temp->driverName = getDName(d);
-        temp->userID = getRUsername(r);
+        temp->userID = username;
         temp->userName = getUName(u);
         addToTable(copy->hashTable, temp->rideID, temp);
     }

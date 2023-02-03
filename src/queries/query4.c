@@ -18,13 +18,19 @@ typedef struct querie4Aux {
 void mediaPriceCalculator(Pointer key, Pointer value, Pointer data){
     Q4Aux *cityInfo = (Q4Aux*)data; 
     Ride *ride = (Ride*)value;
+    char *city = getRCity(ride);
 
-    if (!strcmp(getRCity(ride),cityInfo->city)){
-        char *carClass = getDCarClass(findDriverByID(getRDriverId(ride)));
+    if (!strcmp(city,cityInfo->city)){
+        char *driverID = getRDriverId(ride);
+        Driver *driver = findDriverByID(driverID);
+        char *carClass = getDCarClass(driver);
         cityInfo->priceAcc += ridePriceCalculator(carClass,getRDistance(ride));
         cityInfo->totalRides ++;
+        free(driverID);
         free(carClass);
+        destructDriverCopy(driver);
     }
+    free(city);
 }
 
 

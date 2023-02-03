@@ -19,14 +19,19 @@ typedef struct query5Aux {
 void currentTrip(Pointer key, Pointer value, Pointer userData) {
     Ride* r = value;
     Q5Aux* q5 = (Q5Aux*) userData;
-
-    if (isDateBetween(q5->date1, getRDate(r), q5->date2)) {
-        char* carClass = getDCarClass(findDriverByID(getRDriverId(r)));
+    char *rideDate = getRDate(r);
+    char *driverID = getRDriverId(r);
+    if (isDateBetween(q5->date1, rideDate, q5->date2)) {
+        Driver *driver = findDriverByID(driverID);
+        char* carClass = getDCarClass(driver);
         q5->totalValue += ridePriceCalculator(carClass, getRDistance(r));
         q5->totalTrips++;
         
+        destructDriverCopy(driver);
         free(carClass);
     }
+        free(rideDate);
+        free(driverID);
 }
 
 char* q5(char* date1, char* date2) {
