@@ -1,13 +1,15 @@
 #include "../../../includes/userRepository.h"
 
 #include "../../../includes/reader.h"
+#include "../../../includes/validations.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
 
+#define MAX_FIELD_LEN 100
+
 struct user {
-  //char *user_name;
   char *name;
   char gender;
   char *birth_date;
@@ -23,7 +25,6 @@ struct user {
 User *getUserCopy(User *user) {
   User *userCopy = calloc(1, sizeof(User));
 
-  //userCopy->user_name = strdup(user->user_name);
   userCopy->name = strdup(user->name);
   userCopy->gender = user->gender;
   userCopy->birth_date = strdup(user->birth_date);
@@ -31,9 +32,23 @@ User *getUserCopy(User *user) {
   userCopy->account_status = user->account_status;
   userCopy->last_ride = strdup(user->last_ride);
 
-  
-
   return userCopy;
+}
+
+int isValidUser(const char *line) {
+  char username[MAX_FIELD_LEN], name[MAX_FIELD_LEN], gender[2], birthDay[11], accountCreation[11], pay_method[MAX_FIELD_LEN], accountStatus[9];
+
+  int fields = sscanf(line, "%[^;];%[^;];%1[^;];%10[^;];%10[^;];%[^;];%[^\n]", username, name, gender, birthDay, accountCreation, pay_method, accountStatus);
+  // Falha na conversão
+  if (fields != 7) {
+    return 0;
+  }
+
+  int isCorrect = isValidDate(birthDay) &&
+                  isValidDate(accountCreation) &&
+                  isValidAccountStatus(accountStatus);
+
+  return isCorrect;
 }
 
 // ============================
@@ -73,7 +88,7 @@ void addUser(char *line) {
 }
 
 void createUsersHashTable(const char *path) {
-  foreachLineOfFile(path, &addUser);
+  foreachLineOfFile(path, &addUser, &isValidUser);
 }
 
 HashTable *userHashTableSingleton() {

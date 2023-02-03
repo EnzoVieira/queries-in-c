@@ -17,7 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void func(char *line, unsigned int *index) {
+void func(const char *path, char *line, unsigned int *index) {
   char *token = NULL;
 
   removeNewLine(line);
@@ -31,8 +31,12 @@ void func(char *line, unsigned int *index) {
   resetColor();
   printf("%d ", (*index)+1);
 
-  char *filename = calloc(strlen("config/inputs/inputs2/commandX_output.txt") + 1, sizeof(char));
-  sprintf(filename, "config/inputs/inputs2/command%d_output.txt", (*index) + 1);
+  char *pathCopy = strdup(path);
+  // Apaga os caracteres do final até encontrar um /
+  eraseUntilFind(pathCopy, '/');
+  
+  char *filename = calloc(strlen(pathCopy) + strlen("commandX_output.txt") + 1, sizeof(char));
+  sprintf(filename, "%scommand%d_output.txt", pathCopy, (*index) + 1);
 
   switch (queryNumber) {
     case '1': {
@@ -131,7 +135,7 @@ int main(int argc, char *argv[]) {
 
   unsigned int index = 0;
   while (readLine(&line, fp) != -1) {
-    func(line, &index);
+    func(argv[2], line, &index);
     index++;
   }
 

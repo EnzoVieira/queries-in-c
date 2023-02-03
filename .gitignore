@@ -16,6 +16,8 @@
 # VS Code
 .vscode
 
-config/data
+config/**/*data*
+config/**/*large*
+config/**/*errors*
 
 Resultados
