@@ -9,7 +9,6 @@
 #define MAX_FIELD_LEN 100
 
 struct driver {
-  //char *id;
   char *name;
   char *birth_date;
   char gender;
@@ -27,7 +26,6 @@ struct driver {
 Driver *getDriverCopy(Driver* driver) {
   Driver* driverCopy = calloc(1, sizeof(Driver));
 
-  //driverCopy->id = strdup(driver->id);
   driverCopy->name = strdup(driver->name);
   driverCopy->birth_date = strdup(driver->birth_date);
   driverCopy->gender = driver->gender;
@@ -41,11 +39,9 @@ Driver *getDriverCopy(Driver* driver) {
 }
 
 int isValidDriver(const char *line) {
-  // Condutor: id, name, gender, license_plate, city;
   char id[13], name[MAX_FIELD_LEN], birthDay[11], gender[2], carClass[8], licensePlate[9], city[MAX_FIELD_LEN], accountCreation[11], accountStatus[9];
 
-  //                        id;name;birth_day;gender;car_class;license_plate;city;account_creation;account_status
-  int fields = sscanf(line, "%12[^;];%[^;];%10[^;];%1[^;];%[^;];%8[^;];%[^;];%10[^;];%s[^\n]", id, name, birthDay, gender, carClass, licensePlate, city, accountCreation, accountStatus);
+  int fields = sscanf(line, "%12[^;];%[^;];%10[^;];%1[^;];%[^;];%8[^;];%[^;];%10[^;];%[^\n]", id, name, birthDay, gender, carClass, licensePlate, city, accountCreation, accountStatus);
   // Falha na conversão
   if (fields != 9) {
     return 0;
