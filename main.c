@@ -50,8 +50,8 @@ void func(const char *line, unsigned int *index) {
       break;
     }
 
-      token = strtok(NULL, delim);
     case '2': {
+      token = strtok(NULL, delim);
       result = q2(atoi(token));
 
       writeFile(result, filename);

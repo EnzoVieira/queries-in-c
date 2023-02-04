@@ -99,6 +99,8 @@ void destroyDataQ2(){
 
 char *q2(int N) {
 
+  if(N<1)return NULL;
+
   List *driversInfo = q2Singleton();
 
   

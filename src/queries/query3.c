@@ -104,6 +104,8 @@ void destroyDataQ3(){
 
 char *q3 (int N){
 
+  if(N<1) return NULL;
+
   Q3Data *data = dataSingleton();
 
   Q3Aux *user;
