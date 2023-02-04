@@ -108,3 +108,43 @@ void destroyDriverStatistics(void *ds){
     free(driver);
   }
 }
+
+double getDStotalDistanceNew(char *id) {
+  
+  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
+  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
+
+  return driverFinded->totalDistance;
+}
+
+double getDStotalScoreNew(char *id) {
+  
+  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
+  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
+
+  return driverFinded->totalScore;
+}
+
+double getDStotalEarnNew(char *id) {
+  
+  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
+  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
+
+  return driverFinded->totalEarn;
+}
+
+double getDStotalTripsNew(char *id) {
+  
+  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
+  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
+
+  return driverFinded->totalTrips;
+}
+
+double getDStotalTipsEarnNew(char *id) {
+  
+  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
+  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
+
+  return driverFinded->totalTipsEarn;
+}

@@ -15,4 +15,10 @@ double getDStotalEarn(const DriverStatistics *driverStatistics);
 double getDStotalTrips(const DriverStatistics *driverStatistics);
 double getDStotalTipsEarn(const DriverStatistics *driverStatistics);
 void destroyDriverStatistics(void *ds);
+
+double getDStotalDistanceNew(char *id);
+double getDStotalScoreNew(char *id);
+double getDStotalEarnNew(char *id);
+double getDStotalTripsNew(char *id);
+double getDStotalTipsEarnNew(char *id);
 #endif

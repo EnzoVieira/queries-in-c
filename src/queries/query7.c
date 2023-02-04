@@ -51,6 +51,7 @@ void copyToHash(Pointer key, Pointer value, Pointer userData) {
         if (driver) {
             driver->totalScore += getRScoreDriver(r);
             driver->totalTrips++;
+            free(id);
         } else {
             driver = (Q7Aux*)malloc(sizeof(Q7Aux));
             driver->driverID = id;
@@ -58,7 +59,7 @@ void copyToHash(Pointer key, Pointer value, Pointer userData) {
             driver->totalTrips = 1;
             addToTable(copy->hashTable, driver->driverID, driver);
         }
-    }
+    } else free(id);
     free(city);
 }
     
@@ -91,15 +92,16 @@ char* q7(int N, char* city) {
 
         if (getDAccountStatusNew(q7->driverID)) {
             char *stringAux = calloc(lineLength, sizeof(char));
-            sprintf(stringAux, "%s;%s;%.3f\n", q7->driverID, getDNameNew(q7->driverID), (q7->totalScore / q7->totalTrips));
+            char *driverName = getDNameNew(q7->driverID);
+            sprintf(stringAux, "%s;%s;%.3f\n", q7->driverID, driverName, (q7->totalScore / q7->totalTrips));
             strcat(stringGrande, stringAux);
+            free(driverName);
             free(stringAux);
             i++;
         } else {
             i++;
             j++;
         }
-        q7=NULL;
         //destructDriverCopy(driver);
     }
 

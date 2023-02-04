@@ -20,28 +20,23 @@ char *q1 (char *identification){
 
     if (getUAccountStatusNew(identification)){
         char *userBirthDate = getUBirthDateNew(identification);
-
-        UserStatistics *userStatistics = findUserStatisticsByUsername(identification);
         name = getUNameNew(identification);
         gender = getUGenderNew(identification);
         age = dateToAge (userBirthDate);
-        totalRides = getUStotalTrips(userStatistics);
-        scoreMedia = getUStotalScore(userStatistics)/totalRides;
-        totalPrice = getUStotalExpense(userStatistics)+getUStotalTipsExpense(userStatistics);
-        free(userStatistics);
+        totalRides = getUStotalTripsNew(identification);
+        scoreMedia = getUStotalScoreNew(identification)/totalRides;
+        totalPrice = getUStotalExpenseNew(identification)+getUStotalTipsExpenseNew(identification);
         free(userBirthDate);
     }
     else if (getDAccountStatusNew(identification)){
         char *driverBirthDate = getDBirthDateNew(identification);
 
-        DriverStatistics *driverStatistics = findDriverStatisticsByUsername(identification);
         name = getDNameNew(identification);
         gender = getDGenderNew(identification);
         age = dateToAge (driverBirthDate);
-        totalRides = getDStotalTrips(driverStatistics);
-        scoreMedia = getDStotalScore(driverStatistics)/totalRides;
-        totalPrice = getDStotalEarn(driverStatistics)+getDStotalTipsEarn(driverStatistics);
-        free(driverStatistics);
+        totalRides = getDStotalTripsNew(identification);
+        scoreMedia = getDStotalScoreNew(identification)/totalRides;
+        totalPrice = getDStotalEarnNew(identification)+getDStotalTipsEarnNew(identification);
         free(driverBirthDate);
     }
     else {

@@ -50,16 +50,16 @@ int isValidDecimal(const char *str) {
 
 int isValidCarClass(const char *str) {
   char *toLowerStr = toLowerCase(str);
-  int output = (strcmp(toLowerStr, "premium") == 0 || 
+  int isValid = (strcmp(toLowerStr, "premium") == 0 || 
                 strcmp(toLowerStr, "green") == 0 || 
                 strcmp(toLowerStr, "basic") == 0);
   free(toLowerStr);
-  return output;
+  return isValid;
 }
 
 int isValidAccountStatus(const char *str) {
   char *toLowerStr = toLowerCase(str);
-  int output = (strcmp(toLowerStr, "active") == 0 || strcmp(toLowerStr, "inactive") == 0);
+  int isValid = (strcmp(toLowerStr, "active") == 0 || strcmp(toLowerStr, "inactive") == 0);
   free(toLowerStr);
-  return output;
+  return isValid;
 }

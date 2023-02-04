@@ -108,3 +108,43 @@ void destroyUserStatistics(void *us){
     free(user);
   }
 }
+
+double getUStotalDistanceNew(char *username) {
+
+  HashTable *userStatisticsHashTable = usersStatisticsHashTableSingleton();
+  UserStatistics *userFinded = (UserStatistics*) findById(userStatisticsHashTable, username);
+
+  return userFinded->totalDistance;
+}
+
+double getUStotalScoreNew(char *username) {
+
+  HashTable *userStatisticsHashTable = usersStatisticsHashTableSingleton();
+  UserStatistics *userFinded = (UserStatistics*) findById(userStatisticsHashTable, username);
+
+  return userFinded->totalScore;
+}
+
+double getUStotalExpenseNew(char *username) {
+
+  HashTable *userStatisticsHashTable = usersStatisticsHashTableSingleton();
+  UserStatistics *userFinded = (UserStatistics*) findById(userStatisticsHashTable, username);
+
+  return userFinded->totalExpense;
+}
+
+double getUStotalTripsNew(char *username) {
+
+  HashTable *userStatisticsHashTable = usersStatisticsHashTableSingleton();
+  UserStatistics *userFinded = (UserStatistics*) findById(userStatisticsHashTable, username);
+
+  return userFinded->totalTrips;
+}
+
+double getUStotalTipsExpenseNew(char *username) {
+
+  HashTable *userStatisticsHashTable = usersStatisticsHashTableSingleton();
+  UserStatistics *userFinded = (UserStatistics*) findById(userStatisticsHashTable, username);
+
+  return userFinded->totalTipsExpense;
+}
