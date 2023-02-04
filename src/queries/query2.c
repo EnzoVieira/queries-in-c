@@ -55,7 +55,7 @@ int mediaDriverCompare (Pointer a, Pointer b){
   //destructDriverCopy(driver2cpy);
 
   if (dateCompare) return dateCompare;
-  return -strcmp(driver1->driverId, driver2->driverId);
+  return strcmp(driver1->driverId, driver2->driverId);
 }
 
 void createDriversList (Pointer key, Pointer value, Pointer data){
