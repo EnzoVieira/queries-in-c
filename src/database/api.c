@@ -24,12 +24,8 @@ void destroyKey(void *u){
 
 //HashTable
 
-HashTable *createHashTable() {
-  HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal, destroyKey, NULL);
-  return hashTable;
-}
-HashTable *createHashTable2(DestroyFunc destroyFunc) {
-  HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal, destroyKey, destroyFunc);
+HashTable *createHashTable(DestroyFunc destroyFunc) {
+  HashTable *hashTable = (HashTable*) g_hash_table_new_full(g_str_hash, g_str_equal,destroyKey, destroyFunc);
   return hashTable;
 }
 

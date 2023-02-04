@@ -75,7 +75,7 @@ char* q7(int N, char* city) {
 
     Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
     temp->city = strdup(city);
-    temp->hashTable = createHashTable2(&destroyQ7Aux);
+    temp->hashTable = createHashTable(&destroyQ7Aux);
     hashForeach(rides, copyToHash, temp);
 
     List* copy = copyFromHash(temp->hashTable);
@@ -87,11 +87,11 @@ char* q7(int N, char* city) {
     int i = 0, j = N;
     while (i < j) {
         Q7Aux* q7 = findInListByIndex(copy, i);
-        Driver* driver = findDriverByID(q7->driverID);
+        //Driver* driver = findDriverByID(q7->driverID);
 
-        if (getDAccountStatus(driver)) {
+        if (getDAccountStatusNew(q7->driverID)) {
             char *stringAux = calloc(lineLength, sizeof(char));
-            sprintf(stringAux, "%s;%s;%.3f\n", q7->driverID, getDName(driver), (q7->totalScore / q7->totalTrips));
+            sprintf(stringAux, "%s;%s;%.3f\n", q7->driverID, getDNameNew(q7->driverID), (q7->totalScore / q7->totalTrips));
             strcat(stringGrande, stringAux);
             free(stringAux);
             i++;
@@ -100,7 +100,7 @@ char* q7(int N, char* city) {
             j++;
         }
         q7=NULL;
-        destructDriverCopy(driver);
+        //destructDriverCopy(driver);
     }
 
     freeList(copy);

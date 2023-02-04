@@ -5,7 +5,7 @@
 
 typedef struct user User;
 
-User *createUser(const char *line);
+User *createUser(char *line);
 void addUser(char *line);
 void createUsersHashTable(const char *path);
 HashTable *userHashTableSingleton();
@@ -25,5 +25,15 @@ char *getUAccountCreation(const User *user) ;
 int getUAccountStatus(const User *user);
 char *getULastRide(const User *user);
 void destructUserCopy(void *user);
+char *getULastRideNew(char *username);
+int getUAccountStatusNew(char *username);
+char *getUNameNew(char *username);
+
+char *getUNameNew(char *username);
+char getUGenderNew(char *username);
+char *getUBirthDateNew(char *username);
+char *getUAccountCreationNew(char *username);
+int getUAccountStatusNew(char *username);
+char *getULastRideNew(char *username);
 
 #endif

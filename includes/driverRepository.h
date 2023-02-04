@@ -5,7 +5,7 @@
 
 typedef struct driver Driver;
 
-Driver *createDriver(const char *line);
+Driver *createDriver(char *line);
 void addDriver(char *line);
 void createDriversHashTable(const char *path);
 HashTable *driverHashTableSingleton();
@@ -26,5 +26,13 @@ int getDAccountStatus(Driver *d);
 char *getDLastRide(Driver *d);
 void destructDriverCopy(void *d);
 
+char *getDNameNew(char *id);
+char *getDBirthDateNew(char *id);
+char getDGenderNew(char *id);
+char *getDCarClassNew(char *id);
+char *getDCityNew(char *id);
+char *getDAccountCreationNew(char *id);
+int getDAccountStatusNew(char *id);
+char *getDLastRideNew(char *id);
 
 #endif

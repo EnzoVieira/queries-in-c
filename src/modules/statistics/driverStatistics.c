@@ -29,7 +29,7 @@ HashTable *driversStatisticsHashTableSingleton() {
   static HashTable *driverStatisticsHashTable = NULL;
 
   if (driverStatisticsHashTable == NULL) {
-    driverStatisticsHashTable = createHashTable2(&destroyDriverStatistics);
+    driverStatisticsHashTable = createHashTable(&destroyDriverStatistics);
   }
 
   return driverStatisticsHashTable;
@@ -58,7 +58,7 @@ void addDriverStatistics(char *id, double distance, double score, double earn, d
   //Se não existir cria um novo
   if (!driverStatistics){
     driverStatistics = createDriverStatistics (distance, score,earn,tips);
-    addToTable(driversStatisticsHashTable, id,(Pointer)driverStatistics);
+    addToTable(driversStatisticsHashTable, strdup(id),(Pointer)driverStatistics);
   }
   //Se existir atualiza o existente
   else {

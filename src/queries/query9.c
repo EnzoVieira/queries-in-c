@@ -53,21 +53,23 @@ void copyToHash3(Pointer key, Pointer value, Pointer userData) {
     Ride* r = (Ride*)value;
     Q9Temp* temp = (Q9Temp*)userData;
 
-    Q9Aux* result = (Q9Aux*)malloc(sizeof(Q9Aux));
+    char *date =  getRDate(r);
 
-    if (getRTip(r) > 0.0 && isDateBetween(temp->date1, getRDate(r), temp->date2)) {
-        result->rideID = rideID;
-        result->date = getRDate(r);
+    if (getRTip(r) > 0.0 && isDateBetween(temp->date1, date, temp->date2)) {
+        Q9Aux* result = (Q9Aux*)malloc(sizeof(Q9Aux));
+        result->rideID = strdup(rideID);
+        result->date = strdup(date);
         result->distance = getRDistance(r);
         result->city = getRCity(r);
         result->tip = getRTip(r);
         addToTable(temp->hashTable, result->rideID, result);
     }
+        free(date);
 }
 
 char* q9(char* date1, char* date2) {
     HashTable* rides = rideHashTableSingleton();
-    HashTable* resultHash = createHashTable2(destroyQ9Aux);
+    HashTable* resultHash = createHashTable(&destroyQ9Aux);
 
     Q9Temp* temp = (Q9Temp*)malloc(sizeof(Q9Temp));
     temp->date1 = strdup(date1);

@@ -55,24 +55,21 @@ int isValidUser(const char *line) {
 //       public methods
 // ============================
 
-User *createUser(const char *line) {
+User *createUser(char *line) {
   User *user = calloc(1, sizeof(User));
 
-  char *lineCopy = strdup(line);
-
   //user->user_name = strdup(strsep(&lineCopy, ";"));
-  user->name = strdup(strsep(&lineCopy, ";"));
-  user->gender = *strsep(&lineCopy, ";");
-  user->birth_date = strdup(strsep(&lineCopy, ";"));
-  user->account_creation = strdup(strsep(&lineCopy, ";"));
-  strsep(&lineCopy, ";");  
-  if (*(strsep(&lineCopy, ";")) == 'a')
+  user->name = strdup(strsep(&line, ";"));
+  user->gender = *strsep(&line, ";");
+  user->birth_date = strdup(strsep(&line, ";"));
+  user->account_creation = strdup(strsep(&line, ";"));
+  strsep(&line, ";");  
+  if (*(strsep(&line, ";")) == 'a')
     user->account_status = 1;
   else 
     user->account_status = 0;
   user->last_ride = calloc(11,sizeof(char));
   
-  free(lineCopy);
   return user;
 }
 
@@ -95,7 +92,7 @@ HashTable *userHashTableSingleton() {
   static HashTable *usersHashTable = NULL;
 
   if (usersHashTable == NULL) {
-    usersHashTable = createHashTable2(&destructUserCopy);
+    usersHashTable = createHashTable(&destructUserCopy);
   }
 
   return usersHashTable;
@@ -118,7 +115,7 @@ void addUserLastRide(const char *username, const char *date) {
   HashTable *userHashTable = userHashTableSingleton();
 
   User *userFinded = (User*)findById(userHashTable, username);
-
+  free (userFinded->last_ride);
   userFinded->last_ride = strdup(date);
 }
 
@@ -164,4 +161,53 @@ void destructUserCopy(void *u){
       free(user->last_ride);
     free(user);
   }
+}
+
+
+char *getUNameNew(char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  return strdup(userFinded->name);
+}
+
+char getUGenderNew(char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  return userFinded->gender;
+}
+
+char *getUBirthDateNew(char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  return strdup(userFinded->birth_date);
+}
+
+char *getUAccountCreationNew(char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  return strdup(userFinded->account_creation);
+}
+
+int getUAccountStatusNew(char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  return userFinded->account_status;
+}
+
+char *getULastRideNew(char *username) {
+  HashTable *userHashTable = userHashTableSingleton();
+
+  User *userFinded = (User*)findById(userHashTable, username);
+
+  return strdup(userFinded->last_ride);
 }

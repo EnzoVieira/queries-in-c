@@ -22,13 +22,13 @@ void mediaPriceCalculator(Pointer key, Pointer value, Pointer data){
 
     if (!strcmp(city,cityInfo->city)){
         char *driverID = getRDriverId(ride);
-        Driver *driver = findDriverByID(driverID);
-        char *carClass = getDCarClass(driver);
+        //Driver *driver = findDriverByID(driverID);
+        char *carClass = getDCarClassNew(driverID);
         cityInfo->priceAcc += ridePriceCalculator(carClass,getRDistance(ride));
         cityInfo->totalRides ++;
         free(driverID);
         free(carClass);
-        destructDriverCopy(driver);
+        //destructDriverCopy(driver);
     }
     free(city);
 }

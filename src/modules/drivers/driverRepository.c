@@ -59,36 +59,32 @@ int isValidDriver(const char *line) {
 //       public methods
 // ============================
 
-Driver *createDriver(const char *line) {
+Driver *createDriver(char *line) {
   Driver *driver = calloc(1, sizeof(Driver));
 
-  char *lineCopy = strdup(line);
-
-  driver->name = strdup(strsep(&lineCopy, ";"));
-  driver->birth_date = strdup(strsep(&lineCopy, ";"));
-  driver->gender = *strsep(&lineCopy, ";");
-  driver->car_class = strdup(strsep(&lineCopy, ";"));
-  strsep(&lineCopy, ";");
-  driver->city = strdup(strsep(&lineCopy, ";"));
-  driver->account_creation = strdup(strsep(&lineCopy, ";"));
+  driver->name = strdup(strsep(&line, ";"));
+  driver->birth_date = strdup(strsep(&line, ";"));
+  driver->gender = *strsep(&line, ";");
+  driver->car_class = strdup(strsep(&line, ";"));
+  strsep(&line, ";");
+  driver->city = strdup(strsep(&line, ";"));
+  driver->account_creation = strdup(strsep(&line, ";"));
   driver->last_ride = calloc(11,sizeof(char));
 
-  if (*(strsep(&lineCopy, ";")) == 'a')
+  if (*(strsep(&line, ";")) == 'a')
     driver->account_status = 1;
   else
     driver->account_status = 0;
   
-  free(lineCopy);
   return driver;
 }
 
 void addDriver(char *line) {
   HashTable *driverHashTable = driverHashTableSingleton();
 
-  char *lineCopy = strdup(line);
-  char *id = strdup(strsep(&lineCopy, ";"));
+  char *id = strdup(strsep(&line, ";"));
 
-  Driver *newDriver = createDriver(lineCopy);
+  Driver *newDriver = createDriver(line);
 
   addToTable(driverHashTable, id, (Pointer) newDriver);
 }
@@ -101,7 +97,7 @@ HashTable *driverHashTableSingleton() {
   static HashTable *driversHashTable = NULL;
 
   if (driversHashTable == NULL) {
-    driversHashTable = createHashTable2(&destructDriverCopy);
+    driversHashTable = createHashTable(&destructDriverCopy);
   }
 
   return driversHashTable;
@@ -124,7 +120,7 @@ void addDriverLastRide(const char *id, const char *date) {
   HashTable *driverHashTable = driverHashTableSingleton();
 
   Driver *driverFinded = (Driver*)findById(driverHashTable, id);
-
+  free(driverFinded->last_ride);
   driverFinded->last_ride = strdup(date);
 }
 
@@ -182,4 +178,69 @@ void destructDriverCopy(void *d){
       free(driver->last_ride);
     free(driver);
   }
+}
+
+
+char *getDNameNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return strdup(driverFinded->name);
+}
+
+char *getDBirthDateNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return strdup(driverFinded->birth_date);
+}
+
+char getDGenderNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return driverFinded->gender;
+}
+
+char *getDCarClassNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return strdup(driverFinded->car_class);
+}
+
+char *getDCityNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return strdup(driverFinded->city);
+}
+
+char *getDAccountCreationNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return strdup(driverFinded->account_creation);
+}
+
+int getDAccountStatusNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return driverFinded->account_status;
+}
+
+char *getDLastRideNew(char *id) {
+  HashTable* driverHashTable = driverHashTableSingleton();
+
+  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
+  
+  return strdup(driverFinded->last_ride);
 }

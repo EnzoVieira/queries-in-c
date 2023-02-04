@@ -1,7 +1,7 @@
 #This is a makefile
 
 CC = gcc
-CFLAGS = -Wall `pkg-config --cflags --libs glib-2.0`
+CFLAGS = -g -Wall `pkg-config --cflags --libs glib-2.0`
 OBJ = programa-principal
 FILES = src/modules/**/*.c src/database/*.c src/parsing/*.c src/queries/*.c src/utils/*.c src/interactive/*.c
 
@@ -26,4 +26,4 @@ clean:
 	rm -rf *.o
 	rm -rf Resultados/*
 valgrind:
-	valgrind  --leak-check=full ./programa-principal "config/data" "config/inputs/inputs2/input.txt"
+	valgrind  --leak-check=full  ./programa-principal "config/data" "config/inputs/inputs2/input.txt"

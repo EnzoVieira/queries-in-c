@@ -73,6 +73,8 @@ void foreachLineOfFile(const char *path, void (*func) (char *line), int (*valida
     free(line);
     line=NULL;
   }
+  free(line);
+  line=NULL;
 
   fclose(fp);
 }

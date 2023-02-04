@@ -30,7 +30,7 @@ HashTable *usersStatisticsHashTableSingleton() {
   static HashTable *userStatisticsHashTable = NULL;
 
   if (userStatisticsHashTable == NULL) {
-    userStatisticsHashTable = createHashTable2(&destroyUserStatistics);
+    userStatisticsHashTable = createHashTable(&destroyUserStatistics);
   }
 
   return userStatisticsHashTable;

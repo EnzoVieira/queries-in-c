@@ -46,29 +46,29 @@ int compareFunc2(Pointer a, Pointer b) {
     Q8Aux* d1 = (Q8Aux*)a;
     Q8Aux* d2 = (Q8Aux*)b;
 
-    Driver* driver1 = findDriverByID(d1->driverID);
-    Driver* driver2 = findDriverByID(d2->driverID);
+    //Driver* driver1 = findDriverByID(d1->driverID);
+    //Driver* driver2 = findDriverByID(d2->driverID);
 
-    char *accountCreationD1 = getDAccountCreation(driver1);
-    char *accountCreationD2 = getDAccountCreation(driver2);
+    char *accountCreationD1 = getDAccountCreationNew(d1->driverID);
+    char *accountCreationD2 = getDAccountCreationNew(d2->driverID);
     int driverComp = compareDates(accountCreationD1,accountCreationD2);
     
     free(accountCreationD1);
     free(accountCreationD2);
-    destructDriverCopy(driver1);
-    destructDriverCopy(driver2);
+    //destructDriverCopy(driver1);
+    //destructDriverCopy(driver2);
 
     if (!driverComp){
-        User* user1 = findUserByUsername(d1->userID);
-        User* user2 = findUserByUsername(d2->userID);
-        char *accountCreationU1 = getUAccountCreation(user1);
-        char *accountCreationU2 = getUAccountCreation(user2);
+        //User* user1 = findUserByUsername(d1->userID);
+        //User* user2 = findUserByUsername(d2->userID);
+        char *accountCreationU1 = getUAccountCreationNew(d1->userID);
+        char *accountCreationU2 = getUAccountCreationNew(d2->userID);
         int userComp = compareDates(accountCreationU1,accountCreationU2);
 
         free(accountCreationU1);
         free(accountCreationU2);
-        destructUserCopy(user1);
-        destructUserCopy(user2);
+        //destructUserCopy(user1);
+        //destructUserCopy(user2);
 
         if (!userComp) return strcmp(d1->rideID, d2->rideID);
         else return -userComp;
@@ -89,13 +89,13 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
     char *username = getRUsername(r);
     
 
-    Driver* d = findDriverByID(getRDriverId(r));
-    User* u = findUserByUsername(getRUsername(r));
+    //Driver* d = findDriverByID(driverId);
+    //User* u = findUserByUsername(username);
 
     Q8Aux* temp = (Q8Aux*)malloc(sizeof(Q8Aux));
 
-    char *date1 = getDAccountCreation(d);
-    char *date2 = getUAccountCreation(u);
+    char *date1 = getDAccountCreationNew(driverId);
+    char *date2 = getUAccountCreationNew(username);
 
     int driverAccountCreation = dateDifference(dateConvert(date1));
     int userAccountCreation = dateDifference(dateConvert(date2));
@@ -103,15 +103,15 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
     free(date1);
     free(date2);
 
-    int validGender = (getDGender(d) == gender && getUGender(u) == gender);
+    int validGender = (getDGenderNew(driverId) == gender && getUGenderNew(username) == gender);
     int validAccountYears = (driverAccountCreation >= accountYears && userAccountCreation >= accountYears);
 
     if (validGender && validAccountYears) {
         temp->rideID = strdup(rideID);
         temp->driverID = driverId;
-        temp->driverName = getDName(d);
+        temp->driverName = getDNameNew(driverId);
         temp->userID = username;
-        temp->userName = getUName(u);
+        temp->userName = getUNameNew(username);
         addToTable(copy->hashTable, temp->rideID, temp);
     }
 }
@@ -125,7 +125,7 @@ void copyToHash2(Pointer key, Pointer value, Pointer userData) {
 
 char* q8(char gender, int years) {
     HashTable* rides = rideHashTableSingleton();
-    HashTable* resultHash = createHashTable2(&destroyQ8Aux);
+    HashTable* resultHash = createHashTable(&destroyQ8Aux);
 
     Q8Temp* temp = (Q8Temp*)malloc(sizeof(Q8Temp));
     temp->gender = gender;
@@ -143,10 +143,10 @@ char* q8(char gender, int years) {
     while (i < j) {
         Q8Aux* q8 = findInListByIndex(copy, i);
 
-        Driver* driver = findDriverByID(q8->driverID);
-        User* user = findUserByUsername(q8->userID);
+        //Driver* driver = findDriverByID(q8->driverID);
+        //User* user = findUserByUsername(q8->userID);
 
-        if (getDAccountStatus(driver) && getUAccountStatus(user)) {
+        if (getDAccountStatusNew(q8->driverID) && getUAccountStatusNew(q8->userID)) {
             char *stringAux = calloc(MAX_LINE_LENGTH, sizeof(char));
             sprintf(stringAux, "%s;%s;%s;%s\n", q8->driverID, q8->driverName, q8->userID, q8->userName);
             strcat(stringGrande, stringAux);

@@ -81,31 +81,33 @@ Ride *createRide(char *line) {
 
 void addRide(char* line) {
   HashTable *ridesHashTable = rideHashTableSingleton();
-  char* id = strdup(strsep(&line, ";"));
+  char* id = strsep(&line, ";"); //free
   Ride *newRide = createRide(line);
+  
   if (!newRide) return ;
-  addToTable(ridesHashTable, id, (Pointer)newRide);
+  addToTable(ridesHashTable, strdup(id), (Pointer)newRide);
 
-  User *user = findUserByUsername(newRide->user);
-  Driver *driver = findDriverByID(newRide->driver);
+  User *user = findUserByUsername(newRide->user); //free
+  Driver *driver = findDriverByID(newRide->driver); //free
   double ridePrice = 0;
  
-    if(driver){
-    char *carClass = getDCarClass(driver);
-    char *lastRide = getDLastRide(driver);
+  if(driver){
+    char *carClass = getDCarClass(driver); //free
+    char *lastRide = getDLastRide(driver); //free
 
     ridePrice = ridePriceCalculator(carClass,newRide->distance);
-    addDriverStatistics(strdup(newRide->driver), newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
-    
+    addDriverStatistics(newRide->driver, newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
+  
     if (!lastRide || isSmallerDate(lastRide,newRide->date)){
       addDriverLastRide(newRide->driver,newRide->date);
     }
-      free(carClass);
-      free(lastRide);
+    
+    free(carClass);
+    free(lastRide);
   }
 
   if (user){
-    char *lastRide = getULastRide(user);
+    char *lastRide = getULastRide(user); //free
     
   //Cria ou atualiza um UserStatistics
     addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
@@ -115,8 +117,8 @@ void addRide(char* line) {
     }
     free(lastRide);
   }
-    destructUserCopy(user);
-    destructDriverCopy(driver);
+  destructUserCopy(user);
+  destructDriverCopy(driver);
 
 }
 
@@ -128,7 +130,7 @@ HashTable *rideHashTableSingleton() {
   static HashTable *ridesHashTable = NULL;
 
   if (ridesHashTable == NULL) {
-    ridesHashTable = createHashTable2(&destructRideCopy);
+    ridesHashTable = createHashTable(&destructRideCopy);
   }
 
   return ridesHashTable;
@@ -196,4 +198,68 @@ void destructRideCopy(void *r){
       free(ride->user);
   free(ride);
   }
+}
+
+char *getRDateNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return strdup(rideFinded->date);
+}
+
+char *getRDriverIdNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return strdup(rideFinded->driver);
+}
+
+char *getRUsernameNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return strdup(rideFinded->user);
+}
+
+char *getRCityNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return strdup(rideFinded->city);
+}
+
+double getRDistanceNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return rideFinded->distance;
+}
+
+double getRScoreUserNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return rideFinded->score_user;
+}
+
+double getRScoreDriverNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return rideFinded->score_driver;
+}
+
+double getRTipNew(char *id) {
+  HashTable *ridesHashTable = rideHashTableSingleton();
+
+  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
+  
+  return rideFinded->tip;
 }

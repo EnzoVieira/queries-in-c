@@ -10,8 +10,8 @@ typedef void(*Func)(Pointer data, Pointer aux);
 typedef void(*DestroyFunc)(Pointer data);
 typedef int(*CompareFunc)(Pointer a, Pointer b);
 
-HashTable *createHashTable();
-HashTable *createHashTable2(DestroyFunc destroyFunc);
+void destroyKey(void *u);
+HashTable *createHashTable(DestroyFunc destroyFunc);
 void hashForeach(HashTable *list, HFunc func ,Pointer data);
 void addToTable(HashTable *table, char *key, Pointer value);
 List* copyFromHash(HashTable* table);

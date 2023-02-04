@@ -26,4 +26,13 @@ double getRScoreDriver(const Ride *ride);
 double getRTip(const Ride *ride);
 void destructRideCopy(void *r);
 
+char *getRDateNew(char *id);
+char *getRDriverIdNew(char *id);
+char *getRUsernameNew(char *id);
+char *getRCityNew(char *id);
+double getRDistanceNew(char *id);
+double getRScoreUserNew(char *id);
+double getRScoreDriverNew(char *id);
+double getRTipNew(char *id);
+
 #endif

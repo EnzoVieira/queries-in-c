@@ -50,8 +50,8 @@ void func(const char *line, unsigned int *index) {
       break;
     }
 
-    case '2': {
       token = strtok(NULL, delim);
+    case '2': {
       result = q2(atoi(token));
 
       writeFile(result, filename);
@@ -104,6 +104,18 @@ void func(const char *line, unsigned int *index) {
       char *date1 = strtok(NULL, delim);
       char *date2 = strtok(NULL, delim);
       result = q6(city, date1, date2);
+
+      writeFile(result, filename);
+      if (result != NULL) {
+        free(result);
+      }
+
+      break;
+    }
+     case '9': {
+      char *date1 = strtok(NULL, delim);
+      char *date2 = strtok(NULL, delim);
+      result = q9(date1, date2);
 
       writeFile(result, filename);
       if (result != NULL) {

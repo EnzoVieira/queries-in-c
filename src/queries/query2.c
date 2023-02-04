@@ -42,17 +42,17 @@ int mediaDriverCompare (Pointer a, Pointer b){
     return (score1 < score2);
   }
 
-  Driver *driver1cpy = findDriverByID(driver1->driverId); 
-  Driver *driver2cpy = findDriverByID(driver2->driverId);
+  //Driver *driver1cpy = findDriverByID(driver1->driverId); 
+  //Driver *driver2cpy = findDriverByID(driver2->driverId);
 
-  char *date1 = getDLastRide(driver1cpy);
-  char *date2 = getDLastRide(driver2cpy);
+  char *date1 = getDLastRideNew(driver1->driverId);
+  char *date2 = getDLastRideNew(driver2->driverId);
 
   int dateCompare = compareDates(date1, date2);
   free(date1);
   free(date2);
-  destructDriverCopy(driver1cpy);
-  destructDriverCopy(driver2cpy);
+  //destructDriverCopy(driver1cpy);
+  //destructDriverCopy(driver2cpy);
 
   if (dateCompare) return dateCompare;
   return -strcmp(driver1->driverId, driver2->driverId);
@@ -61,21 +61,21 @@ int mediaDriverCompare (Pointer a, Pointer b){
 void createDriversList (Pointer key, Pointer value, Pointer data){
   
   char* id = (char*)key;
-  Driver *driver = findDriverByID(id); 
+  //Driver *driver = findDriverByID(id); 
   
-  if (getDAccountStatus(driver)){
+  if (getDAccountStatusNew(id)){
     
     DriverStatistics* driverStatistics = (DriverStatistics*)value;
     Q2Aux *driverToList = (Q2Aux*)malloc(sizeof(Q2Aux));
     List *driversList = (List*)data;
 
     driverToList->driverId = strdup(id);
-    driverToList->driverName = getDName(driver);
+    driverToList->driverName = getDNameNew(id);
     driverToList->scoreMedia = getDStotalScore(driverStatistics)/getDStotalTrips(driverStatistics);
 
     addToSortedList(driversList,driverToList,mediaDriverCompare);
   }
-  destructDriverCopy(driver);
+  //destructDriverCopy(driver);
 }
 
 
