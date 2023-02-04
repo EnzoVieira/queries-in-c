@@ -1,29 +1,47 @@
-#This is a makefile
-
 CC = gcc
-CFLAGS = -g -Wall `pkg-config --cflags --libs glib-2.0`
-OBJ = programa-principal
-FILES = src/modules/**/*.c src/database/*.c src/parsing/*.c src/queries/*.c src/utils/*.c src/interactive/*.c
+CFLAGS = -Wall -Wextra `pkg-config --cflags --libs glib-2.0`
+VALFLAGS = --leak-check=full
 
-OBJTEST = programa-testes
-TESTFILES = src/modules/**/*.c src/database/*.c src/parsing/*.c src/queries/*.c src/utils/*.c tests/testQueries/*.c tests/utils/*.c
+SRC = ./src
+TESTSRC = ./tests
+MAINFILE = main.c
+TESTMAINFILE = tests/main.c
 
-all:
-	$(CC) main.c $(FILES) -o $(OBJ) $(CFLAGS)
-	$(CC) tests/main.c $(TESTFILES) -o $(OBJTEST) $(CFLAGS)
+FILES = $(shell find $(SRC) -name '*.c')
+TESTFILES = $(shell find $(SRC) -name '*.c') $(shell find $(TESTSRC) -name '*.c' | grep -v '$(TESTMAINFILE)')
+INCLUDE = ./includes
+TESTINCLUDE = ./tests/includes
 
-exec:
-	./programa-principal "config/data" "config/inputs/inputs2/input.txt"
+DATA = "config/data"
+INPUTS = "config/inputs/inputs2/input.txt"
+RES = Resultados
 
-int:
+PBINARY = programa-principal
+SBINARY = programa-testes
+
+all: $(PBINARY) $(SBINARY)
+
+exec: clean_result $(PBINARY)
+	./programa-principal $(DATA) $(INPUTS)
+
+test: $(SBINARY)
+	./programa-testes $(DATA) $(INPUTS)
+
+it: $(PBINARY)
 	./programa-principal
 
-test:
-	./programa-testes "config/data" "config/inputs/inputs2/input.txt"
+$(PBINARY): main.c $(FILES)
+	$(CC) $< $(FILES) -o $@ $(CFLAGS)
 
-clean:
-	rm -rf *.ex
-	rm -rf *.o
-	rm -rf Resultados/*
-valgrind:
-	valgrind  --leak-check=full  ./programa-principal "config/data" "config/inputs/inputs2/input.txt"
+$(SBINARY): tests/main.c $(TESTFILES)
+	$(CC) $< $(TESTFILES) -o $@ $(CFLAGS)
+
+clean_result:
+	rm -rf $(RES)
+
+clean: 
+	rm -rf $(PBINARY) $(SBINARY) $(RES)
+
+valgrind: $(PBINARY)
+	valgrind $(VALFLAGS) $< $(DATA) $(INPUTS)
+
