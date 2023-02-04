@@ -197,9 +197,12 @@ char *getUAccountCreationNew(char *username) {
 }
 
 int getUAccountStatusNew(char *username) {
+  
   HashTable *userHashTable = userHashTableSingleton();
-
   User *userFinded = (User*)findById(userHashTable, username);
+
+  if(!userFinded)
+    return 0;
 
   return userFinded->account_status;
 }

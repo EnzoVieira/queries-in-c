@@ -11,9 +11,6 @@
 
 char *q1 (char *identification){
     
-    User *userExists = findUserByUsername(identification);
-    Driver *driverExists = findDriverByID(identification);
-
     char *name = NULL;
     char gender = '0';
     int age = 0;
@@ -21,12 +18,12 @@ char *q1 (char *identification){
     double totalRides = 0;
     double totalPrice = 0.0;
 
-    if (userExists && getUAccountStatus(userExists)){
-        char *userBirthDate = getUBirthDate(userExists);
+    if (getUAccountStatusNew(identification)){
+        char *userBirthDate = getUBirthDateNew(identification);
 
         UserStatistics *userStatistics = findUserStatisticsByUsername(identification);
-        name = getUName(userExists);
-        gender = getUGender(userExists);
+        name = getUNameNew(identification);
+        gender = getUGenderNew(identification);
         age = dateToAge (userBirthDate);
         totalRides = getUStotalTrips(userStatistics);
         scoreMedia = getUStotalScore(userStatistics)/totalRides;
@@ -34,12 +31,12 @@ char *q1 (char *identification){
         free(userStatistics);
         free(userBirthDate);
     }
-    else if (driverExists && getDAccountStatus(driverExists)){
-        char *driverBirthDate = getDBirthDate(driverExists);
+    else if (getDAccountStatusNew(identification)){
+        char *driverBirthDate = getDBirthDateNew(identification);
 
         DriverStatistics *driverStatistics = findDriverStatisticsByUsername(identification);
-        name = getDName(driverExists);
-        gender = getDGender(driverExists);
+        name = getDNameNew(identification);
+        gender = getDGenderNew(identification);
         age = dateToAge (driverBirthDate);
         totalRides = getDStotalTrips(driverStatistics);
         scoreMedia = getDStotalScore(driverStatistics)/totalRides;
@@ -49,8 +46,6 @@ char *q1 (char *identification){
     }
     else {
         free(name);
-        destructUserCopy(userExists);
-        destructDriverCopy(driverExists);
         return NULL;
     }
 
@@ -58,8 +53,5 @@ char *q1 (char *identification){
     sprintf(output, "%s;%c;%d;%.3f;%g;%.3f\n", name, gender, age, scoreMedia, totalRides, totalPrice);
     
     free(name);
-    destructUserCopy(userExists);
-    destructDriverCopy(driverExists);
-
     return output;
 }

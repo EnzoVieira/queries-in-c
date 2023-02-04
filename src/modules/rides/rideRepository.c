@@ -81,44 +81,31 @@ Ride *createRide(char *line) {
 
 void addRide(char* line) {
   HashTable *ridesHashTable = rideHashTableSingleton();
-  char* id = strsep(&line, ";"); //free
+  char* id = strsep(&line, ";"); 
   Ride *newRide = createRide(line);
   
   if (!newRide) return ;
   addToTable(ridesHashTable, strdup(id), (Pointer)newRide);
-
-  User *user = findUserByUsername(newRide->user); //free
-  Driver *driver = findDriverByID(newRide->driver); //free
-  double ridePrice = 0;
  
-  if(driver){
-    char *carClass = getDCarClass(driver); //free
-    char *lastRide = getDLastRide(driver); //free
+  double ridePrice = 0;
+  char *carClass = getDCarClassNew(newRide->driver); 
+  char *driverLastRide = getDLastRideNew(newRide->driver); 
+  char *userLastRide = getULastRideNew(newRide->user); 
 
-    ridePrice = ridePriceCalculator(carClass,newRide->distance);
-    addDriverStatistics(newRide->driver, newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
+  ridePrice = ridePriceCalculator(carClass,newRide->distance);
   
-    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
-      addDriverLastRide(newRide->driver,newRide->date);
-    }
+  addDriverStatistics(newRide->driver, newRide->distance,newRide->score_driver,ridePrice,newRide->tip);
+  addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
+  
+  if (!driverLastRide || isSmallerDate(driverLastRide,newRide->date))
+    addDriverLastRide(newRide->driver,newRide->date);
     
-    free(carClass);
-    free(lastRide);
-  }
-
-  if (user){
-    char *lastRide = getULastRide(user); //free
-    
-  //Cria ou atualiza um UserStatistics
-    addUserStatistics(newRide->user, newRide->distance,newRide->score_user,ridePrice,newRide->tip);
-   
-    if (!lastRide || isSmallerDate(lastRide,newRide->date)){
-      addUserLastRide(newRide->user,newRide->date);
-    }
-    free(lastRide);
-  }
-  destructUserCopy(user);
-  destructDriverCopy(driver);
+  if (!userLastRide || isSmallerDate(userLastRide,newRide->date))
+    addUserLastRide(newRide->user,newRide->date);
+  
+  free(carClass);
+  free(driverLastRide);
+  free(userLastRide);
 
 }
 

@@ -190,56 +190,59 @@ char *getDNameNew(char *id) {
 }
 
 char *getDBirthDateNew(char *id) {
+  
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
   return strdup(driverFinded->birth_date);
 }
 
 char getDGenderNew(char *id) {
+ 
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
   return driverFinded->gender;
 }
 
 char *getDCarClassNew(char *id) {
+  
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
   return strdup(driverFinded->car_class);
 }
 
 char *getDCityNew(char *id) {
+  
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
   return strdup(driverFinded->city);
 }
 
 char *getDAccountCreationNew(char *id) {
+  
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
   return strdup(driverFinded->account_creation);
 }
 
 int getDAccountStatusNew(char *id) {
+  
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
+  if(!driverFinded)
+    return 0;
+
   return driverFinded->account_status;
 }
 
 char *getDLastRideNew(char *id) {
+  
   HashTable* driverHashTable = driverHashTableSingleton();
-
   Driver* driverFinded = (Driver*) findById(driverHashTable, id);
   
   return strdup(driverFinded->last_ride);
