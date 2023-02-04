@@ -25,7 +25,7 @@ exec: clean_result $(PBINARY)
 	./programa-principal $(DATA) $(INPUTS)
 
 test: $(SBINARY)
-	./programa-testes $(DATA) $(INPUTS)
+	clear && ./programa-testes $(DATA) $(INPUTS)
 
 it: $(PBINARY)
 	./programa-principal

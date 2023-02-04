@@ -40,6 +40,8 @@ char *q4(char *city) {
     
     hashForeach (rideHashTable,mediaPriceCalculator,&cityInfo);
 
+    if (!cityInfo.totalRides) return NULL;
+
     char *output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", cityInfo.priceAcc/cityInfo.totalRides);
     

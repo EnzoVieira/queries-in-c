@@ -15,6 +15,7 @@ typedef struct query7Aux {
 } Q7Aux;
 
 typedef struct query7Temp {
+    int isNotEmpty;
     char* city;
     HashTable* hashTable;
 } Q7Temp;
@@ -48,6 +49,8 @@ void copyToHash(Pointer key, Pointer value, Pointer userData) {
     Q7Aux* driver = findById(copy->hashTable, id);
 
     if (strcmp(city, copy->city) == 0) {
+        copy->isNotEmpty = 1;
+
         if (driver) {
             driver->totalScore += getRScoreDriver(r);
             driver->totalTrips++;
@@ -75,9 +78,18 @@ char* q7(int N, char* city) {
     HashTable* rides = rideHashTableSingleton();
 
     Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
+    temp->isNotEmpty = 0;
     temp->city = strdup(city);
     temp->hashTable = createHashTable(&destroyQ7Aux);
     hashForeach(rides, copyToHash, temp);
+
+    if (!temp->isNotEmpty) {
+        destroyHash(temp->hashTable);
+        free(temp->city);
+        free(temp);
+
+        return NULL;
+    }
 
     List* copy = copyFromHash(temp->hashTable);
     copy = sortList(copy, compareFunc);
@@ -88,7 +100,6 @@ char* q7(int N, char* city) {
     int i = 0, j = N;
     while (i < j) {
         Q7Aux* q7 = findInListByIndex(copy, i);
-        //Driver* driver = findDriverByID(q7->driverID);
 
         if (getDAccountStatusNew(q7->driverID)) {
             char *stringAux = calloc(lineLength, sizeof(char));
@@ -102,7 +113,6 @@ char* q7(int N, char* city) {
             i++;
             j++;
         }
-        //destructDriverCopy(driver);
     }
 
     freeList(copy);

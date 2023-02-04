@@ -38,6 +38,9 @@ char* q5(char* date1, char* date2) {
     Q5Aux q5 = {0.0, 0, date1, date2};
     HashTable* rides = rideHashTableSingleton();
     hashForeach(rides, currentTrip, &q5);
+
+    if (!q5.totalTrips) return NULL;
+
     char* output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", (q5.totalValue / q5.totalTrips));
     return output;

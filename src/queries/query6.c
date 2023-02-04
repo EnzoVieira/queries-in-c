@@ -53,6 +53,9 @@ char* q6(char* city, char* date1, char* date2) {
     
     HashTable* rides = rideHashTableSingleton();
     hashForeach(rides, getTotalDistanceByCity, q6);
+
+    if (!q6->totalTrips) return NULL;
+
     char* output = calloc(10, sizeof(char));
     sprintf(output, "%.3f\n", (q6->totalDistance / q6->totalTrips));
 

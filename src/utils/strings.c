@@ -32,14 +32,8 @@ void eraseUntilFind(char *str, char delim) {
   }
 }
 
-char *toLowerCase(const char *str) {
-  int i, len = strlen(str);
-  char *lower = malloc((len + 1) * sizeof(char));
-
-  for (i = 0; i < len; i++) {
-    lower[i] = tolower(str[i]);
+void toLowerCase(char *str) {
+  for (int i = 0; i < strlen(str); i++) {
+    str[i] = tolower(str[i]);
   }
-  lower[len] = '\0';
-
-  return lower;
 }

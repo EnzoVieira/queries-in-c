@@ -16,6 +16,7 @@ typedef struct query9Aux {
 } Q9Aux;
 
 typedef struct query9Temp {
+    int isEmpty;
     char* date1;
     char* date2;
     HashTable* hashTable;
@@ -56,6 +57,8 @@ void copyToHash3(Pointer key, Pointer value, Pointer userData) {
     char *date =  getRDate(r);
 
     if (getRTip(r) > 0.0 && isDateBetween(temp->date1, date, temp->date2)) {
+        temp->isEmpty = 0;
+
         Q9Aux* result = (Q9Aux*)malloc(sizeof(Q9Aux));
         result->rideID = strdup(rideID);
         result->date = strdup(date);
@@ -72,10 +75,20 @@ char* q9(char* date1, char* date2) {
     HashTable* resultHash = createHashTable(&destroyQ9Aux);
 
     Q9Temp* temp = (Q9Temp*)malloc(sizeof(Q9Temp));
+    temp->isEmpty = 1;
     temp->date1 = strdup(date1);
     temp->date2 = strdup(date2);
     temp->hashTable = resultHash;
     hashForeach(rides, copyToHash3, temp);
+
+    if (temp->isEmpty) {
+        destroyHash(temp->hashTable);
+        free(temp->date1);
+        free(temp->date2);
+        free(temp);
+
+        return NULL;
+    }
 
     List* copy = copyFromHash(resultHash);
     copy = sortList(copy, compareFunc3);
@@ -92,10 +105,12 @@ char* q9(char* date1, char* date2) {
         free(stringAux);
         i++;
     }
+
     freeList(copy);
     destroyHash(temp->hashTable);
     free(temp->date1);
     free(temp->date2);
     free(temp);
+
     return stringGrande;
 }

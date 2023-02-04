@@ -49,17 +49,25 @@ int isValidDecimal(const char *str) {
 }
 
 int isValidCarClass(const char *str) {
-  char *toLowerStr = toLowerCase(str);
-  int isValid = (strcmp(toLowerStr, "premium") == 0 || 
-                strcmp(toLowerStr, "green") == 0 || 
-                strcmp(toLowerStr, "basic") == 0);
-  free(toLowerStr);
+  char *copy = strdup(str);
+  toLowerCase(copy);
+
+  int isValid = (strcmp(copy, "premium") == 0 ||
+                strcmp(copy, "green") == 0 ||
+                strcmp(copy, "basic") == 0);
+
+  free(copy);
+
   return isValid;
 }
 
 int isValidAccountStatus(const char *str) {
-  char *toLowerStr = toLowerCase(str);
-  int isValid = (strcmp(toLowerStr, "active") == 0 || strcmp(toLowerStr, "inactive") == 0);
-  free(toLowerStr);
+  char *copy = strdup(str);
+  toLowerCase(copy);
+
+  int isValid = (strcmp(copy, "active") == 0 || strcmp(copy, "inactive") == 0);
+
+  free(copy);
+
   return isValid;
 }

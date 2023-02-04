@@ -2,6 +2,7 @@
 
 #include "../../../includes/reader.h"
 #include "../../../includes/validations.h"
+#include "../../../includes/strings.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -66,16 +67,19 @@ Driver *createDriver(char *line) {
   driver->birth_date = strdup(strsep(&line, ";"));
   driver->gender = *strsep(&line, ";");
   driver->car_class = strdup(strsep(&line, ";"));
+  toLowerCase(driver->car_class);
   strsep(&line, ";");
   driver->city = strdup(strsep(&line, ";"));
   driver->account_creation = strdup(strsep(&line, ";"));
   driver->last_ride = calloc(11,sizeof(char));
 
-  if (*(strsep(&line, ";")) == 'a')
+  char *status = strdup(strsep(&line, ";"));
+  if (*status == 'a' || *status == 'A')
     driver->account_status = 1;
   else
     driver->account_status = 0;
   
+  free(status);
   return driver;
 }
 

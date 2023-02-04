@@ -58,18 +58,20 @@ int isValidUser(const char *line) {
 User *createUser(char *line) {
   User *user = calloc(1, sizeof(User));
 
-  //user->user_name = strdup(strsep(&lineCopy, ";"));
   user->name = strdup(strsep(&line, ";"));
   user->gender = *strsep(&line, ";");
   user->birth_date = strdup(strsep(&line, ";"));
   user->account_creation = strdup(strsep(&line, ";"));
-  strsep(&line, ";");  
-  if (*(strsep(&line, ";")) == 'a')
+  strsep(&line, ";");
+
+  char *status = strdup(strsep(&line, ";"));
+  if (*status == 'a' || *status == 'A')
     user->account_status = 1;
   else 
     user->account_status = 0;
   user->last_ride = calloc(11,sizeof(char));
   
+  free(status);
   return user;
 }
 

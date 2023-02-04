@@ -22,13 +22,13 @@ void testQuery3(const char *filename, char *token) {
     printf("in %.3fs - query3(%s)\n", seconds, token);
   } else {
     redColor();
-    printf("in %.3fs - query3(%s)\n\n", seconds, token);
+    printf("in %.3fs - query3(%s)\n", seconds, token);
 
-    printf("expected:\n\n");
-    printf("%s\n\n", expectedResult);
+  //   printf("expected:\n\n");
+  //   printf("%s\n\n", expectedResult);
 
-    printf("got:\n\n");
-    printf("%s\n\n", result);
+  //   printf("got:\n\n");
+  //   printf("%s\n\n", result);
   }
 
   if (result != NULL) free(result);

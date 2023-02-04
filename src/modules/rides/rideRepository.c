@@ -55,7 +55,11 @@ int isValidRide(const char *line) {
     return 0;
   }
 
-  int isCorrect = isValidDate(date) && isValidInt(distance, 0) && isValidInt(scoreUser, 1) && isValidInt(scoreDriver, 1) && isValidDecimal(tip);
+  int isCorrect = isValidDate(date) &&
+                  isValidInt(distance, 0) &&
+                  isValidInt(scoreUser, 0) &&
+                  isValidInt(scoreDriver, 0) &&
+                  isValidDecimal(tip);
 
   return isCorrect;
 }
@@ -74,7 +78,7 @@ Ride *createRide(char *line) {
   ride->distance = atof(strsep(&line, ";"));
   ride->score_user = atof(strsep(&line, ";"));
   ride->score_driver = atof(strsep(&line, ";"));
-  ride->tip = atof(strsep(&line, ";"));  
+  ride->tip = atof(strsep(&line, ";"));
 
   return ride;
 }

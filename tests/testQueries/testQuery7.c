@@ -22,13 +22,13 @@ void testQuery7(const char *filename, int N, char *city) {
     printf("in %.3fs - query7(%d, %s)\n", seconds, N, city);
   } else {
     redColor();
-    printf("in %.3fs - query7(%d, %s)\n\n", seconds, N, city);
+    printf("in %.3fs - query7(%d, %s)\n", seconds, N, city);
 
-    printf("expected:\n\n");
-    printf("%s\n\n", expectedResult);
+    // printf("expected:\n\n");
+    // printf("%s\n\n", expectedResult);
 
-    printf("got:\n\n");
-    printf("%s\n\n", result);
+    // printf("got:\n\n");
+    // printf("%s\n\n", result);
   }
 
   if (result != NULL) free(result);
