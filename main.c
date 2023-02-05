@@ -125,18 +125,18 @@ void func(const char *line, unsigned int *index) {
       break;
     }
 
-    case '8': {
-      char *gender = strtok(NULL, delim);
-      char *year = strtok(NULL, delim);
-      result = q8(*gender,atoi(year));
+    // case '8': {
+    //   char *gender = strtok(NULL, delim);
+    //   char *year = strtok(NULL, delim);
+    //   result = q8(*gender,atoi(year));
 
-      writeFile(result, filename);
-      if (result != NULL) {
-        free(result);
-      }
+    //   writeFile(result, filename);
+    //   if (result != NULL) {
+    //     free(result);
+    //   }
 
-      break;
-    }
+    //   break;
+    // }
        
     case '9': {
       char *date1 = strtok(NULL, delim);
