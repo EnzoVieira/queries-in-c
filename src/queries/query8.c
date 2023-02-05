@@ -11,19 +11,20 @@
 
 #define MAX_LINE_LENGTH 200
 
+typedef struct q8Data{
+    HashTable *hashM;
+    HashTable *hashF;
+    List *listM;
+    List *listF;
+}Q8Data;
+
 typedef struct query8Aux {
     char* rideID;
     char* driverID;
-    char* driverName;
     char* userID;
-    char* userName;
+    int ageD;
+    int ageU;
 } Q8Aux;
-
-typedef struct query8Temp {
-    char gender;
-    int accountYears;
-    HashTable* hashTable;
-} Q8Temp;
 
 void destroyQ8Aux (void *q8Aux){
     
@@ -32,12 +33,8 @@ void destroyQ8Aux (void *q8Aux){
     if(q8){
         if(q8->driverID)
             free(q8->driverID);
-        if(q8->driverName)
-            free(q8->driverName);
         if(q8->userID)
             free(q8->userID);
-        if(q8->userName)
-            free(q8->userName);
         free (q8);
     }
 }
@@ -46,29 +43,20 @@ int compareFunc2(Pointer a, Pointer b) {
     Q8Aux* d1 = (Q8Aux*)a;
     Q8Aux* d2 = (Q8Aux*)b;
 
-    //Driver* driver1 = findDriverByID(d1->driverID);
-    //Driver* driver2 = findDriverByID(d2->driverID);
-
     char *accountCreationD1 = getDAccountCreationNew(d1->driverID);
     char *accountCreationD2 = getDAccountCreationNew(d2->driverID);
     int driverComp = compareDates(accountCreationD1,accountCreationD2);
     
     free(accountCreationD1);
     free(accountCreationD2);
-    //destructDriverCopy(driver1);
-    //destructDriverCopy(driver2);
 
     if (!driverComp){
-        //User* user1 = findUserByUsername(d1->userID);
-        //User* user2 = findUserByUsername(d2->userID);
         char *accountCreationU1 = getUAccountCreationNew(d1->userID);
         char *accountCreationU2 = getUAccountCreationNew(d2->userID);
         int userComp = compareDates(accountCreationU1,accountCreationU2);
 
         free(accountCreationU1);
         free(accountCreationU2);
-        //destructUserCopy(user1);
-        //destructUserCopy(user2);
 
         if (!userComp) return strcmp(d1->rideID, d2->rideID);
         else return -userComp;
@@ -80,83 +68,110 @@ int compareFunc2(Pointer a, Pointer b) {
 void copyToHash2(Pointer key, Pointer value, Pointer userData) {
     char* rideID = (char*)key;
     Ride* r = (Ride*)value;
-    Q8Temp* copy = (Q8Temp*)userData;
-
-    char gender = copy->gender;
-    int accountYears = copy->accountYears;
+    Q8Data* copy = (Q8Data*)userData;
 
     char *driverId = getRDriverId(r);
     char *username = getRUsername(r);
     
-
-    //Driver* d = findDriverByID(driverId);
-    //User* u = findUserByUsername(username);
-
-    Q8Aux* temp = (Q8Aux*)malloc(sizeof(Q8Aux));
-
-    char *date1 = getDAccountCreationNew(driverId);
-    char *date2 = getUAccountCreationNew(username);
-
-    int driverAccountCreation = dateDifference(dateConvert(date1));
-    int userAccountCreation = dateDifference(dateConvert(date2));
-
-    free(date1);
-    free(date2);
-
-    int validGender = (getDGenderNew(driverId) == gender && getUGenderNew(username) == gender);
-    int validAccountYears = (driverAccountCreation >= accountYears && userAccountCreation >= accountYears);
-
-    if (validGender && validAccountYears) {
-        temp->rideID = strdup(rideID);
-        temp->driverID = driverId;
-        temp->driverName = getDNameNew(driverId);
-        temp->userID = username;
-        temp->userName = getUNameNew(username);
-        addToTable(copy->hashTable, temp->rideID, temp);
+    
+    if (getDAccountStatusNew(driverId) && getUAccountStatusNew(username)) {
+        
+        if((getDGenderNew(driverId) == getUGenderNew(username))){
+            Q8Aux* temp = (Q8Aux*)malloc(sizeof(Q8Aux));
+    
+            char *driverAccountCreation = getDAccountCreationNew(driverId);
+            char *userAccountCreation = getUAccountCreationNew(username);
+            int driverAccountAge = dateToAge(driverAccountCreation);
+            int userAccountAge = dateToAge(userAccountCreation);
+            free(driverAccountCreation);
+            free(userAccountCreation);
+            temp->rideID = strdup(rideID);
+            temp->driverID = driverId;
+            temp->userID = username;
+            temp->ageD = driverAccountAge;
+            temp->ageU = userAccountAge;       
+            if (getDGenderNew(driverId) == 'M'){
+                addToTable(copy->hashM, temp->rideID, temp);
+            }
+            else {
+                addToTable(copy->hashF, temp->rideID, temp);
+            }
+        }else {
+            free(driverId);
+            free(username);
+        }
+    } else {
+        free(driverId);
+        free(username);
     }
 }
 
-/* 
-    O output deverá ser ordenado de forma que as contas mais antigas apareçam primeiro.
-    Ordenar por conta mais antiga de condutor e, se necessário, pela conta do utilizador.
-    Se persistirem empates, ordenar por id da viagem (ordem descendente).
-*/
+Q8Data *resulHashSingleton () {
+    static Q8Data *data = NULL;
 
-
-char* q8(char gender, int years) {
-    HashTable* rides = rideHashTableSingleton();
-    HashTable* resultHash = createHashTable(&destroyQ8Aux);
-
-    Q8Temp* temp = (Q8Temp*)malloc(sizeof(Q8Temp));
-    temp->gender = gender;
-    temp->accountYears = years;
-    temp->hashTable = resultHash;
-    hashForeach(rides, copyToHash2, temp);
-
-    List* copy = copyFromHash(resultHash);
-    copy = sortList(copy, compareFunc2);
-
-    char* stringGrande = calloc(MAX_LINE_LENGTH * listLength(copy), sizeof(char));
-    
-    int i = 0, j = listLength(copy);
-    if (!j) return NULL;
-    while (i < j) {
-        Q8Aux* q8 = findInListByIndex(copy, i);
-
-        //Driver* driver = findDriverByID(q8->driverID);
-        //User* user = findUserByUsername(q8->userID);
-
-        if (getDAccountStatusNew(q8->driverID) && getUAccountStatusNew(q8->userID)) {
-            char *stringAux = calloc(MAX_LINE_LENGTH, sizeof(char));
-            sprintf(stringAux, "%s;%s;%s;%s\n", q8->driverID, q8->driverName, q8->userID, q8->userName);
-            strcat(stringGrande, stringAux);
-            free(stringAux);
-        }
-        i++;
+    if(!data){
+        HashTable* rides = rideHashTableSingleton();
+        data = (Q8Data*)calloc(1,sizeof(Q8Data));
+        data->hashM = createHashTable(&destroyQ8Aux);
+        data->hashF = createHashTable(&destroyQ8Aux);
+        hashForeach(rides, copyToHash2, data);
+        data->listM = copyFromHash(data->hashM);
+        data->listM = sortList(data->listM,compareFunc2);
+        data->listF = copyFromHash(data->hashF);
+        data->listF = sortList(data->listF,compareFunc2);
     }
-    freeList(copy);
-    destroyHash(temp->hashTable);
-    free(temp);
+
+    return data;
+
+}
+
+void destroyDataQ8(){
+  Q8Data *q8Data = resulHashSingleton();
+  freeList(q8Data->listM);
+  freeList(q8Data->listF);
+  destroyHash(q8Data->hashM);
+  destroyHash(q8Data->hashF);
+  free(q8Data);
+}
+
+char* q8(char gender, int years) {    
+
+    Q8Data *resultData = resulHashSingleton(); //Retorna data dependendo do genero
+    List *list;
+    if (gender == 'M'){
+        list = resultData->listM;
+    }
+    else{
+        list = resultData->listF;
+    }
+    
+    int i = 0, j = listLength(list);
+    
+    if (!j) return NULL;
+    Q8Aux* q8 = getListData(list);
+    if (!(years <= q8->ageD || years <= q8->ageU)) return NULL;
+    char* stringGrande = calloc(MAX_LINE_LENGTH * listLength(list), sizeof(char));
+    char *uName;
+    char *dName;
+    while ((years <= q8->ageD || years <= q8->ageU) && i<j) {
+
+        if ((years <= q8->ageD && years <= q8->ageU)){
+            uName = getUNameNew(q8->userID);
+            dName = getDNameNew(q8->driverID);
+            char *stringAux = calloc(MAX_LINE_LENGTH, sizeof(char));
+            sprintf(stringAux, "%s;%s;%s;%s\n", q8->driverID, dName, q8->userID, uName);
+            strcat(stringGrande, stringAux);
+            free(dName);
+            free(uName);
+            free(stringAux);
+            i++;
+        }
+        else{
+            i++;
+        }
+        list = listNext(list);
+        q8 = getListData(list);
+    }
 
     return stringGrande;
 }

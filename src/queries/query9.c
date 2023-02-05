@@ -82,16 +82,18 @@ char* q9(char* date1, char* date2) {
 
     size_t lineLength = 20 + 50 + 5;
     char* stringGrande = calloc(lineLength * listLength(copy), sizeof(char));
-    
+    List *tmp = copy;
     int i = 0, j = listLength(copy);
     while (i < j) {
-        Q9Aux* q9 = findInListByIndex(copy, i);
+        Q9Aux* q9 = getListData(copy);
+        copy = listNext(copy);
         char *stringAux = calloc(lineLength, sizeof(char));
         sprintf(stringAux, "%s;%s;%d;%s;%.3f\n", q9->rideID, q9->date, q9->distance, q9->city, q9->tip);
         strcat(stringGrande, stringAux);
         free(stringAux);
         i++;
     }
+    copy = tmp;
     freeList(copy);
     destroyHash(temp->hashTable);
     free(temp->date1);

@@ -26,7 +26,7 @@ void func(const char *line, unsigned int *index) {
   char delim[] = " ";
   token = strtok(linecopy, delim);
 
-  char queryNumber = strdup(token)[0];
+  char queryNumber = token[0];
 
 	char *filenameAux1 = "Resultados/command";
 	char *filenameAux2 = "_output.txt";
@@ -126,18 +126,18 @@ void func(const char *line, unsigned int *index) {
       break;
     }
 
-//    case '8': {
-//      char *gender = strtok(NULL, delim);
-//      char *year = strtok(NULL, delim);
-//      result = q8(*gender,atoi(year));
-//
-//      writeFile(result, filename);
-//      if (result != NULL) {
-//        free(result);
-//      }
-//
-//      break;
-//    }
+    case '8': {
+      char *gender = strtok(NULL, delim);
+      char *year = strtok(NULL, delim);
+      result = q8(*gender,atoi(year));
+
+      writeFile(result, filename);
+      if (result != NULL) {
+        free(result);
+      }
+
+      break;
+    }
        
     case '9': {
       char *date1 = strtok(NULL, delim);
@@ -185,6 +185,7 @@ int main(int argc, char *argv[]) {
     line=NULL;
     index++;
   }
+  free(line);
 
   destroyDatabase();
 
