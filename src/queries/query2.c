@@ -78,23 +78,33 @@ void createDriversList (Pointer key, Pointer value, Pointer data){
   //destructDriverCopy(driver);
 }
 
+int *q2SingletonIsCreated() {
+  static int alreadyCreated = 0;
+  return &alreadyCreated;
+}
 
-List *q2Singleton (){
-  
+List *q2Singleton () {
   static List *driversInfo = NULL;
   
-  if(driversInfo == NULL){
+  if(driversInfo == NULL) {
     HashTable *driversStatistics = driversStatisticsHashTableSingleton();
     driversInfo = createList();
     hashForeach(driversStatistics,createDriversList,driversInfo);
+
+    int *isAlreadyCreated = q2SingletonIsCreated();
+    *isAlreadyCreated = 1;
   }
 
   return driversInfo;
 }
 
-void destroyDataQ2(){
-  List *q2Data = q2Singleton();
-  freeListFull(q2Data,&destroyQ2Aux);
+void destroyDataQ2() {
+  int *isAlreadyCreated = q2SingletonIsCreated();
+
+  if (*isAlreadyCreated) {
+    List *q2Data = q2Singleton();
+    freeListFull(q2Data,&destroyQ2Aux);
+  }
 }
 
 char *q2(int N) {

@@ -30,9 +30,8 @@ void func(const char *line, unsigned int *index) {
 
 	char *filenameAux1 = "Resultados/command";
 	char *filenameAux2 = "_output.txt";
-	size_t filenameLength = strlen(filenameAux1) + strlen(filenameAux2) + 2;
+	size_t filenameLength = strlen(filenameAux1) + strlen(filenameAux2) + 10;
 	char *filename = calloc(filenameLength, sizeof(char));
-
 
   sprintf(filename, "%s%d%s", filenameAux1, (*index)+1, filenameAux2);
 
@@ -126,18 +125,18 @@ void func(const char *line, unsigned int *index) {
       break;
     }
 
-//    case '8': {
-//      char *gender = strtok(NULL, delim);
-//      char *year = strtok(NULL, delim);
-//      result = q8(*gender,atoi(year));
-//
-//      writeFile(result, filename);
-//      if (result != NULL) {
-//        free(result);
-//      }
-//
-//      break;
-//    }
+    case '8': {
+      char *gender = strtok(NULL, delim);
+      char *year = strtok(NULL, delim);
+      result = q8(*gender,atoi(year));
+
+      writeFile(result, filename);
+      if (result != NULL) {
+        free(result);
+      }
+
+      break;
+    }
        
     case '9': {
       char *date1 = strtok(NULL, delim);
@@ -152,6 +151,7 @@ void func(const char *line, unsigned int *index) {
       break;
     }
   }
+
   free(filename);
   free(linecopy);
 }

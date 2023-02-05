@@ -16,6 +16,9 @@
 # VS Code
 .vscode
 
+# Debug
+*.dSYM
+
 config/**/*data*
 config/**/*large*
 config/**/*errors*

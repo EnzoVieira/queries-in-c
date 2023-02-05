@@ -10,6 +10,9 @@
 #include "../../includes/query4.h"
 #include "../../includes/query5.h"
 #include "../../includes/query6.h"
+#include "../../includes/query7.h"
+#include "../../includes/query8.h"
+#include "../../includes/query9.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -127,6 +130,7 @@ void handleQueryCommand(CommandToken *commandTokens) {
       greenColor();
       printf("%s\n", result);
 
+      if (result != NULL) free(result);
       break;
     }
 
@@ -139,21 +143,31 @@ void handleQueryCommand(CommandToken *commandTokens) {
       greenColor();
       pagination(result);
 
+      if (result != NULL) free(result);
       break;
     }
 
-    case '3':
+    case '3': {
       printf("A executar query3(%s)...\n\n", (++commandTokens)->token);
+
+      char *result = q2(atoi(commandTokens->token));
+      greenColor();
+      pagination(result);
+
+      if (result != NULL) free(result);
       break;
+    }
     
-    case '4':
+    case '4': {
       printf("A executar query4(%s)...\n\n", (++commandTokens)->token);
 
       char *result = q4(commandTokens->token);
       greenColor();
       printf("%s\n", result);
 
+      if (result != NULL) free(result);
       break;
+    }
     
     case '5': {
       commandTokens++;
@@ -167,6 +181,7 @@ void handleQueryCommand(CommandToken *commandTokens) {
       greenColor();
       printf("%s\n", result);
 
+      if (result != NULL) free(result);
       break;
     }
     
@@ -184,6 +199,7 @@ void handleQueryCommand(CommandToken *commandTokens) {
       greenColor();
       printf("%s\n", result);
 
+      if (result != NULL) free(result);
       break;
     }
 
@@ -194,6 +210,12 @@ void handleQueryCommand(CommandToken *commandTokens) {
       char *arg2 = commandTokens->token;
 
       printf("A executar query7(%s, %s)...\n\n", arg1, arg2);
+
+      char *result = q7(atoi(arg1), arg2);
+      greenColor();
+      pagination(result);
+
+      if (result != NULL) free(result);
       break;
     }
 
@@ -204,6 +226,10 @@ void handleQueryCommand(CommandToken *commandTokens) {
       char *arg2 = commandTokens->token;
 
       printf("A executar query8(%s, %s)...\n\n", arg1, arg2);
+      char *result = q8(arg1[0], atoi(arg2));
+      pagination(result);
+
+      if (result != NULL) free(result);
       break;
     }
 
@@ -214,6 +240,10 @@ void handleQueryCommand(CommandToken *commandTokens) {
       char *arg2 = commandTokens->token;
 
       printf("A executar query9(%s, %s)...\n\n", arg1, arg2);
+      char *result = q9(arg1, arg2);
+      pagination(result);
+
+      if (result != NULL) free(result);
       break;
     }
 

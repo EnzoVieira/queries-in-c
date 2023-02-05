@@ -1,5 +1,6 @@
 CC = gcc
-CFLAGS = -Wall -Wextra `pkg-config --cflags --libs glib-2.0`
+DEBUGGER = lldb
+CFLAGS = -Wall -Wextra -Wno-unused-parameter -g `pkg-config --cflags --libs glib-2.0`
 VALFLAGS = --leak-check=full
 
 SRC = ./src
@@ -21,14 +22,17 @@ SBINARY = programa-testes
 
 all: $(PBINARY) $(SBINARY)
 
-exec: clean_result $(PBINARY)
-	./programa-principal $(DATA) $(INPUTS)
+exec: $(PBINARY) clean_result
+	./$< $(DATA) $(INPUTS)
 
 test: $(SBINARY)
-	clear && ./programa-testes $(DATA) $(INPUTS)
+	clear && ./$< $(DATA) $(INPUTS)
 
 it: $(PBINARY)
-	./programa-principal
+	./$<
+
+debug: $(PBINARY) clean_result
+	$(DEBUGGER) $< $(DATA) $(INPUTS)
 
 $(PBINARY): main.c $(FILES)
 	$(CC) $< $(FILES) -o $@ $(CFLAGS)

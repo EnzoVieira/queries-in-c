@@ -47,11 +47,11 @@
     HashTable *driverStatistics = driversStatisticsHashTableSingleton();
     HashTable *userStatistics = usersStatisticsHashTableSingleton();
     
-    destroyHash(drivers);
-    destroyHash(users);
-    destroyHash(rides);
-    destroyHash(driverStatistics);
-    destroyHash(userStatistics);
+    if (drivers != NULL) destroyHash(drivers);
+    if (users != NULL) destroyHash(users);
+    if (rides != NULL) destroyHash(rides);
+    if (driverStatistics != NULL) destroyHash(driverStatistics);
+    if (userStatistics != NULL) destroyHash(userStatistics);
     destroyDataQ2();
     destroyDataQ3();
   }

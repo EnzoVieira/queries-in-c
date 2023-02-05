@@ -78,28 +78,38 @@ void createUsersList (Pointer key, Pointer value, Pointer data){
   //destructUserCopy(userCpy);
 }
 
+int *q3SingletonIsCreated() {
+  static int alreadyCreated = 0;
+  return &alreadyCreated;
+}
+
 Q3Data *dataSingleton (){
-  
   static Q3Data *data = NULL;
   
   if(data==NULL){
-    
     data = (Q3Data*)malloc(sizeof(Q3Data));
     HashTable *usersStatistics = usersStatisticsHashTableSingleton();
     data->hash = createHashTable(&destroyQ3Aux);
     hashForeach(usersStatistics,createUsersList,data->hash);
     data->list = copyFromHash(data->hash);
     data->list = sortList(data->list,userCompare);
-  
+
+    int *isAlreadyCreated = q3SingletonIsCreated();
+    *isAlreadyCreated = 1;
   }
+
   return data;
 }
 
 void destroyDataQ3(){
-  Q3Data *q3Data = dataSingleton();
-  freeList(q3Data->list);
-  destroyHash(q3Data->hash);
-  free(q3Data);
+  int *isAlreadyCreated = q3SingletonIsCreated();
+
+  if (*isAlreadyCreated) {
+    Q3Data *q3Data = dataSingleton();
+    freeList(q3Data->list);
+    destroyHash(q3Data->hash);
+    free(q3Data);
+  }
 }
 
 char *q3 (int N){

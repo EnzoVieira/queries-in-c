@@ -35,7 +35,7 @@ void func(const char *path, char *line, unsigned int *index) {
   // Apaga os caracteres do final até encontrar um /
   eraseUntilFind(pathCopy, '/');
   
-  char *filename = calloc(strlen(pathCopy) + strlen("commandX_output.txt") + 1, sizeof(char));
+  char *filename = calloc(strlen(pathCopy) + strlen("commandX_output.txt") + 10, sizeof(char));
   sprintf(filename, "%scommand%d_output.txt", pathCopy, (*index) + 1);
 
   switch (queryNumber) {
@@ -123,6 +123,7 @@ void func(const char *path, char *line, unsigned int *index) {
   }
 
   free(filename);
+  free(pathCopy);
 }
 
 // FIXME: Arrumar organização dos testes
@@ -137,10 +138,12 @@ int main(int argc, char *argv[]) {
   while (readLine(&line, fp) != -1) {
     func(argv[2], line, &index);
     index++;
+
+    free(line);
+    line = NULL;
   }
 
   fclose(fp);
-  free(line);
 
   return 0;
 }
