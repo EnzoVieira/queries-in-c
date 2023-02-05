@@ -126,7 +126,6 @@ void func(const char *path, char *line, unsigned int *index) {
   free(pathCopy);
 }
 
-// FIXME: Arrumar organização dos testes
 int main(int argc, char *argv[]) {
   seedDatabase(argv[1]);
 

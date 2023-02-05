@@ -9,7 +9,6 @@ Driver *createDriver(char *line);
 void addDriver(char *line);
 void createDriversHashTable(const char *path);
 HashTable *driverHashTableSingleton();
-Driver *findDriverByID(const char *id);
 void addDriverLastRide(const char *id, const char *date);
 
 // ============================

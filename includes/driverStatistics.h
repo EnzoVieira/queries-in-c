@@ -8,7 +8,6 @@ typedef struct driverStatistics DriverStatistics;
 void addDriverStatistics(char *id, double distance, double score, double earn, double tips);
 HashTable *driversStatisticsHashTableSingleton();
 
-DriverStatistics *findDriverStatisticsByUsername(const char *id);
 double getDStotalDistance(const DriverStatistics *driverStatistics);
 double getDStotalScore(const DriverStatistics *driverStatistics);
 double getDStotalEarn(const DriverStatistics *driverStatistics);
@@ -21,4 +20,5 @@ double getDStotalScoreNew(char *id);
 double getDStotalEarnNew(char *id);
 double getDStotalTripsNew(char *id);
 double getDStotalTipsEarnNew(char *id);
+
 #endif

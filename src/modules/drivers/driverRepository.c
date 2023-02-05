@@ -24,21 +24,6 @@ struct driver {
 //       private methods
 // ============================
 
-Driver *getDriverCopy(Driver* driver) {
-  Driver* driverCopy = calloc(1, sizeof(Driver));
-
-  driverCopy->name = strdup(driver->name);
-  driverCopy->birth_date = strdup(driver->birth_date);
-  driverCopy->gender = driver->gender;
-  driverCopy->car_class = strdup(driver->car_class);
-  driverCopy->city = strdup(driver->city);
-  driverCopy->account_creation = strdup(driver->account_creation);
-  driverCopy->last_ride = strdup(driver->last_ride);
-  driverCopy->account_status = driver->account_status;
-
-  return driverCopy;
-}
-
 int isValidDriver(const char *line) {
   char id[13], name[MAX_FIELD_LEN], birthDay[11], gender[2], carClass[8], licensePlate[9], city[MAX_FIELD_LEN], accountCreation[11], accountStatus[9];
 
@@ -105,19 +90,6 @@ HashTable *driverHashTableSingleton() {
   }
 
   return driversHashTable;
-}
-
-// Always returns a copy when driver exists
-Driver *findDriverByID(const char *id) {
-  HashTable* driverHashTable = driverHashTableSingleton();
-
-  Driver* driverFinded = (Driver*) findById(driverHashTable, id);
-
-  if (driverFinded) {
-    return getDriverCopy(driverFinded);
-  }
-
-  return NULL;
 }
 
 void addDriverLastRide(const char *id, const char *date) {

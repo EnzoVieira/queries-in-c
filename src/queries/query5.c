@@ -22,12 +22,10 @@ void currentTrip(Pointer key, Pointer value, Pointer userData) {
     char *rideDate = getRDate(r);
     char *driverID = getRDriverId(r);
     if (isDateBetween(q5->date1, rideDate, q5->date2)) {
-        //Driver *driver = findDriverByID(driverID);
         char* carClass = getDCarClassNew(driverID);
         q5->totalValue += ridePriceCalculator(carClass, getRDistance(r));
         q5->totalTrips++;
         
-        //destructDriverCopy(driver);
         free(carClass);
     }
         free(rideDate);

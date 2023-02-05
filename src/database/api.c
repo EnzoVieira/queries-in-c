@@ -45,22 +45,12 @@ List* copyFromHash(HashTable* table) {
   return (List*) g_hash_table_get_values((GHashTable*) table);
 }
 
-int hashSize(HashTable* hashTable) {
-  return (int) g_hash_table_size((GHashTable*) hashTable);
-}
-
 void destroyHash(HashTable* table){
   g_hash_table_destroy((GHashTable*)table);
 }
 
-//List
-
 List *createList() {
   return (List*) g_list_alloc();
-}
-
-List *copyList(List *list) {
-  return (List*) g_list_copy((GList*) list);
 }
 
 List *addToList(List *list, Pointer data) {
@@ -77,10 +67,6 @@ List *sortList(List *list, CompareFunc func) {
 
 Pointer findInListByIndex(List *list, int index) {
   return g_list_nth((GList*)list, index)->data;
-}
-
-void listForeach(List *list, Func func) {
-  g_list_foreach((GList*) list, (GFunc) func, NULL);
 }
 
 void freeListFull(List *list,DestroyFunc destroyFunc){

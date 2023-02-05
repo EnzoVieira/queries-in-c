@@ -10,7 +10,6 @@ void addUser(char *line);
 void createUsersHashTable(const char *path);
 HashTable *userHashTableSingleton();
 // Always returns a copy when user exists
-User *findUserByUsername(const char *username);
 // Function to add a rideId to a user->userRidesId list
 void addUserLastRide(const char *username, const char *date);
 

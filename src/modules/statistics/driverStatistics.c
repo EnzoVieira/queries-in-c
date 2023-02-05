@@ -14,17 +14,6 @@ struct driverStatistics {
   double totalTipsEarn;
 };
 
-DriverStatistics *getDriverStatisticsCopy(DriverStatistics *driverStatistics) {
-  DriverStatistics *driverStatisticsCopy = calloc(1, sizeof(DriverStatistics));
-
-  driverStatisticsCopy->totalDistance = driverStatistics->totalDistance;
-  driverStatisticsCopy->totalScore = driverStatistics->totalScore;
-  driverStatisticsCopy->totalTrips = driverStatistics->totalTrips;
-  driverStatisticsCopy->totalEarn = driverStatistics->totalEarn;
-  driverStatisticsCopy->totalTipsEarn = driverStatistics->totalTipsEarn;
-  return driverStatisticsCopy;
-}
-
 HashTable *driversStatisticsHashTableSingleton() {
   static HashTable *driverStatisticsHashTable = NULL;
 
@@ -68,17 +57,6 @@ void addDriverStatistics(char *id, double distance, double score, double earn, d
     driverStatistics->totalEarn += earn;
     driverStatistics->totalTipsEarn += tips;
   }
-}
-
-DriverStatistics *findDriverStatisticsByUsername(const char *id) {
-  HashTable *driverStatisticsHashTable = driversStatisticsHashTableSingleton();
-
-  DriverStatistics *driverFinded = (DriverStatistics*) findById(driverStatisticsHashTable, id);
-  if (driverFinded) {
-    return getDriverStatisticsCopy(driverFinded);
-  }
-
-  return NULL;
 }
 
 double getDStotalDistance(const DriverStatistics *driverStatistics) {

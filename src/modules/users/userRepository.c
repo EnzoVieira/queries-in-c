@@ -22,19 +22,6 @@ struct user {
 //       private methods
 // ============================
 
-User *getUserCopy(User *user) {
-  User *userCopy = calloc(1, sizeof(User));
-
-  userCopy->name = strdup(user->name);
-  userCopy->gender = user->gender;
-  userCopy->birth_date = strdup(user->birth_date);
-  userCopy->account_creation = strdup(user->account_creation);
-  userCopy->account_status = user->account_status;
-  userCopy->last_ride = strdup(user->last_ride);
-
-  return userCopy;
-}
-
 int isValidUser(const char *line) {
   char username[MAX_FIELD_LEN], name[MAX_FIELD_LEN], gender[2], birthDay[11], accountCreation[11], pay_method[MAX_FIELD_LEN], accountStatus[9];
 
@@ -98,19 +85,6 @@ HashTable *userHashTableSingleton() {
   }
 
   return usersHashTable;
-}
-
-// Always returns a copy when user exists
-User *findUserByUsername(const char *username) {
-  HashTable *userHashTable = userHashTableSingleton();
-
-  User *userFinded = (User*) findById(userHashTable, username);
-
-  if (userFinded) {
-    return getUserCopy(userFinded);
-  }
-
-  return NULL;
 }
 
 void addUserLastRide(const char *username, const char *date) {

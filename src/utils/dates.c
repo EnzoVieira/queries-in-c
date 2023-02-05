@@ -34,22 +34,6 @@ int dateToAge (char *dateString){
     return age;
 }
 
-
-int dateDifference(Date *d) {
-  Date *consideredDate = dateConvert(DATE);
-  int age = 0;
-  
-  if ((consideredDate->year >= d->year && consideredDate->month > d->month) ||
-      (consideredDate->year >= d->year && consideredDate->month == d->month && consideredDate->day >= d->day))
-    age = consideredDate->year - d->year;
-  else
-    age = (consideredDate->year - d->year) - 1;
-
-  free(consideredDate);
-  return age;
-}
-
-
 // Calcula se a data A é menor que a data B 
 int isSmallerDate(char *a, char *b) {
   // compara anos

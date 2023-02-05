@@ -31,21 +31,6 @@ struct ride {
 //       private methods
 // ============================
 
-Ride *getRideCopy(Ride *ride) {
-  Ride *rideCopy = calloc(1, sizeof(Ride));
-
-  //rideCopy->id = strdup(ride->id);
-  rideCopy->date = strdup(ride->date);
-  rideCopy->driver = strdup(ride->driver);
-  rideCopy->user = strdup(ride->user);
-  rideCopy->city = strdup(ride->city);
-  rideCopy->distance = ride->distance;
-  rideCopy->score_user = ride->score_user;
-  rideCopy->score_driver = ride->score_driver;
-  rideCopy->tip = ride->tip;
-  return rideCopy;
-}
-
 int isValidRide(const char *line) {
   char id[13], date[11], driver[MAX_FIELD_LEN], user[MAX_FIELD_LEN], city[MAX_FIELD_LEN], distance[13], scoreUser[16], scoreDriver[16], tip[16], comment[MAX_FIELD_LEN];
   
@@ -125,19 +110,6 @@ HashTable *rideHashTableSingleton() {
   }
 
   return ridesHashTable;
-}
-
-// Always returns a copy when ride exists
-Ride *findRideById(const char *id) {
-  HashTable *ridesHashTable = rideHashTableSingleton();
-
-  Ride *rideFinded = (Ride*) findById(ridesHashTable, id);
-
-  if (rideFinded) {
-    return getRideCopy(rideFinded);
-  }
-
-  return NULL;
 }
 
 // ============================

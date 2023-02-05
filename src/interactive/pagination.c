@@ -160,7 +160,7 @@ int goToPage(unsigned int page, Pagination *pagination) {
 }
 
 // FIXME: Remover esta função depois
-char *readInput2() {
+char *getInput() {
   char *line = (char*) calloc(sizeof(char), 100);
   unsigned int len;
   size_t bufferSize = 100;
@@ -209,7 +209,7 @@ void pagination(char *multilineString) {
     }
     resetColor();
 
-    input = readInput2();
+    input = getInput();
 
     printf("\n");
   }

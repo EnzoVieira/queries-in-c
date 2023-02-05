@@ -9,8 +9,6 @@ Ride *createRide(char* line);
 void addRide(char* line);
 void createRidesHashTable(const char *path);
 HashTable *rideHashTableSingleton();
-// Always returns a copy when ride exists
-Ride *findRideById(const char *id);
 
 // ============================
 //           GETTERS

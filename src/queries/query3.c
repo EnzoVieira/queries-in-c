@@ -45,27 +45,21 @@ int userCompare (Pointer a, Pointer b){
     return (distance1 < distance2);
   }
 
-    //User *user1cpy = findUserByUsername(user1->username);
-    //User *user2cpy = findUserByUsername(user2->username);
-    
-    char *date1 = getULastRideNew(user1->username);
-    char *date2 = getULastRideNew(user2->username);
-    
-    int cmpDates = compareDates(date1, date2);
-    free(date1);
-    free(date2);
-    //destructUserCopy(user1cpy);
-    //destructUserCopy(user2cpy);
+  char *date1 = getULastRideNew(user1->username);
+  char *date2 = getULastRideNew(user2->username);
+  
+  int cmpDates = compareDates(date1, date2);
+  free(date1);
+  free(date2);
 
-    if (cmpDates) return cmpDates;
-    return strcmp(user1->username, user2->username);
+  if (cmpDates) return cmpDates;
+  return strcmp(user1->username, user2->username);
 }
 
 void createUsersList (Pointer key, Pointer value, Pointer data){
   
   char* username = (char*) key;
   UserStatistics* userStatistics = (UserStatistics*)value;
-  //User *userCpy = findUserByUsername(username); 
   if (getUAccountStatusNew(username)){
     Q3Aux *userToList = (Q3Aux*)malloc(sizeof(Q3Aux));
     HashTable *usersList = (HashTable*)data;
@@ -75,7 +69,6 @@ void createUsersList (Pointer key, Pointer value, Pointer data){
     userToList->totalDistance = getUStotalDistance(userStatistics);
     addToTable(usersList,strdup(username),userToList);    
   }
-  //destructUserCopy(userCpy);
 }
 
 int *q3SingletonIsCreated() {
@@ -128,7 +121,6 @@ char *q3 (int N){
     data->list = listNext(data->list);
 
     char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
-    // FIXME: Não acessar diretamente aos valores.
     sprintf(stringAux, "%s;%s;%.0f\n", user->username, user->name, user->totalDistance);
     
     strcat(resultStr, stringAux);

@@ -42,17 +42,12 @@ int mediaDriverCompare (Pointer a, Pointer b){
     return (score1 < score2);
   }
 
-  //Driver *driver1cpy = findDriverByID(driver1->driverId); 
-  //Driver *driver2cpy = findDriverByID(driver2->driverId);
-
   char *date1 = getDLastRideNew(driver1->driverId);
   char *date2 = getDLastRideNew(driver2->driverId);
 
   int dateCompare = compareDates(date1, date2);
   free(date1);
   free(date2);
-  //destructDriverCopy(driver1cpy);
-  //destructDriverCopy(driver2cpy);
 
   if (dateCompare) return dateCompare;
   return strcmp(driver1->driverId, driver2->driverId);
@@ -61,8 +56,7 @@ int mediaDriverCompare (Pointer a, Pointer b){
 void createDriversList (Pointer key, Pointer value, Pointer data){
   
   char* id = (char*)key;
-  //Driver *driver = findDriverByID(id); 
-  
+
   if (getDAccountStatusNew(id)){
     
     DriverStatistics* driverStatistics = (DriverStatistics*)value;
@@ -75,7 +69,6 @@ void createDriversList (Pointer key, Pointer value, Pointer data){
 
     addToSortedList(driversList,driverToList,mediaDriverCompare);
   }
-  //destructDriverCopy(driver);
 }
 
 int *q2SingletonIsCreated() {
@@ -122,7 +115,6 @@ char *q2(int N) {
     driver = (Q2Aux*)findInListByIndex(driversInfo,i);
     
     char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
-    // FIXME: Não acessar diretamente aos valores.
     sprintf(stringAux, "%s;%s;%.3f\n", driver->driverId, driver->driverName, driver->scoreMedia);
     
     strcat(resultStr, stringAux);
