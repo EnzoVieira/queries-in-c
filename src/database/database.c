@@ -5,6 +5,7 @@
   #include "../../includes/userStatistics.h"
   #include "../../includes/query2.h"
   #include "../../includes/query3.h"
+  #include "../../includes/query8.h"
 
   #include "../../includes/terminal.h"
   #include "../../includes/strings.h"
@@ -54,4 +55,5 @@
     if (userStatistics != NULL) destroyHash(userStatistics);
     destroyDataQ2();
     destroyDataQ3();
+    destroyDataQ8();
   }

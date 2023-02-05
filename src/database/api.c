@@ -95,3 +95,11 @@ int listLength(List* list) {
   return (int) g_list_length((GList*) list);
 }
 
+List *listNext(List *list){
+  list = (List*)((GList*)list)->next;
+  return list;
+}
+Pointer getListData(List *list){
+  return ((GList*)list)->data;
+}
+

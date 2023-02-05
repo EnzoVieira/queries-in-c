@@ -121,10 +121,11 @@ char *q3 (int N){
   Q3Aux *user;
 
   char *resultStr = calloc(MAX_LINE_LEN * N, sizeof(char));
-  
+  List *tmp = data->list;
   int i = 0;
   while (i < N) {
-    user = (Q3Aux*)findInListByIndex(data->list,i);
+    user = (Q3Aux*)getListData(data->list);
+    data->list = listNext(data->list);
 
     char *stringAux = (char*) calloc(MAX_LINE_LEN, sizeof(char));
     // FIXME: Não acessar diretamente aos valores.
@@ -135,6 +136,6 @@ char *q3 (int N){
 
     i++;
   }
-
+  data->list = tmp;
   return resultStr;
 }

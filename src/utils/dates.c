@@ -11,12 +11,12 @@ Date *dateConvert(char *birthDate) {
     char *date = strdup(birthDate);
     Date *d = (Date *)malloc(sizeof(Date)); 
     
-    d->day = atoi(strdup(strsep(&date, "/")));
-    d->month = atoi(strdup(strsep(&date, "/")));
-    d->year = atoi(strdup(strsep(&date, "\0")));
+    d->day = atoi(strtok(date, "/"));
+    d->month = atoi(strtok(NULL, "/"));
+    d->year = atoi(strtok(NULL, "\0"));
 
-    if(date)
-        free(date);
+    
+    free(date);
 
 
   return d;
@@ -28,7 +28,6 @@ int dateToAge (char *dateString){
     Date *date = dateConvert(dateString);
           //diferença de anos           retira 1 se o mes é anterior            retira 1 se o mes for igual e o dia anterior              
     age = (todayDate->year - date->year)-(todayDate->month<date->month || (todayDate->month==date->month && todayDate->day<date->day));
-
     free(todayDate);
     free(date);
 

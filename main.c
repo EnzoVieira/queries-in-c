@@ -26,7 +26,7 @@ void func(const char *line, unsigned int *index) {
   char delim[] = " ";
   token = strtok(linecopy, delim);
 
-  char queryNumber = strdup(token)[0];
+  char queryNumber = token[0];
 
 	char *filenameAux1 = "Resultados/command";
 	char *filenameAux2 = "_output.txt";
@@ -185,6 +185,7 @@ int main(int argc, char *argv[]) {
     line=NULL;
     index++;
   }
+  free(line);
 
   destroyDatabase();
 

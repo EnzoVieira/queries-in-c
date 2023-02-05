@@ -30,5 +30,9 @@ void listForeach(List *list, Func func);
 void freeListFull(List *list,DestroyFunc destroyFunc);
 int listLength(List* list);
 void freeList(List *list);
+List *listNext(List *list);
+Pointer getListData(List *list);
+
+
 
 #endif
