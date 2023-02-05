@@ -33,7 +33,9 @@ void eraseUntilFind(char *str, char delim) {
 }
 
 void toLowerCase(char *str) {
-  for (int i = 0; i < strlen(str); i++) {
+  int len = strlen(str);
+
+  for (int i = 0; i < len; i++) {
     str[i] = tolower(str[i]);
   }
 }

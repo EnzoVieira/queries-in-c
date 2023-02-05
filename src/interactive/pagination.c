@@ -143,7 +143,7 @@ void printPage(Page *page) {
 
 // seleciona a página escolhida
 // retorna de obteve sucesso ou não
-int goToPage(int page, Pagination *pagination) {
+int goToPage(unsigned int page, Pagination *pagination) {
   if (page > pagination->numOfPages) return 0;
 
   while (page-1 < pagination->currentPageIndex) {
@@ -188,12 +188,14 @@ void pagination(char *multilineString) {
   // Input de paginação
   char *input = "1";
   while(strcmp(input, "exit") != 0) {
-    if (atoi(input) <= 0) {
+    int pageNum = atoi(input);
+
+    if (pageNum <= 0) {
       redColor();
       printf("> Não é possível acessar uma página negativa.\n");
       printf("> Digite um número válido.\n\n");
     }
-    else if (goToPage(atoi(input), pagination)) {
+    else if (goToPage(pageNum, pagination)) {
       blueColor();
       printf("=== Página %d/%d ===\n\n", atoi(input), pagination->numOfPages);
 
