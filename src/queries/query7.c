@@ -75,6 +75,8 @@ condutor poderá ter médias diferentes dependendo da cidade)
 */
 
 char* q7(int N, char* city) {
+    if (N < 1) return NULL;
+
     HashTable* rides = rideHashTableSingleton();
 
     Q7Temp* temp = (Q7Temp*)malloc(sizeof(Q7Temp));
